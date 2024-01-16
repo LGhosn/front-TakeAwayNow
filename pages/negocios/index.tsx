@@ -7,8 +7,31 @@ import { negociosSideBarItems } from '@/utils/routes'
 import { use, useEffect, useState } from 'react'
 
 export default function Negocios() {
-  const [negocios, setNegocios] = useState([])
+  const [negocios, setNegocios] = useState<{ id: number, nombre: string }[]>([]);
   const [loading, setLoading] = useState(true)
+
+  const listNegocios = [
+    {
+      id: 1,
+      nombre: "Negocio 1"
+    },
+    {
+      id: 2,
+      nombre: "Negocio 2"
+    },
+    {
+      id: 3,
+      nombre: "Negocio 3"
+    },
+    {
+      id: 4,
+      nombre: "Negocio 4"
+    },
+    {
+      id: 5,
+      nombre: "Negocio 5"
+    }
+  ]
 
   useEffect(() => {
     // fetch("https://psa-support-management.onrender.com/products/")
@@ -17,29 +40,7 @@ export default function Negocios() {
     //     }).then((res) => {
     //       setNegocios(res)
     // })
-    const negocios = [
-      {
-        id: 1,
-        nombre: "Negocio 1"
-      },
-      {
-        id: 2,
-        nombre: "Negocio 2"
-      },
-      {
-        id: 3,
-        nombre: "Negocio 3"
-      },
-      {
-        id: 4,
-        nombre: "Negocio 4"
-      },
-      {
-        id: 5,
-        nombre: "Negocio 5"
-      }
-    ]
-    setNegocios(negocios);
+    setNegocios(listNegocios);
 
   }, [])
 

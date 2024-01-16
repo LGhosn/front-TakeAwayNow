@@ -7,7 +7,7 @@ import { clientesSideBarItems } from '@/utils/routes'
 import { use, useEffect, useState } from 'react'
 
 export default function Clientes() {
-  const [clientes, setClientes] = useState([])
+  const [clientes, setClientes] = useState<{ id: number, nombre: string }[]>([]);
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
