@@ -36,7 +36,7 @@ const defaultTheme = createTheme();
 export default function SignInSide() {
   const [isClientePressed, setClientePressed] = useState(true);
   const [isNegocioPressed, setNegocioPressed] = useState(false);
-  const [products, setProducts] = useState([]);
+  const [clientes, setClientes] = useState([]);
   const [negocios, setNegocios] = useState([]);
   const [errorMessage, setErrorMessage] = useState('');
 
@@ -54,7 +54,7 @@ export default function SignInSide() {
     .then((res) => {
         return res.json()
     }).then((res) => {
-      setProducts(res)
+      setClientes(res)
     })
   }, [])
 
@@ -63,24 +63,31 @@ export default function SignInSide() {
     const data = new FormData(event.currentTarget);
     const nombre = data.get('Nombre');
 
-    var usuarios
     var path
     if (isNegocioPressed) {
-      usuarios = negocios
       path = '/negocios/'
+          //@ts-ignore
+      const negocio = negocios.find((negocio) => negocio.nombre === nombre);
+      if (negocio) {
+        localStorage.setItem('saldo', JSON.stringify(negocio['saldo']['monto']))
+        //@ts-ignore
+        router.push(`${path}${negocio.id}`)
+      } else {
+        setErrorMessage('Verifique que el nombre esté bien escrito')
+      }
     } else {
-      usuarios = products
       path = '/clientes/'
-    }
-    //@ts-ignore
-    const usuario = usuarios.find((usuario) => usuario.nombre === nombre);
-    if (usuario) {
-      localStorage.setItem('saldo', JSON.stringify(usuario['saldo']['monto']))
       //@ts-ignore
-      router.push(`${path}${usuario.id}`)
-    } else {
-      setErrorMessage('Verifique que el nombre esté bien escrito')
+      const cliente = clientes.find((cliente) => cliente.usuario === nombre);
+      if (cliente) {
+        localStorage.setItem('saldo', JSON.stringify(cliente['saldo']['monto']))
+        //@ts-ignore
+        router.push(`${path}${cliente.id}`)
+      } else {
+        setErrorMessage('Verifique que el nombre esté bien escrito')
+      }
     }
+
   };
 
   return (
@@ -94,11 +101,11 @@ export default function SignInSide() {
           sm={4}
           md={7}
           sx={{
-            backgroundImage: 'url(https://c0.klipartz.com/pngpicture/689/286/gratis-png-buffet-simbolo-computadora-iconos-restaurante-buffet.png)',
+            backgroundImage: 'url(https://www.deptagency.com/wp-content/uploads/2021/04/takeaway4-scaled.jpg)',
             backgroundRepeat: 'no-repeat',
             backgroundColor: (t) =>
               t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
-            backgroundSize: 'cover',
+            backgroundSize: '',
             backgroundPosition: 'center',
           }}
         />
@@ -118,8 +125,8 @@ export default function SignInSide() {
             <Typography component="h1" variant="h5">
               Bienvenid@!
             </Typography>
-            <Grid container spacing={2}>
-                <Grid item xs={6}>
+            <Grid container columns={1} rowSpacing={3}>
+                <Grid item xs={3}>
                   <Button
                     fullWidth
                     type="button"
@@ -129,7 +136,7 @@ export default function SignInSide() {
                     Cliente
                   </Button>
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={3}>
                   <Button
                     fullWidth
                     type="button"

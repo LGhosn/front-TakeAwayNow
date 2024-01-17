@@ -9,33 +9,25 @@ export const mainRoutes = [
   }
 ]
 
-export const negociosSideBarItems = [
+export const negociosSideBarItems = (negocioId: string | string[] | undefined) => [
   {
-      title: "Home",
-      href: "/",
+      title: "Mi Negocio",
+      href: `/negocios/${negocioId}`,
   },
   {
-    href: "/clientes",
-    title: "Clientes",
-  },
-  {
-    href: "/negocios",
-    title: "Negocios",
+    title: "Salir",
+    href: "/",
   }
 ];
 
-export const clientesSideBarItems = [
+export const clientesSideBarItems = (clientId: string | string[] | undefined) => [
   {
-      title: "Home",
-      href: "/",
-  },
-  {
-    href: "/clientes",
-    title: "Clientes",
-  },
-  {
-    href: "/negocios",
-    title: "Negocios",
-  }
+    title: "Mi Cuenta",
+    href:  `/clientes/${clientId}`,
+},
+{
+  title: "Salir",
+  href: "/",
+}
 ];
 

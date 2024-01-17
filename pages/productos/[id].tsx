@@ -7,7 +7,8 @@ export default function Productos() {
   const { id, version } = router.query;
   return (
     <div className="flex flex-row">
-      <SideBar items={negociosSideBarItems}></SideBar>
+      {/* cambiar al id del negocio */}
+      <SideBar items={negociosSideBarItems(id)}></SideBar>
 
       <div className="container max-w-7xl mx-auto mt-8">
         <h1> productos {id}</h1>

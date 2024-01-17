@@ -10,9 +10,9 @@ export const SideBar = ({ items }: { items: ISidebarItem[] }) => {
     setSelected(router.pathname);
   }, [router.pathname]);
   return (
-    <div className="flex flex-col w-64 min-h-screen bg-blue-300 border-r">
+    <div className="flex flex-col space-y-96 w-64 min-h-screen bg-blue-300 border-r">
       <nav>
-        <ul>
+        <ul >
           {items.map((item) => (
             <SideBarItem {...item} key={item.title} />
           ))}

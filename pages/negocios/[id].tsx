@@ -50,7 +50,7 @@ export default function Negocio() {
 
   return (
     <div className="flex flex-row">
-      <SideBar items={negociosSideBarItems}></SideBar>
+      <SideBar items={negociosSideBarItems(id)}></SideBar>
       {
           loading ? <div className="flex flex-row justify-center"> <Loading /> </div> :
       <div className="container max-w-7xl mx-auto mt-8">
