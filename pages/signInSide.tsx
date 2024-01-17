@@ -75,6 +75,7 @@ export default function SignInSide() {
     //@ts-ignore
     const usuario = usuarios.find((usuario) => usuario.nombre === nombre);
     if (usuario) {
+      localStorage.setItem('saldo', JSON.stringify(usuario['saldo']['monto']))
       //@ts-ignore
       router.push(`${path}${usuario.id}`)
     } else {
