@@ -67,7 +67,7 @@ export default function Clientes() {
 
   return (
     <div className="flex flex-row">
-      <SideBar items={clientesSideBarItems}></SideBar>
+      {/* <SideBar items={clientesSideBarItems}></SideBar> */}
 
       <div className="container max-w-7xl mx-auto mt-8">
       <div className="flex flex-row justify-start items-center space-x-5 p-2">
