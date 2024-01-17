@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import SuccessfulNotification from "./successfulNotification";
+import SuccessfulNotification from "./notifications/successfulNotification";
 
 type PropsForm = {
   elementType: string;
