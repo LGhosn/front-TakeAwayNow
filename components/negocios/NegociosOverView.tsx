@@ -15,7 +15,7 @@ export const NegociosOverView = ({ negocios }: { negocios: INegocioOverViewItem[
         {
           negocios.length > 0 ?
                 negocios.map((negocio) => (
-                    <Grid item xs={2} md={2} lg={2} xl={2}>
+                    <Grid item key={negocio.id} xs={2} md={2} lg={2} xl={2}>
                         <NegocioOverViewItem {...negocio} key={negocio.id} />
                     </Grid>
                   ))
