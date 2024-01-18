@@ -1,17 +1,54 @@
 import { SideBar } from "@/components/sideBar";
 import { clientesSideBarItems } from "@/utils/routes";
 import { useRouter } from "next/router";
+import { PedidosOverView } from "@/components/pedidos/PedidosOverView";
+import { NegociosOverView } from "@/components/negocios/NegociosOverView";
+import {useEffect, useState} from "react";
 
 export default function Cliente() {
-  const router = useRouter();
-  const { id, version } = router.query;
-  return (
-    <div className="flex flex-row">
-      <SideBar items={clientesSideBarItems(id)}></SideBar>
+      const router = useRouter();
+      const { id, version } = router.query;
+      const [usuario, setUsuario] = useState("");
+      const [pedidos, setPedidos] = useState([]);
+      const [negocios, setNegocios] = useState([]);
 
-      <div className="container max-w-7xl mx-auto mt-8">
-        <h1> cliente {id}</h1>
-      </div>
-    </div>
-  )
+            useEffect(() => {
+                // Traemos el usuario del cliente
+                fetch(`https://dcnt-take-away-now.onrender.com/api/clientes/${id}/usuario`)
+                    .then((res) => {
+                        return res.json()
+                    }).then((res) => {
+                    setUsuario(res)
+                })
+
+                // Traemos los pedidos del cliente
+                fetch(`https://dcnt-take-away-now.onrender.com/api/clientes/${id}/pedidos/`)
+                    .then((res) => {
+                        return res.json()
+                    }).then((res) => {
+                    setPedidos(res)
+                })
+
+                // Traemos todos los negocios
+                fetch(`https://dcnt-take-away-now.onrender.com/api/negocios/`)
+                    .then((res) => {
+                        return res.json()
+                    }).then((res) => {
+                    setNegocios(res)
+                })
+
+            }, [id])
+
+      return (
+          <div className="flex flex-row">
+              <SideBar items={clientesSideBarItems(id)}></SideBar>
+              <div className="flex flex-col">
+                  <div className="container max-w-7xl mx-auto mt-8">
+                      <h1> Bienvenido nuevamente {usuario.length > 0 ? usuario : "xd"} !</h1>
+                  </div>
+                  <PedidosOverView pedidos={pedidos}></PedidosOverView>
+                  <NegociosOverView negocios={negocios}></NegociosOverView>
+              </div>
+          </div>
+      )
 }
