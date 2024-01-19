@@ -5,6 +5,7 @@ export default function ProductoGridRow({ producto, negocioId }: {producto: any,
     const router = useRouter()
 
     function openProducto() {
+        localStorage.setItem('producto', JSON.stringify(producto))
         router.push(`/negocios/${negocioId}/productos/${producto['id']}`)
     }
 

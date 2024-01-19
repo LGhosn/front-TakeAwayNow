@@ -5,7 +5,15 @@ import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 
-export default function ProductoForm() {
+interface Props {
+  producto ?: {}
+}
+
+
+export default function ProductoForm({producto} : Props) {
+  const primerProducto = producto && Object.keys(producto).length > 0 ? producto : null;
+
+
   return (
     <React.Fragment>
       <Typography variant="h6" gutterBottom>
@@ -21,6 +29,8 @@ export default function ProductoForm() {
             fullWidth
             autoComplete="given-name"
             variant="standard"
+            // @ts-ignore
+            defaultValue={primerProducto ? primerProducto['nombre'] : ''}
           />
         </Grid>
         <Grid item xs={12} sm={6}>
@@ -32,6 +42,8 @@ export default function ProductoForm() {
             fullWidth
             autoComplete="family-name"
             variant="standard"
+            // @ts-ignore
+            defaultValue={primerProducto ? primerProducto['precio']['monto'] : ''}
           />
         </Grid>
         <Grid item xs={12}>
@@ -43,6 +55,8 @@ export default function ProductoForm() {
             fullWidth
             autoComplete="shipping address-line1"
             variant="standard"
+            // @ts-ignore
+            defaultValue={primerProducto ? primerProducto['stock'] : ''}
           />
         </Grid>
         <Grid item xs={12}>
@@ -53,6 +67,8 @@ export default function ProductoForm() {
             fullWidth
             autoComplete="shipping address-line2"
             variant="standard"
+            // @ts-ignore
+            defaultValue={primerProducto ? primerProducto['recompensaPuntosDeConfianza']['cantidad'] : ''}
           />
         </Grid>
         <Grid item xs={12}>
