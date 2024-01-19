@@ -1,3 +1,4 @@
+import {DiaDeLaSemana} from "@/components/types";
 
 export const setElementInnerHtml = (elementId: string, innerHtml: string) => {
   const element = document.getElementById(elementId)
@@ -31,3 +32,17 @@ export function setFormatDate(date: string) {
       return "Sin fecha"
   }
 }
+
+export const obtenerNombreDia = (dia: DiaDeLaSemana): string => {
+  console.log(dia);
+  switch (dia) {
+    case DiaDeLaSemana.MONDAY: return "Lunes";
+    case DiaDeLaSemana.TUESDAY: return "Martes";
+    case DiaDeLaSemana.WEDNESDAY: return "Miércoles";
+    case DiaDeLaSemana.THURSDAY: return "Jueves";
+    case DiaDeLaSemana.FRIDAY: return "Viernes";
+    case DiaDeLaSemana.SATURDAY: return "Sábado";
+    case DiaDeLaSemana.SUNDAY: return "Domingo";
+    default: return ""; // Manejar cualquier otro caso si es necesario
+  }
+};

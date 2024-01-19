@@ -8,19 +8,10 @@ import {useEffect, useState} from "react";
 export default function Cliente() {
       const router = useRouter();
       const { id, version } = router.query;
-      const [usuario, setUsuario] = useState("");
       const [pedidos, setPedidos] = useState([]);
       const [negocios, setNegocios] = useState([]);
 
             useEffect(() => {
-                // Traemos el usuario del cliente
-                fetch(`https://dcnt-take-away-now.onrender.com/api/clientes/${id}/usuario`)
-                    .then((res) => {
-                        return res.json()
-                    }).then((res) => {
-                    setUsuario(res)
-                })
-
                 // Traemos los pedidos del cliente
                 fetch(`https://dcnt-take-away-now.onrender.com/api/clientes/${id}/pedidos/`)
                     .then((res) => {
@@ -36,7 +27,6 @@ export default function Cliente() {
                     }).then((res) => {
                     setNegocios(res)
                 })
-
             }, [id])
 
       return (
@@ -44,7 +34,7 @@ export default function Cliente() {
               <SideBar items={clientesSideBarItems(id)}></SideBar>
               <div className="flex flex-col">
                   <div className="container max-w-7xl mx-auto mt-8">
-                      <h1> Bienvenido nuevamente {usuario.length > 0 ? usuario : "xd"} !</h1>
+                      <h1> Bienvenido nuevamente !</h1>
                   </div>
                   <PedidosOverView pedidos={pedidos}></PedidosOverView>
                   <NegociosOverView negocios={negocios}></NegociosOverView>

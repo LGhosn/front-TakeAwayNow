@@ -15,7 +15,9 @@ export interface ModalProps {
 export interface IPedidoOverViewItem {
   id: number
   nombreNegocio: string
-  precioTotal: number
+  precioTotal: {
+    monto: number
+  }
   estado: string
   fechaYHoraEntrega:string
 }
@@ -23,8 +25,18 @@ export interface IPedidoOverViewItem {
 export interface INegocioOverViewItem {
   id: number
   nombre: string
-  diaDeApertura: string
-  diaDeCierre: string
+  diaDeApertura: DiaDeLaSemana
+  diaDeCierre: DiaDeLaSemana
   horarioDeApertura: string
   horarioDeCierre: string
+}
+
+export enum DiaDeLaSemana {
+  MONDAY = "Lunes",
+  TUESDAY = "Martes",
+  WEDNESDAY = "Miércoles",
+  THURSDAY = "Jueves",
+  FRIDAY = "Viernes",
+  SATURDAY = "Sábado",
+  SUNDAY = "Domingo"
 }

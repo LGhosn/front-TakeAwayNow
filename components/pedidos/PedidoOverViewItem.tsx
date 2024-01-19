@@ -3,9 +3,9 @@ import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
-import {IPedidoOverViewItem} from "../types";
+import { IPedidoOverViewItem} from "../types";
 
-const card = (nombreNegocio: string, precioTotal: number, estado: string, fechaYHoraEntrega: string) => (
+const card = (nombreNegocio: string, monto: number, estado: string, fechaYHoraEntrega: string) => (
     <React.Fragment>
       <CardContent>
         <Typography variant="h5" component="div">
@@ -15,17 +15,18 @@ const card = (nombreNegocio: string, precioTotal: number, estado: string, fechaY
           {nombreNegocio}
         </Typography>
         <Typography variant="body2">
-          {precioTotal}
+          {monto}
         </Typography>
       </CardContent>
     </React.Fragment>
 );
 
 export const PedidoOverViewItem = ({ id, nombreNegocio, precioTotal, estado, fechaYHoraEntrega }: IPedidoOverViewItem) => {
-  return (
-      <Box sx={{ minWidth: 275 }}>
-        <Card variant="outlined">{card(nombreNegocio, precioTotal, estado, fechaYHoraEntrega)}</Card>
-      </Box>
-  );
+    const { monto } = precioTotal
+      return (
+          <Box sx={{ minWidth: 275 }}>
+            <Card variant="outlined">{card(nombreNegocio, monto, estado, fechaYHoraEntrega)}</Card>
+          </Box>
+      );
 }
 
