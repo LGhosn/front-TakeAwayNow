@@ -9,9 +9,9 @@ export const mainRoutes = [
   }
 ]
 
-export const negociosSideBarItems = (negocioId: string | string[] | undefined) => [
+export const negociosSideBarItems = (negocioId: string | string[] | undefined, title: string | string[] | undefined) => [
   {
-      title: "Mi Negocio",
+      title: `${title}`,
       href: `/negocios/${negocioId}`,
   },
   {

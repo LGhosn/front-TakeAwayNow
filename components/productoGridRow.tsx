@@ -1,11 +1,11 @@
 import { setFormatDate } from '@/utils/utils'
 import { useRouter } from 'next/router'
 
-export default function ProductoGridRow({ producto }: {producto: any}) {
+export default function ProductoGridRow({ producto, negocioId }: {producto: any, negocioId : any}) {
     const router = useRouter()
 
     function openProducto() {
-        router.push(`/productos/${producto['id']}`)
+        router.push(`/negocios/${negocioId}/productos/${producto['id']}`)
     }
 
   return (

@@ -63,6 +63,11 @@ export default function SignInSide() {
     const data = new FormData(event.currentTarget);
     const nombre = data.get('Nombre');
 
+    if (!isClientePressed && !isNegocioPressed) {
+      setErrorMessage('Seleccione si es cliente o negocio')
+      return
+    }
+    
     var path
     if (isNegocioPressed) {
       path = '/negocios/'
@@ -70,6 +75,8 @@ export default function SignInSide() {
       const negocio = negocios.find((negocio) => negocio.nombre === nombre);
       if (negocio) {
         localStorage.setItem('saldo', JSON.stringify(negocio['saldo']['monto']))
+        localStorage.setItem('nombre', JSON.stringify(negocio['nombre']))
+
         //@ts-ignore
         router.push(`${path}${negocio.id}`)
       } else {
