@@ -15,7 +15,7 @@ const card = (nombreNegocio: string, monto: number, estado: string, fechaYHoraEn
           {nombreNegocio}
         </Typography>
         <Typography variant="body2">
-          {monto}
+          ${monto}
         </Typography>
       </CardContent>
     </React.Fragment>

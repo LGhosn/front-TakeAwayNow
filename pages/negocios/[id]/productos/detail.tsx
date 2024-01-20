@@ -14,6 +14,7 @@ import Typography from '@mui/material/Typography';
 import ProductoForm from './formProducto';
 import SuccessfulNotification from '@/components/notifications/successfulNotification';
 import { useRouter } from 'next/router';
+import ModalForm from '@/components/modalForm';
 
 interface Props {
   producto ?: {}
@@ -120,7 +121,8 @@ export default function DetailForm({producto} : Props) {
             Producto
           </Typography>
           
-            <ProductoForm producto={producto}/>
+            {/* <ProductoForm producto={producto}/> */}
+            <ModalForm initialOpen={true} handleClose={() => {}} fields={producto} title="Producto"/>
             <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
             <Button
                 variant="contained"

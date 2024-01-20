@@ -74,8 +74,7 @@ export default function SignInSide() {
           //@ts-ignore
       const negocio = negocios.find((negocio) => negocio.nombre === nombre);
       if (negocio) {
-        localStorage.setItem('saldo', JSON.stringify(negocio['saldo']['monto']))
-        localStorage.setItem('nombre', JSON.stringify(negocio['nombre']))
+        localStorage.setItem('negocio', JSON.stringify(negocio))
 
         //@ts-ignore
         router.push(`${path}${negocio.id}`)

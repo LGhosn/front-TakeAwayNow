@@ -19,6 +19,7 @@ export default function Negocio() {
   const [loading, setLoading] = useState(true)
   const [saldo, setSaldo] = useState(0)
   const [nombreNegocio, setNombreNegocio] = useState('')
+  const [negocio, setNegocio] = useState({})
 
   useEffect(() => {
     fetch(`https://dcnt-take-away-now.onrender.com/api/negocios/${id}/productos`)
@@ -35,13 +36,10 @@ export default function Negocio() {
     })
 
 
-    const saldoFromLocalStorage = localStorage.getItem('saldo');
-    if (saldoFromLocalStorage !== null) {
-      setSaldo(JSON.parse(saldoFromLocalStorage));
-    }
-    const nombreNegocioFromLocalStorage = localStorage.getItem('nombre');
-    if (nombreNegocioFromLocalStorage !== null) {
-      setNombreNegocio(JSON.parse(nombreNegocioFromLocalStorage));
+    const negocioFromLocalStorage = localStorage.getItem('negocio');
+    if (negocioFromLocalStorage !== null) {
+      console.log(negocioFromLocalStorage)
+      setNegocio(JSON.parse(negocioFromLocalStorage));
     }
 
   }, [id])
@@ -72,14 +70,15 @@ export default function Negocio() {
     {
       loading ? <Loading /> :
       <div className="flex flex-row">
-      <SideBar items={negociosSideBarItems(id, nombreNegocio)}></SideBar>
+      {/* @ts-ignore */}
+      <SideBar items={negociosSideBarItems(id, negocio['nombre'])}></SideBar>
       <div className="container max-w-7xl mx-auto mt-8">
         <div className="flex flex-row items-center justify-between p-2 mb-4">
           <div>
-            <h1 className="text-3xl font-bold text-black decoration-gray-400">Pedidos</h1>
             <PedidosOverView pedidos={pedidos}></PedidosOverView>
           </div>
-          <SaldoCard  saldo={saldo}/>
+          {/* @ts-ignore */}
+          <SaldoCard  info={negocio}/>
         </div>
         <ProductosOverView productos={productos} negocioId={id}></ProductosOverView>
       </div>
