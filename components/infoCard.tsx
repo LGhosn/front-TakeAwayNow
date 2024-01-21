@@ -37,7 +37,7 @@ const card = ({router, info} : CardProps) => (
     {info && info.hasOwnProperty('saldo') && (
       <Typography sx={{ mb: 1, fontSize: 24, textAlign: 'center' }} color="text.primary" variant="h1">
         {/* @ts-ignore */}
-        Saldo: {info['saldo']['monto']}
+        Saldo: ${info['saldo']['monto']}
       </Typography>
     )}
     {info && info.hasOwnProperty('puntosDeConfianza') && (

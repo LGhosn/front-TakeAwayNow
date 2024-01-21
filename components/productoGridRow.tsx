@@ -1,10 +1,22 @@
 import { setFormatDate } from '@/utils/utils'
 import { useRouter } from 'next/router'
 
-export default function ProductoGridRow({ producto, negocioId }: {producto: any, negocioId : any}) {
+interface ProductoGridRowProps {
+    producto: any
+    negocioId: any
+    cliente ?: boolean
+    customOnClick ?: (id: string, nombre: string) => void
+}
+
+export default function ProductoGridRow({customOnClick, cliente, producto, negocioId }: ProductoGridRowProps) {
     const router = useRouter()
 
     function openProducto() {
+        if (cliente && customOnClick) {
+            customOnClick(producto['id'], producto['nombre'])
+            return
+        }
+
         localStorage.setItem('producto', JSON.stringify(producto))
         router.push(`/negocios/${negocioId}/productos/${producto['id']}`)
     }
