@@ -6,7 +6,7 @@ import { SideBar } from "@/components/sideBar";
 import { negociosSideBarItems } from "@/utils/routes";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import SaldoCard from "@/components/saldoCard";
+import InfoCard from "@/components/infoCard";
 import { PedidosOverView } from "@/components/pedidos/PedidosOverView";
 import AddButton from "@/components/addButton";
 import ProductosOverView from "@/components/productos/productosOverView";
@@ -72,13 +72,13 @@ export default function Negocio() {
       <div className="flex flex-row">
       {/* @ts-ignore */}
       <SideBar items={negociosSideBarItems(id, negocio['nombre'])}></SideBar>
-      <div className="container max-w-7xl mx-auto mt-8">
+      <div className="container max-w-7xl mx-auto mt-8 ml-3">
         <div className="flex flex-row items-center justify-between p-2 mb-4">
           <div>
             <PedidosOverView pedidos={pedidos}></PedidosOverView>
           </div>
           {/* @ts-ignore */}
-          <SaldoCard  info={negocio}/>
+          <InfoCard  info={negocio}/>
         </div>
         <ProductosOverView productos={productos} negocioId={id}></ProductosOverView>
       </div>

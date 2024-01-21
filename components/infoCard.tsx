@@ -25,6 +25,7 @@ const card = ({router, info} : CardProps) => (
         color="text.secondary" 
         variant="h1"
         onClick={() => {
+          localStorage.setItem('negocio', JSON.stringify(info))
           // @ts-ignore
           router.push(`/negocios/${info['id']}/horarios`) 
         }}
@@ -49,7 +50,7 @@ const card = ({router, info} : CardProps) => (
   </>
 );
 
-export default function SaldoCard({info} : CardProps) {
+export default function InfoCard({info} : CardProps) {
 const router = useRouter()
   return (
     <OutlinedCard>

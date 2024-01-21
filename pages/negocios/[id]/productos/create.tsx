@@ -60,7 +60,7 @@ export default function CrearProducto() {
       :
       <ModalForm 
       handleSave={() => handleGuardar()} 
-      handleClose={() => router.reload()} title="Producto"
+      handleClose={() => router.back()} title="Producto"
       fields={fields}
       /> 
     }
