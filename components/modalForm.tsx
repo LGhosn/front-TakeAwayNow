@@ -14,14 +14,14 @@ const style = {
 };
 
 interface ModalFormProps {
-  initialOpen: boolean
   handleClose: any
+  handleSave : any
   fields ?: any
   title ?: string
 }
 
-export default function ModalForm({initialOpen, handleClose, fields, title}: ModalFormProps) {
-  const [open, setOpen] = React.useState(initialOpen);
+export default function ModalForm({handleClose, handleSave, fields, title}: ModalFormProps) {
+  const [open, setOpen] = React.useState(true);
 
   return (
     <>
@@ -55,7 +55,7 @@ export default function ModalForm({initialOpen, handleClose, fields, title}: Mod
           </Grid>   
           <div className="flex flex-row justify-between">
             <Button onClick={handleClose}>Volver</Button>
-            <Button onClick={handleClose}>Guardar</Button>
+            <Button onClick={handleSave}>Guardar</Button>
           </div>
         </Box>
       </Modal>

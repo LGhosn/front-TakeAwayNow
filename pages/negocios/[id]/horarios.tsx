@@ -36,7 +36,7 @@ export default function Horarios() {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <ModalForm initialOpen={true} handleClose={handleClose} fields={fields} title="Horarios"/>
+          <ModalForm handleSave={() => console.log('save')} handleClose={handleClose} fields={fields} title="Horarios"/>
           <div className="flex flex-row justify-between">
             <Button onClick={handleClose}>Volver</Button>
             <Button onClick={handleClose}>Guardar</Button>

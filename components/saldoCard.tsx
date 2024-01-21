@@ -24,7 +24,10 @@ const card = ({router, info} : CardProps) => (
         sx={{ mb: 2, fontSize: 12, textAlign: 'center' }} 
         color="text.secondary" 
         variant="h1"
-        onClick={() => router.push(`/negocios/${info['id']}/horarios`) }
+        onClick={() => {
+          // @ts-ignore
+          router.push(`/negocios/${info['id']}/horarios`) 
+        }}
         >
         {/* @ts-ignore */}
         {info['diaDeApertura']} - {info['diaDeCierre']} / {info['horarioDeApertura']} - {info['horarioDeCierre']}

@@ -2,6 +2,9 @@ import { useRouter } from "next/router";
 import AddButton from "../addButton"
 import HeaderItem from "../headerItem"
 import ProductoGridRow from "../productoGridRow";
+import { useState } from "react";
+import ModalForm from "../modalForm";
+import SuccessfulNotification from "../notifications/successfulNotification";
 
 interface ProductoGridRowProps {
   productos: Array<any>
@@ -10,11 +13,15 @@ interface ProductoGridRowProps {
 
 export default function ProductosOverView({productos, negocioId} : ProductoGridRowProps) {
   const router = useRouter();
+  const { id } = router.query;
+  const [form, setForm] = useState(false)
+  const [modalSuccessful, setModalSuccessful] = useState(false)
+
   return (
     <>
     <div className="mb-4 flex justify-between items-center">
       <h1 className="text-3xl font-bold text-black decoration-gray-400">Productos</h1>
-      <AddButton className="" onClick={() => router.push(`/negocios/${negocioId}/productos/detail`)} />
+      <AddButton className="" onClick={() => router.push(`/negocios/${id}/productos/create`)} />
     </div>
     <div className="flex flex-col">
       <div className="overflow-x-auto sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
