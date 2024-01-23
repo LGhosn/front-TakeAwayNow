@@ -14,7 +14,7 @@ export interface ModalProps {
 
 export interface IPedidoOverViewItem {
   id: number
-  nombreNegocio: string
+  negocio: string
   precioTotal: {
     monto: number
   }

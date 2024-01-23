@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import { PedidosOverView } from "@/components/pedidos/PedidosOverView";
 import { NegociosOverView } from "@/components/negocios/NegociosOverView";
 import {useEffect, useState} from "react";
+import { Skeleton } from "@mui/material";
 
 export default function Cliente() {
       const router = useRouter();
@@ -32,8 +33,8 @@ export default function Cliente() {
       return (
           <div className="flex flex-row">
               <SideBar items={clientesSideBarItems(id)}></SideBar>
-              <div className="flex flex-col">
-                  <div className="container max-w-7xl mx-auto mt-8">
+              <div className="flex flex-col pl-16 pt-5">
+                  <div className="container max-w-7xl mx-auto">
                       <h1> Bienvenido nuevamente !</h1>
                   </div>
                   <PedidosOverView pedidos={pedidos}></PedidosOverView>

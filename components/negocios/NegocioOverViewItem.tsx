@@ -4,21 +4,21 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import { INegocioOverViewItem, DiaDeLaSemana } from "../types";
-import { obtenerNombreDia } from "../../utils/utils";
-import { CardActionArea } from '@mui/material';
+import {obtenerNombreDia, setFormatTime} from "../../utils/utils";
+import { CardActionArea, Skeleton } from '@mui/material';
 import { useRouter } from 'next/router';
 
 const card = (router:any, id: number, nombre: string, diaDeApertura: DiaDeLaSemana, diaDeCierre: DiaDeLaSemana, horarioDeApertura: string, horarioDeCierre: string) => (
     <React.Fragment>
         <CardActionArea onClick={() => router.push(`/negocios/${id}/productos`)}>
-          <CardContent>
-            <Typography variant="h5" component="div">
-              {nombre} - Abierto de { diaDeApertura } a { diaDeCierre }.
-            </Typography>
-            <Typography sx={{ mb: 1.5 }} color="text.secondary">
-              Abierto de {horarioDeApertura} a {horarioDeCierre}.
-            </Typography>
-          </CardContent>
+            <CardContent>
+                <Typography variant="h5" component="div">
+                    {nombre} - Abierto de { obtenerNombreDia(diaDeApertura) } a { obtenerNombreDia(diaDeCierre) }.
+                </Typography>
+                <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                    Abierto de { setFormatTime(horarioDeApertura) } a { setFormatTime(horarioDeCierre) }.
+                </Typography>
+            </CardContent>
         </CardActionArea>
     </React.Fragment>
 );
@@ -31,4 +31,3 @@ export const NegocioOverViewItem = ({ id, nombre, diaDeApertura, diaDeCierre, ho
       </Box>
   );
 }
-

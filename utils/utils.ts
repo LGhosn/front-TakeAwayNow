@@ -26,23 +26,43 @@ export const setSelectValue = (selectId: string, value: any) => {
 
 export function setFormatDate(date: string) {
   if (date) {
-      const dateSplitted = date.split("-")
-      return `${dateSplitted[2].substring(0, 2)}/${dateSplitted[1]}/${dateSplitted[0]} - ${dateSplitted[2].substring(3, 8)}`
+    const dateSplitted = date.split("-")
+    return `${dateSplitted[2].substring(0, 2)}/${dateSplitted[1]}/${dateSplitted[0]} - ${dateSplitted[2].substring(3, 8)}`
   } else {
-      return "Sin fecha"
+    return "Sin fecha"
   }
 }
 
-export const obtenerNombreDia = (dia: DiaDeLaSemana): string => {
-  console.log(dia);
+export function setFormatTime(time: string) {
+  if (time) {
+    const timeSplitted = time.split(":")
+    return `${timeSplitted[0]}:${timeSplitted[2]}hs`
+  } else {
+    return "Sin horario"
+  }
+}
+
+export const obtenerNombreDia = (dia: string): string => {
   switch (dia) {
-    case DiaDeLaSemana.MONDAY: return "Lunes";
-    case DiaDeLaSemana.TUESDAY: return "Martes";
-    case DiaDeLaSemana.WEDNESDAY: return "Miércoles";
-    case DiaDeLaSemana.THURSDAY: return "Jueves";
-    case DiaDeLaSemana.FRIDAY: return "Viernes";
-    case DiaDeLaSemana.SATURDAY: return "Sábado";
-    case DiaDeLaSemana.SUNDAY: return "Domingo";
+    case "MONDAY": return "Lunes";
+    case "TUESDAY": return "Martes";
+    case "WEDNESDAY": return "Miércoles";
+    case "THURSDAY": return "Jueves";
+    case "FRIDAY": return "Viernes";
+    case "SATURDAY": return "Sábado";
+    case "SUNDAY": return "Domingo";
     default: return ""; // Manejar cualquier otro caso si es necesario
   }
-};
+}
+
+export const obtenerNombreEstadoDelPedido = (estado: string): string => {
+  switch (estado) {
+    case "AGUARDANDO_PREPARACION": return "Aguardando preparación";
+    case "EN_PREPARACION": return "En preparación";
+    case "LISTO_PARA_RETIRAR": return "Listo para retirar";
+    case "RETIRADO": return "Retirado";
+    case "CANCELADO": return "Cancelado";
+    case "DEVUELTO": return "Devuelto";
+    default: return ""; // Manejar cualquier otro caso si es necesario
+  }
+}
