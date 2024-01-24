@@ -22,7 +22,7 @@ export const PedidosOverView = ({ pedidos }: { pedidos: IPedidoOverViewItem[] })
                     <ul>
                         {
                             pedidos.map((pedido) => (
-                                <PedidoOverViewItem {...pedido} key={pedido.id}/>
+                                <PedidoOverViewItem {...pedido} key={pedido.idPedido}/>
                             ))
                         }
                     </ul>

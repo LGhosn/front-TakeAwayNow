@@ -1,4 +1,4 @@
-import {DiaDeLaSemana} from "@/components/types";
+import {DiaDeLaSemana, IPedidoGroupedButton} from "@/components/types";
 
 export const setElementInnerHtml = (elementId: string, innerHtml: string) => {
   const element = document.getElementById(elementId)
@@ -64,5 +64,57 @@ export const obtenerNombreEstadoDelPedido = (estado: string): string => {
     case "CANCELADO": return "Cancelado";
     case "DEVUELTO": return "Devuelto";
     default: return ""; // Manejar cualquier otro caso si es necesario
+  }
+}
+
+export const obtenerColorDelBotonSegunEstadoParaElCliente = (estado: string): string => {
+  switch (estado) {
+    case "AGUARDANDO_PREPARACION": return "Cancelar";
+    case "EN_PREPARACION": return "Cancelar";
+    case "LISTO_PARA_RETIRAR": return "Cancelar";
+    case "RETIRADO": return "Devolver";
+    default: return ""; // Manejar cualquier otro caso si es necesario
+  }
+}
+
+export const obtenerBotonesDisponiblesParaElCliente = (estadoActual: string): IPedidoGroupedButton[] => {
+  let arrBtns: IPedidoGroupedButton[] = [];
+  if ( ['AGUARDANDO_PREPARACION', 'EN_PREPARACION', 'LISTO_PARA_RETIRAR'].includes(estadoActual) ) {
+    arrBtns.push(
+        {
+          estimulo: "Cancelar",
+          color: "#F3B95F"
+        }
+    )
+  }
+
+  if ( ['RETIRADO'].includes(estadoActual) ) {
+    arrBtns.push(
+        {
+          estimulo: "Devolver",
+          color: "#D04848"
+        }
+    )
+  }
+
+  return arrBtns;
+}
+
+export const pedidoAplicarEstimulo = async (pedidoId: number, estimulo: string) => {
+  try {
+    const response = await fetch(`https://front-takeawaynow-dcnt.onrender.com/pedidos/${pedidoId}/${estimulo}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json', // Ajusta los encabezados según tus necesidades
+      },
+    });
+
+    if (response.ok) {
+      alert('La solicitud fue exitosa');
+    } else {
+      alert('Error al realizar la solicitud a la API');
+    }
+  } catch (error) {
+    alert(error);
   }
 }

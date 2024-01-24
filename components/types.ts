@@ -13,7 +13,7 @@ export interface ModalProps {
 }
 
 export interface IPedidoOverViewItem {
-  id: number
+  idPedido: number
   negocio: string
   precioTotal: {
     monto: number
@@ -29,6 +29,11 @@ export interface INegocioOverViewItem {
   diaDeCierre: DiaDeLaSemana
   horarioDeApertura: string
   horarioDeCierre: string
+}
+
+export interface IPedidoGroupedButton {
+  estimulo: string
+  color: string
 }
 
 export enum DiaDeLaSemana {
