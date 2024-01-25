@@ -103,18 +103,14 @@ export const obtenerBotonesDisponiblesParaElCliente = (estadoActual: string): IP
 export const pedidoAplicarEstimulo = async (pedidoId: number, estimulo: string) => {
   try {
     const response = await fetch(`https://dcnt-take-away-now.onrender.com/api/pedidos/${pedidoId}/${estimulo}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json', // Ajusta los encabezados según tus necesidades
-      },
-    });
-
-    if (response.ok) {
-      alert('La solicitud fue exitosa');
-    } else {
-      alert('Error al realizar la solicitud a la API');
-    }
+        method: 'PATCH',
+        headers: {
+            'Accept': '*/*',
+            'Content-Type': 'application/json'
+        }
+    })
+    console.log(response);
   } catch (error) {
-    alert(error);
+    console.log(error);
   }
 }
