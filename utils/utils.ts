@@ -102,7 +102,7 @@ export const obtenerBotonesDisponiblesParaElCliente = (estadoActual: string): IP
 
 export const pedidoAplicarEstimulo = async (pedidoId: number, estimulo: string) => {
   try {
-    const response = await fetch(`https://front-takeawaynow-dcnt.onrender.com/pedidos/${pedidoId}/${estimulo}`, {
+    const response = await fetch(`https://dcnt-take-away-now.onrender.com/api/pedidos/${pedidoId}/${estimulo}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json', // Ajusta los encabezados según tus necesidades
