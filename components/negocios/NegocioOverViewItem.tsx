@@ -16,7 +16,7 @@ const card = (router:any, id: number, nombre: string, diaDeApertura: DiaDeLaSema
                     {nombre} - Abierto de { obtenerNombreDia(diaDeApertura) } a { obtenerNombreDia(diaDeCierre) }.
                 </Typography>
                 <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                    Abierto de { setFormatTime(horarioDeApertura) } a { setFormatTime(horarioDeCierre) }.
+                    Horario: { setFormatTime(horarioDeApertura) } a { setFormatTime(horarioDeCierre) }.
                 </Typography>
             </CardContent>
         </CardActionArea>

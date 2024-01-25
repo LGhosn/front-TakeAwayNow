@@ -4,17 +4,20 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import { IPedidoOverViewItem } from "../types";
-import {obtenerNombreEstadoDelPedido, setFormatTime, pedidoAplicarEstimulo} from "@/utils/utils";
+import {obtenerNombreEstadoDelPedido, pedidoAplicarEstimulo, setFormatDateTime} from "@/utils/utils";
 import {Button, ButtonGroup } from '@mui/material';
 
-const card = (idPedido: number, negocio: string, monto: number, estado: string, fechaYHoraEntrega: string) => (
+const card = (idPedido: number, negocio: string, monto: number, estado: string, fechaYHoraDeEntrega: string, codigoDeRetiro: string) => (
     <div className="flex flex-row justify-between">
         <CardContent>
             <Typography variant="body2">
-                {obtenerNombreEstadoDelPedido(estado)} - {fechaYHoraEntrega == null ? "Sin horario de retiro establecido" : setFormatTime(fechaYHoraEntrega)}
+                {obtenerNombreEstadoDelPedido(estado)} - {fechaYHoraDeEntrega == null ? "Sin horario de retiro establecido" : setFormatDateTime(fechaYHoraDeEntrega)}
             </Typography>
             <Typography variant="h4">
                 {negocio}
+            </Typography>
+            <Typography variant="h6">
+                Código de retiro: {codigoDeRetiro}
             </Typography>
             <Typography variant="h6">
                 Precio: ${monto}
@@ -30,11 +33,11 @@ const card = (idPedido: number, negocio: string, monto: number, estado: string, 
     </div>
 );
 
-export const PedidoOverViewItem = ({idPedido, negocio, precioTotal, estado, fechaYHoraEntrega}: IPedidoOverViewItem) => {
+export const PedidoOverViewItem = ({idPedido, negocio, precioTotal, estado, fechaYHoraDeEntrega, codigoDeRetiro}: IPedidoOverViewItem) => {
     const { monto } = precioTotal
     return (
       <Box sx={{ minWidth: 275 }}>
-        <Card variant="outlined">{card(idPedido, negocio, monto, estado, fechaYHoraEntrega)}</Card>
+        <Card variant="outlined">{card(idPedido, negocio, monto, estado, fechaYHoraDeEntrega, codigoDeRetiro)}</Card>
       </Box>
     );
 }

@@ -42,6 +42,11 @@ export function setFormatTime(time: string) {
   }
 }
 
+export function setFormatDateTime(dateTime: string) {
+  const dateTimeSplitted = dateTime.split("T")
+  return `${dateTimeSplitted[0]} - ${dateTimeSplitted[1].split(".")[0]} hs`
+}
+
 export const obtenerNombreDia = (dia: string): string => {
   switch (dia) {
     case "MONDAY": return "Lunes";

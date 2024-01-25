@@ -19,7 +19,8 @@ export interface IPedidoOverViewItem {
     monto: number
   }
   estado: string
-  fechaYHoraEntrega:string
+  fechaYHoraDeEntrega:string
+  codigoDeRetiro: string
 }
 
 export interface INegocioOverViewItem {
