@@ -3,15 +3,16 @@ import { PedidosOverView } from "@/components/pedidos/PedidosOverView";
 import ProductosOverView from "@/components/productos/productosOverView";
 import { clientesSideBarItems } from "@/utils/routes";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { SideBar } from "@/components/sideBar";
+import Carrito from "@/components/carrito";
 
 export default function Productos() {
   const router = useRouter();
-  const { id } = router.query;
+  const { id, idCliente } = router.query;
   const [productos, setProductos] = useState([]);
   const [loading, setLoading] = useState(true)
-  
+
   useEffect (() => {
     if (id) {
       fetch(`https://dcnt-take-away-now.onrender.com/api/negocios/${id}/productos`)
@@ -34,11 +35,12 @@ export default function Productos() {
     {loading ? <Loading/>: 
           loading ? <Loading /> :
           <div className="flex flex-row">
-          {/* @ts-ignore */}
-          <SideBar items={clientesSideBarItems(id)}></SideBar>
-          <div className="container max-w-7xl mx-auto mt-8 ml-3">
-            <ProductosOverView cliente={true} productos={productos} negocioId={id}></ProductosOverView>
-          </div>
+            {/* @ts-ignore */}
+            <SideBar items={clientesSideBarItems(id)}></SideBar>
+            <div className="container mx-auto mt-8 ml-6">
+              <ProductosOverView cliente={true} productos={productos} negocioId={id}></ProductosOverView>
+              <Carrito idCliente={idCliente}/>
+            </div>
           </div>
     }
     </>

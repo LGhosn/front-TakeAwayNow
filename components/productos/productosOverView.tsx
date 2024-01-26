@@ -2,9 +2,10 @@ import { useRouter } from "next/router";
 import AddButton from "../addButton"
 import HeaderItem from "../headerItem"
 import ProductoGridRow from "../productoGridRow";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import ModalForm from "../modalForm";
 import SuccessfulNotification from "../notifications/successfulNotification";
+import { PedidoContext } from "@/context/context";
 
 interface ProductoGridRowProps {
   productos: Array<any>
@@ -15,30 +16,11 @@ interface ProductoGridRowProps {
 export default function ProductosOverView({cliente, productos, negocioId} : ProductoGridRowProps) {
   const router = useRouter();
   const { id } = router.query;
-  const [form, setForm] = useState(false)
   const [modalSuccessful, setModalSuccessful] = useState(false)
-  const fields = [
-    {id: 'cantidad', name: 'cantidad', label: 'Cantidad', type: 'number'},
-  ]
-
-  function openProductoParaCliente(id: string, nombre: string) {
-    setForm(true)
-  }
+  const {addNewItem} = useContext(PedidoContext);
 
   return (
     <>
-    {form ?
-    <ModalForm
-      title="Agregar al carrito"
-      fields={fields}
-      handleClose={() => setForm(false)}
-      handleSave={() => setModalSuccessful(true)}
-    />
-    : 
-    modalSuccessful ? (
-      <SuccessfulNotification actionPage={() => router.reload()} titleAction="guardado" /> )
-      :
-      <>
     <div className="mb-4 flex justify-between items-center">
       <h1 className="text-3xl font-bold text-black decoration-gray-400">Productos</h1>
       {cliente ? <></>
@@ -61,15 +43,13 @@ export default function ProductosOverView({cliente, productos, negocioId} : Prod
             </thead>
             <tbody>
               {productos.map((producto) => (
-                <ProductoGridRow customOnClick={openProductoParaCliente} cliente={cliente ? true : false} key={producto['id']} producto={producto} negocioId={negocioId} />
+                <ProductoGridRow cliente={cliente ? true : false} key={producto['id']} producto={producto} negocioId={negocioId} />
               ))}
             </tbody>
           </table>
         </div>
       </div>
     </div>
-    </>
-    }
     </>
   )
 }

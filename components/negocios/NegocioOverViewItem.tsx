@@ -8,9 +8,9 @@ import {obtenerNombreDia, setFormatTime} from "../../utils/utils";
 import { CardActionArea, Skeleton } from '@mui/material';
 import { useRouter } from 'next/router';
 
-const card = (router:any, id: number, nombre: string, diaDeApertura: DiaDeLaSemana, diaDeCierre: DiaDeLaSemana, horarioDeApertura: string, horarioDeCierre: string) => (
+const card = (idCliente:number, router:any, id: number, nombre: string, diaDeApertura: DiaDeLaSemana, diaDeCierre: DiaDeLaSemana, horarioDeApertura: string, horarioDeCierre: string) => (
     <React.Fragment>
-        <CardActionArea onClick={() => router.push(`/negocios/${id}/productos`)}>
+        <CardActionArea onClick={() => router.push(`/negocios/${id}/productos?idCliente=${idCliente}`)}>
             <CardContent>
                 <Typography variant="h5" component="div">
                     {nombre} - Abierto de { obtenerNombreDia(diaDeApertura) } a { obtenerNombreDia(diaDeCierre) }.
@@ -23,11 +23,11 @@ const card = (router:any, id: number, nombre: string, diaDeApertura: DiaDeLaSema
     </React.Fragment>
 );
 
-export const NegocioOverViewItem = ({ id, nombre, diaDeApertura, diaDeCierre, horarioDeApertura, horarioDeCierre }: INegocioOverViewItem) => {
+export const NegocioOverViewItem = ({ id, nombre, diaDeApertura, diaDeCierre, horarioDeApertura, horarioDeCierre, idCliente }: INegocioOverViewItem & { idCliente: number }) => {
   const router = useRouter()
   return (
       <Box sx={{ minWidth: 650 }}>
-        <Card variant="outlined">{card(router, id, nombre, diaDeApertura, diaDeCierre, horarioDeApertura, horarioDeCierre)}</Card>
+        <Card variant="outlined">{card(idCliente, router, id, nombre, diaDeApertura, diaDeCierre, horarioDeApertura, horarioDeCierre)}</Card>
       </Box>
   );
 }

@@ -3,13 +3,14 @@ import { INegocioOverViewItem } from "../types"
 import Grid from "@mui/material/Grid";
 import {ReactNode} from "react";
 import React from "react";
+import { CartProvider } from "@/context/context";
 
 
 function Item(props: { children: ReactNode }) {
   return null;
 }
 
-export const NegociosOverView = ({ negocios }: { negocios: INegocioOverViewItem[] }) => {
+export const NegociosOverView = ({ negocios, idCliente }: { negocios: INegocioOverViewItem[], idCliente: any }) => {
 
   return (
       <React.Fragment>
@@ -21,7 +22,9 @@ export const NegociosOverView = ({ negocios }: { negocios: INegocioOverViewItem[
                   negocios.length > 0 ?
                       negocios.map((negocio) => (
                           <Grid item key={negocio.id} xs={2} md={2} lg={2} xl={2}>
-                              <NegocioOverViewItem {...negocio} key={negocio.id}/>
+                            <CartProvider>
+                              <NegocioOverViewItem {...negocio} idCliente={idCliente} key={negocio.id}/>
+                            </CartProvider>
                           </Grid>
                       ))
                       :

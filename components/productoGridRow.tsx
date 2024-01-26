@@ -1,19 +1,35 @@
 import { setFormatDate } from '@/utils/utils'
 import { useRouter } from 'next/router'
+import { useContext, useState } from 'react'
+import ModalForm from './modalForm'
+import { CartItem, PedidoContext } from '@/context/context'
 
 interface ProductoGridRowProps {
     producto: any
     negocioId: any
     cliente ?: boolean
-    customOnClick ?: (id: string, nombre: string) => void
 }
 
-export default function ProductoGridRow({customOnClick, cliente, producto, negocioId }: ProductoGridRowProps) {
+export default function ProductoGridRow({cliente, producto, negocioId }: ProductoGridRowProps) {
     const router = useRouter()
+    const [form, setForm] = useState(false)
+    const fields = [
+        {id: 'cantidad', name: 'cantidad', label: 'Cantidad', type: 'number'},
+      ]
+    const {addNewItem} = useContext(PedidoContext);
+
+    function agregarProducto() {
+        const cantidad = document.getElementById('cantidad') as HTMLInputElement
+        console.log(cantidad.valueAsNumber)
+        console.log(producto['id'])
+        const productoPedido : CartItem = {id: producto['id'], cantidad: cantidad.valueAsNumber}
+        addNewItem(productoPedido)
+        setForm(false)
+    }
 
     function openProducto() {
-        if (cliente && customOnClick) {
-            customOnClick(producto['id'], producto['nombre'])
+        if (cliente) {
+            setForm(true)
             return
         }
 
@@ -22,6 +38,7 @@ export default function ProductoGridRow({customOnClick, cliente, producto, negoc
     }
 
   return (
+    <>
       <tr key={`${producto['id']}`} onClick={openProducto} className="dark:hover:bg-gray-300 cursor-pointer">
         <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200" key={`id${producto['id']}`}>
             <div className="flex items-center text-gray-900">{producto['id']}</div>
@@ -43,5 +60,14 @@ export default function ProductoGridRow({customOnClick, cliente, producto, negoc
             <div className="flex items-center text-gray-900">{producto['recompensaPuntosDeConfianza']['cantidad']}</div>
         </td>
       </tr>
+      {form &&
+        <ModalForm
+          title="Agregar al carrito"
+          fields={fields}
+          handleClose={() => setForm(false)}
+          handleSave={agregarProducto}
+        />
+      }
+    </>
   )
 }
