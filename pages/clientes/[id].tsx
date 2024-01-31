@@ -5,7 +5,6 @@ import { PedidosOverView } from "@/components/pedidos/PedidosOverView";
 import { NegociosOverView } from "@/components/negocios/NegociosOverView";
 import {useEffect, useState} from "react";
 import { Card, Skeleton } from "@mui/material";
-import {CartProvider} from "@/context/context";
 
 export default function Cliente() {
       const router = useRouter();

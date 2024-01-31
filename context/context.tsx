@@ -7,7 +7,7 @@ export interface CartItem {
 }
 
 // Definición del tipo para el contexto
-interface PedidoContextType {
+export interface PedidoContextType {
   pedido: {};
   setPedido: (items: []) => void;
   hasProducts: () => boolean;
@@ -17,18 +17,11 @@ interface PedidoContextType {
 }
 
 // Creación del contexto
-const PedidoContext = createContext<PedidoContextType>({
-  pedido: {},
-  setPedido: () => {},
-  hasProducts: () => false,
-  addNewItem: () => {}, 
-  clearCart: () => {},
-  // removeItem: () => {},
-});
+const PedidoContext = createContext<PedidoContextType | null>(null);
 
 // Definición del proveedor del contexto
 const CartProvider = ({ children }: { children: ReactNode }) => {
-  const [pedido, setPedido] = useState([]);
+  const [pedido, setPedido] = useState({});
 
   // const itemsTotal = useMemo(() => {
   //   return pedido.reduce((acc, item) => acc + item.cantidad, 0);
@@ -36,12 +29,10 @@ const CartProvider = ({ children }: { children: ReactNode }) => {
 
 
   const hasProducts = () => {
-    console.log(pedido);
     return Object.keys(pedido).length > 0;
   };
 
   const addNewItem = (newItem: CartItem) => {
-    console.log('hola');
     isAlreadyInCart(newItem) ? updateCantidad(newItem) : setPedido(prevState => ({...prevState, [newItem.id]: newItem.cantidad}));
   };
 
@@ -63,7 +54,7 @@ const CartProvider = ({ children }: { children: ReactNode }) => {
   // };
 
   const clearCart = () => {
-    setPedido([]);
+    setPedido({});
   };
 
   return (

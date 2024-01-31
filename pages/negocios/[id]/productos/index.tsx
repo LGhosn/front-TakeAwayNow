@@ -6,6 +6,7 @@ import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react"
 import { SideBar } from "@/components/sideBar";
 import Carrito from "@/components/carrito";
+import { CartProvider } from "@/context/context";
 
 export default function Productos() {
   const router = useRouter();
@@ -34,6 +35,7 @@ export default function Productos() {
     <>
     {loading ? <Loading/>: 
           loading ? <Loading /> :
+          <CartProvider>
           <div className="flex flex-row">
             {/* @ts-ignore */}
             <SideBar items={clientesSideBarItems(id)}></SideBar>
@@ -42,6 +44,7 @@ export default function Productos() {
               <Carrito idCliente={idCliente}/>
             </div>
           </div>
+          </CartProvider>
     }
     </>
   )

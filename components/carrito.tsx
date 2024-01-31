@@ -1,5 +1,6 @@
-import { PedidoContext } from '@/context/context';
+import { PedidoContext, PedidoContextType } from '@/context/context';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
+import React from 'react';
 import { useContext } from 'react';
 
 interface ICarrito {
@@ -7,8 +8,13 @@ interface ICarrito {
 }
 
 export default function Carrito({idCliente} : ICarrito) {
-  const {hasProducts} = useContext(PedidoContext)
+  const {hasProducts} = React.useContext(PedidoContext) as PedidoContextType
 
+  if (!hasProducts) {
+    return ( 
+      <h1> NO provider</h1>
+    )
+  }
 
   function abrirCarrito() {
     console.log(`tiene productos ${hasProducts()}`)

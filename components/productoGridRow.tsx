@@ -2,7 +2,7 @@ import { setFormatDate } from '@/utils/utils'
 import { useRouter } from 'next/router'
 import { useContext, useState } from 'react'
 import ModalForm from './modalForm'
-import { CartItem, PedidoContext } from '@/context/context'
+import { CartItem, PedidoContext, PedidoContextType } from '@/context/context'
 
 interface ProductoGridRowProps {
     producto: any
@@ -16,7 +16,7 @@ export default function ProductoGridRow({cliente, producto, negocioId }: Product
     const fields = [
         {id: 'cantidad', name: 'cantidad', label: 'Cantidad', type: 'number'},
       ]
-    const {addNewItem} = useContext(PedidoContext);
+    const {addNewItem} = useContext(PedidoContext) as PedidoContextType;
 
     function agregarProducto() {
         const cantidad = document.getElementById('cantidad') as HTMLInputElement
@@ -62,7 +62,7 @@ export default function ProductoGridRow({cliente, producto, negocioId }: Product
       </tr>
       {form &&
         <ModalForm
-          title="Agregar al carrito"
+          title={`Agregar al carrito ${producto['nombre']}`}
           fields={fields}
           handleClose={() => setForm(false)}
           handleSave={agregarProducto}

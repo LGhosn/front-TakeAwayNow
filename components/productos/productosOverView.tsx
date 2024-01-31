@@ -2,10 +2,7 @@ import { useRouter } from "next/router";
 import AddButton from "../addButton"
 import HeaderItem from "../headerItem"
 import ProductoGridRow from "../productoGridRow";
-import { useContext, useState } from "react";
-import ModalForm from "../modalForm";
-import SuccessfulNotification from "../notifications/successfulNotification";
-import { PedidoContext } from "@/context/context";
+import { useState } from "react";
 
 interface ProductoGridRowProps {
   productos: Array<any>
@@ -17,7 +14,6 @@ export default function ProductosOverView({cliente, productos, negocioId} : Prod
   const router = useRouter();
   const { id } = router.query;
   const [modalSuccessful, setModalSuccessful] = useState(false)
-  const {addNewItem} = useContext(PedidoContext);
 
   return (
     <>
