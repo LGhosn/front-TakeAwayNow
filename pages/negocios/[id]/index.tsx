@@ -10,6 +10,7 @@ import InfoCard from "@/components/infoCard";
 import { PedidosOverView } from "@/components/pedidos/PedidosOverView";
 import AddButton from "@/components/addButton";
 import ProductosOverView from "@/components/productos/productosOverView";
+import { CartProvider } from "@/context/context";
 
 export default function Negocio() {
   const router = useRouter();
@@ -69,6 +70,7 @@ export default function Negocio() {
     <>
     {
       loading ? <Loading /> :
+      <CartProvider>
       <div className="flex flex-row">
       {/* @ts-ignore */}
       <SideBar items={negociosSideBarItems(id, negocio['nombre'])}></SideBar>
@@ -83,6 +85,7 @@ export default function Negocio() {
         <ProductosOverView productos={productos} negocioId={id}></ProductosOverView>
       </div>
       </div>
+      </CartProvider>
     }
   </>
   )
