@@ -4,6 +4,8 @@ import { createContext, useState, useMemo, ReactNode } from "react";
 export interface CartItem {
   id: string;
   cantidad: number;
+  nombre: string;
+  precio: number;
 }
 
 // Definición del tipo para el contexto
@@ -33,8 +35,12 @@ const CartProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const addNewItem = (newItem: CartItem) => {
-    isAlreadyInCart(newItem) ? updateCantidad(newItem) : setPedido(prevState => ({...prevState, [newItem.id]: newItem.cantidad}));
+    isAlreadyInCart(newItem) ? updateCantidad(newItem) : setPedido(prevState => ({
+      ...prevState,
+      [newItem.id]: { cantidad: newItem.cantidad, nombre: newItem.nombre, precio: newItem.precio} 
+    }));
   };
+  
 
   const isAlreadyInCart = (newItem: CartItem) => {
     return Object.keys(pedido).includes(newItem.id);

@@ -18,9 +18,10 @@ interface ModalFormProps {
   handleSave : any
   fields ?: any
   title ?: string
+  titleAction ? : string
 }
 
-export default function ModalForm({handleClose, handleSave, fields, title}: ModalFormProps) {
+export default function ModalForm({handleClose, handleSave, fields, title, titleAction}: ModalFormProps) {
   const [open, setOpen] = React.useState(true);
 
   return (
@@ -55,7 +56,7 @@ export default function ModalForm({handleClose, handleSave, fields, title}: Moda
           </Grid>   
           <div className="flex flex-row justify-between">
             <Button onClick={handleClose}>Volver</Button>
-            <Button onClick={handleSave}>Guardar</Button>
+            <Button onClick={handleSave}>{titleAction ? titleAction : "Guardar"}</Button>
           </div>
         </Box>
       </Modal>

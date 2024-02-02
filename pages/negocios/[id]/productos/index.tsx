@@ -5,7 +5,7 @@ import { clientesSideBarItems } from "@/utils/routes";
 import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react"
 import { SideBar } from "@/components/sideBar";
-import Carrito from "@/components/carrito";
+import ModalCarrito from "@/components/cart/modalCarrito";
 import { CartProvider } from "@/context/context";
 
 export default function Productos() {
@@ -34,14 +34,13 @@ export default function Productos() {
   return (
     <>
     {loading ? <Loading/>: 
-          loading ? <Loading /> :
           <CartProvider>
           <div className="flex flex-row">
             {/* @ts-ignore */}
             <SideBar items={clientesSideBarItems(id)}></SideBar>
             <div className="container mx-auto mt-8 ml-6">
               <ProductosOverView cliente={true} productos={productos} negocioId={id}></ProductosOverView>
-              <Carrito idCliente={idCliente}/>
+              <ModalCarrito/>
             </div>
           </div>
           </CartProvider>

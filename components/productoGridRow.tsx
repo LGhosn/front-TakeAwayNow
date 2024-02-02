@@ -22,7 +22,8 @@ export default function ProductoGridRow({cliente, producto, negocioId }: Product
         const cantidad = document.getElementById('cantidad') as HTMLInputElement
         console.log(cantidad.valueAsNumber)
         console.log(producto['id'])
-        const productoPedido : CartItem = {id: producto['id'], cantidad: cantidad.valueAsNumber}
+        const productoPedido : CartItem = {id: producto['id'], cantidad: cantidad.valueAsNumber, 
+                                          nombre: producto['nombre'], precio: producto['precio']['monto']}
         addNewItem(productoPedido)
         setForm(false)
     }
