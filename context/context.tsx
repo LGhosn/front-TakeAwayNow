@@ -14,7 +14,7 @@ export interface PedidoContextType {
   setPedido: (items: []) => void;
   hasProducts: () => boolean;
   addNewItem: (newItem: CartItem) => void;
-  // removeItem: (id: string) => void;
+  removeItem: (id: string) => void;
   clearCart: () => void;
 }
 
@@ -50,14 +50,20 @@ const CartProvider = ({ children }: { children: ReactNode }) => {
     setPedido(prevState => ({...prevState, [newItem.id]: newItem.cantidad}))
   };
 
-  // const removeItem = (id: string) => {
-  //   setPedido(prevState => {
-  //     const pedidoActualizado = {...prevState};
-  //     delete pedidoActualizado[id];
-  //     return pedidoActualizado;
-  //   });
-
-  // };
+  const removeItem = (id: string) => {
+    // Filtrar las claves del objeto pedido
+    const updatedItems = Object.keys(pedido).filter(key => {
+      // Retornar true si el id del producto no coincide con el id proporcionado
+      return key !== id;
+    });
+  
+    // Crear un nuevo objeto a partir de las claves filtradas
+    // @ts-ignore
+    const updatedPedido = Object.fromEntries(updatedItems.map(key => [key, pedido[key]]));
+  
+    setPedido(updatedPedido);
+  };
+  
 
   const clearCart = () => {
     setPedido({});
@@ -65,7 +71,7 @@ const CartProvider = ({ children }: { children: ReactNode }) => {
 
   return (
     <PedidoContext.Provider
-      value={{ pedido, setPedido, hasProducts, addNewItem, clearCart }}
+      value={{ pedido, setPedido, hasProducts, addNewItem, clearCart, removeItem }}
     >
       {children}
     </PedidoContext.Provider>

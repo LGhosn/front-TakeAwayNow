@@ -25,7 +25,7 @@ const style = {
   p: 4,
 };
 
-const card = (pedido: Record<string, any>) => (
+const card = (pedido: Record<string, any>, removeItem: (key:string) => void) => (
   <>
   { Object.keys(pedido).length === 0 ?
   <h1>No hay productos en el carrito</h1>
@@ -47,7 +47,7 @@ const card = (pedido: Record<string, any>) => (
             </Typography>
           </CardContent>
           <ButtonGroup variant="contained" aria-label="outlined primary button group" className=''>
-            <Button onClick={ () => { console.log('delete')} } >Eliminar</Button>
+            <Button onClick={ () => {removeItem(key)} }>Eliminar</Button>
           </ButtonGroup>
         </div>
       );
@@ -58,6 +58,8 @@ const card = (pedido: Record<string, any>) => (
 );
 
 export default function ResumenCarrito({ pedido, handleClose, handlePurchase }: ResumenCarritoProps) {
+  const {removeItem} = useContext(PedidoContext) as PedidoContextType
+
   return (
     <Modal
     open={true}
@@ -66,7 +68,7 @@ export default function ResumenCarrito({ pedido, handleClose, handlePurchase }: 
     aria-describedby="modal-modal-description"
     >
       <Box sx={style}>
-        <Card>{card(pedido)}</Card>
+        <Card>{card(pedido, removeItem)}</Card>
         <div className="absolute bottom-6 left-6 right-6 flex justify-between">
           <Button variant="contained" onClick={handleClose}>Volver</Button>
           <Button variant="contained" onClick={handlePurchase}>Comprar</Button>
