@@ -1,35 +1,28 @@
-import {PedidoOverViewItem} from "./PedidoOverViewItem"
-import { IPedidoOverViewItem } from "../types"
 import { useRouter } from "next/router";
 import React from "react";
+import OutlinedCard from "../outlinedCard";
+import CardContent from '@mui/material/CardContent';
+import Typography from '@mui/material/Typography';
 
+interface PedidosOverViewProps {
+    idNegocio? : any
+    idCliente? : any
+}
 
-export const PedidosOverView = ({ pedidos }: { pedidos: IPedidoOverViewItem[] }) => {
+export const PedidosOverView = ({ idNegocio, idCliente }: PedidosOverViewProps) => {
     const router = useRouter();
     function handleClick() {
-        localStorage.setItem('pedidos', JSON.stringify(pedidos))
-        router.push('/pedidos')
+        router.push(`/pedidos?idNegocio=${idNegocio}&idCliente=${idCliente}`)
     }
   return (
-    <div className="flex flex-col">
-        {
-            pedidos.length > 0 ?
-                <React.Fragment>
-                    <h1 className="text-3xl font-bold text-black decoration-gray-400 dark:hover:text-blue-400 cursor-pointer"
-                        onClick={handleClick}>
-                        Pedidos
-                    </h1>
-                    <ul>
-                        {
-                            pedidos.map((pedido) => (
-                                <PedidoOverViewItem {...pedido} key={pedido.idPedido}/>
-                            ))
-                        }
-                    </ul>
-                </React.Fragment>
-                :
-                <h1>Usted aún no ha realizado pedidos, ¿Qué está esperando?</h1>
-        }
+    <div className="flex flex-col cursor-pointer" onClick={handleClick}>
+        <OutlinedCard>
+            <CardContent  className="flex flex-col items-center" >
+                <Typography sx={{ mb: 2, fontSize: 24, textAlign: 'center' }} color="text.primary" variant="h1">
+                    Ver Todos los Pedidos
+                </Typography>
+            </CardContent>
+        </OutlinedCard>
     </div>
   );
 }

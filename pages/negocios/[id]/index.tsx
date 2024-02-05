@@ -18,8 +18,6 @@ export default function Negocio() {
   const [productos, setProductos] = useState([]);
   const [pedidos, setPedidos] = useState([]);
   const [loading, setLoading] = useState(true)
-  const [saldo, setSaldo] = useState(0)
-  const [nombreNegocio, setNombreNegocio] = useState('')
   const [negocio, setNegocio] = useState({})
 
   useEffect(() => {
@@ -77,7 +75,7 @@ export default function Negocio() {
       <div className="container max-w-7xl mx-auto mt-8 ml-3">
         <div className="flex flex-row items-center justify-between p-2 mb-4">
           <div>
-            <PedidosOverView pedidos={pedidos}></PedidosOverView>
+            <PedidosOverView idNegocio={id}></PedidosOverView>
           </div>
           {/* @ts-ignore */}
           <InfoCard  info={negocio}/>

@@ -37,7 +37,7 @@ export default function Cliente() {
                 <div className="container max-w-7xl mx-auto">
                     <h1> Bienvenido nuevamente !</h1>
                 </div>
-                <PedidosOverView pedidos={pedidos}></PedidosOverView>
+                <PedidosOverView idCliente={id}></PedidosOverView>
                 <NegociosOverView negocios={negocios} idCliente={id}></NegociosOverView>
               </div>
           </div>

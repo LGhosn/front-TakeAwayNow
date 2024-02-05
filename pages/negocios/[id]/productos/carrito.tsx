@@ -45,28 +45,28 @@ export default function Carrito() {
 
 }
 
-const card = () => (
-  <div className="flex flex-row justify-between">
-      <CardContent>
-          <Typography variant="body2">
-          </Typography>
-          <Typography variant="h4">
-              {'negocio'}
-          </Typography>
-          <Typography variant="h6">
-              Código de retiro: {'codigoDeRetiro'}
-          </Typography>
-          <Typography variant="h6">
-              Precio: ${'monto'}
-          </Typography>
-      </CardContent>
-  </div>
-);
+// const card = () => (
+//   <div className="flex flex-row justify-between">
+//       <CardContent>
+//           <Typography variant="body2">
+//           </Typography>
+//           <Typography variant="h4">
+//               {'negocio'}
+//           </Typography>
+//           <Typography variant="h6">
+//               Código de retiro: {'codigoDeRetiro'}
+//           </Typography>
+//           <Typography variant="h6">
+//               Precio: ${'monto'}
+//           </Typography>
+//       </CardContent>
+//   </div>
+// );
 
-export const PedidoOverViewItem = () => {
-  return (
-    <Box sx={{ minWidth: 275 }}>
-      <Card variant="outlined">{card()}</Card>
-    </Box>
-  );
-}
+// export const PedidoOverViewItem = () => {
+//   return (
+//     <Box sx={{ minWidth: 275 }}>
+//       <Card variant="outlined">{card()}</Card>
+//     </Box>
+//   );
+// }
