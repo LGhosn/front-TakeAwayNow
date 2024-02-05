@@ -3,6 +3,7 @@ import { useRouter } from 'next/router'
 import { useContext, useState } from 'react'
 import ModalForm from './modalForm'
 import { CartItem, PedidoContext, PedidoContextType } from '@/context/context'
+import SuccessfulNotification from './notifications/successfulNotification'
 
 interface ProductoGridRowProps {
     producto: any
@@ -12,6 +13,8 @@ interface ProductoGridRowProps {
 
 export default function ProductoGridRow({cliente, producto, negocioId }: ProductoGridRowProps) {
     const router = useRouter()
+    const [askBorrarProducto, setAskBorrarProducto] = useState(false)
+    const [modalSuccessful, setModalSuccessful] = useState(false)
     const [form, setForm] = useState(false)
     const fields = [
         {id: 'cantidad', name: 'cantidad', label: 'Cantidad', type: 'number'},
@@ -38,6 +41,18 @@ export default function ProductoGridRow({cliente, producto, negocioId }: Product
         router.push(`/negocios/${negocioId}/productos/${producto['id']}`)
     }
 
+    function borrarProducto () {
+      fetch(`https://dcnt-take-away-now.onrender.com/api/negocios/${negocioId}/productos/${producto['id']}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }).then(() => {
+        setAskBorrarProducto(false)
+        setModalSuccessful(true)
+      })
+    }
+
   return (
     <>
       <tr key={`${producto['id']}`} onClick={openProducto} className="dark:hover:bg-gray-300 cursor-pointer">
@@ -60,6 +75,20 @@ export default function ProductoGridRow({cliente, producto, negocioId }: Product
         <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200" key={`recompensaPuntosDeConfianza${producto['id']}`}>
             <div className="flex items-center text-gray-900">{producto['recompensaPuntosDeConfianza']['cantidad']}</div>
         </td>
+        {!cliente &&
+        //armo el boton para borrar producto
+        <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200" key={`borrar${producto['id']}`}>
+            <div className="flex items-center text-gray-900">
+                <button className="hover:bg-red-500 text-white font-bold py-2 px-4 rounded"
+                        onClick={(e) => {
+                            e.stopPropagation()
+                            setAskBorrarProducto(true)
+                        }}>
+                    Borrar
+                </button>
+            </div>
+        </td>
+        }
       </tr>
       {form &&
         <ModalForm
@@ -68,6 +97,18 @@ export default function ProductoGridRow({cliente, producto, negocioId }: Product
           handleClose={() => setForm(false)}
           handleSave={agregarProducto}
         />
+      }
+      {askBorrarProducto &&
+        <ModalForm
+          title={`¿Desea borrar el producto: ${producto['nombre']}?`}
+          fields={[]}
+          handleClose={() => setAskBorrarProducto(false)}
+          handleSave={borrarProducto}
+          titleAction='Borrar'
+        />
+      }
+      {modalSuccessful &&
+        <SuccessfulNotification titleAction='Producto borrado' actionPage={() => {setModalSuccessful(false); router.reload()}} />
       }
     </>
   )

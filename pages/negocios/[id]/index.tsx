@@ -16,7 +16,6 @@ export default function Negocio() {
   const router = useRouter();
   const { id } = router.query;
   const [productos, setProductos] = useState([]);
-  const [pedidos, setPedidos] = useState([]);
   const [loading, setLoading] = useState(true)
   const [negocio, setNegocio] = useState({})
 
@@ -27,13 +26,6 @@ export default function Negocio() {
       }).then((res) => {
         setProductos(res)
     })
-    fetch(`https://dcnt-take-away-now.onrender.com/api/negocios/${id}/pedidos/`)
-      .then((res) => {
-          return res.json()
-      }).then((res) => {
-        setPedidos(res)
-    })
-
 
     const negocioFromLocalStorage = localStorage.getItem('negocio');
     if (negocioFromLocalStorage !== null) {

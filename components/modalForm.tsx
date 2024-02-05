@@ -54,7 +54,7 @@ export default function ModalForm({handleClose, handleSave, fields, title, title
             ))  
             }
           </Grid>   
-          <div className="flex flex-row justify-between">
+          <div className="flex flex-row justify-between pt-5">
             <Button onClick={handleClose}>Volver</Button>
             <Button onClick={handleSave}>{titleAction ? titleAction : "Guardar"}</Button>
           </div>
