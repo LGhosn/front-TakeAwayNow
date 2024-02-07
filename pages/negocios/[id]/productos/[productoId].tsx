@@ -25,7 +25,7 @@ export default function Producto() {
   function patchProducto () {
     let params = getParams()
     // @ts-ignore
-    fetch(`https://dcnt-take-away-now.onrender.com/api/negocios/${id}/productos/${productoId}${params}`, {
+    fetch(`https://takeawaynow-dcnt.onrender.com/api/negocios/${id}/productos/${productoId}${params}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
@@ -53,7 +53,7 @@ export default function Producto() {
     }
     let params = getParams()
     // @ts-ignore
-    fetch(`https://dcnt-take-away-now.onrender.com/api/negocios/${id}/productos/${params}`, {
+    fetch(`https://takeawaynow-dcnt.onrender.com/api/negocios/${id}/productos/${params}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

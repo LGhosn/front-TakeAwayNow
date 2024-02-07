@@ -14,7 +14,7 @@ export default function Cliente() {
 
             useEffect(() => {
                 // Traemos los pedidos del cliente
-                fetch(`https://dcnt-take-away-now.onrender.com/api/clientes/${id}/pedidos/`)
+                fetch(`https://takeawaynow-dcnt.onrender.com/api/clientes/${id}/pedidos/`)
                     .then((res) => {
                         return res.json()
                     }).then((res) => {
@@ -22,7 +22,7 @@ export default function Cliente() {
                 })
 
                 // Traemos todos los negocios
-                fetch(`https://dcnt-take-away-now.onrender.com/api/negocios/`)
+                fetch(`https://takeawaynow-dcnt.onrender.com/api/negocios/`)
                     .then((res) => {
                         return res.json()
                     }).then((res) => {

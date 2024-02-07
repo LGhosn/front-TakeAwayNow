@@ -42,7 +42,7 @@ export default function ProductoGridRow({cliente, producto, negocioId }: Product
     }
 
     function borrarProducto () {
-      fetch(`https://dcnt-take-away-now.onrender.com/api/negocios/${negocioId}/productos/${producto['id']}`, {
+      fetch(`https://takeawaynow-dcnt.onrender.com/api/negocios/${negocioId}/productos/${producto['id']}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json'

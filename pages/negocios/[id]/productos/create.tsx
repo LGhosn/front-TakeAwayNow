@@ -29,7 +29,7 @@ export default function CrearProducto() {
   const handleGuardar = () => {
     let params = getParams()
     // @ts-ignore
-    fetch(`https://dcnt-take-away-now.onrender.com/api/negocios/${id}/productos/${params}`, {
+    fetch(`https://takeawaynow-dcnt.onrender.com/api/negocios/${id}/productos/${params}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

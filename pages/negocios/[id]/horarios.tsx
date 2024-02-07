@@ -73,7 +73,7 @@ export default function Horarios() {
 
   function handleSave() {
     const paramsHorarios = getParamsHorarios();
-    fetch(`https://dcnt-take-away-now.onrender.com/api/negocios/${id}/horariosDeTrabajo${paramsHorarios}`, {
+    fetch(`https://takeawaynow-dcnt.onrender.com/api/negocios/${id}/horariosDeTrabajo${paramsHorarios}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
@@ -90,7 +90,7 @@ export default function Horarios() {
      })
 
     const paramsDias = getParamsDias();
-    fetch(`https://dcnt-take-away-now.onrender.com/api/negocios/${id}/diasDeTrabajo${paramsDias}`, {
+    fetch(`https://takeawaynow-dcnt.onrender.com/api/negocios/${id}/diasDeTrabajo${paramsDias}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',

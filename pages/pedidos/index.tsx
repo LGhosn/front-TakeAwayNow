@@ -18,7 +18,7 @@ export default function PedidosOverView() {
     React.useEffect(() => {
       if (idNegocio && idNegocio !== 'undefined') {
         setNegocio(true)
-        fetch(`https://dcnt-take-away-now.onrender.com/api/negocios/${idNegocio}/pedidos/`)
+        fetch(`https://takeawaynow-dcnt.onrender.com/api/negocios/${idNegocio}/pedidos/`)
         .then((res) => {
           return res.json()
         }).then((res) => {
@@ -30,7 +30,7 @@ export default function PedidosOverView() {
     React.useEffect(() => {
       if (idCliente && idCliente !== 'undefined') {
         setCliente(true)
-        fetch(`https://dcnt-take-away-now.onrender.com/api/clientes/${idCliente}/pedidos/`)
+        fetch(`https://takeawaynow-dcnt.onrender.com/api/clientes/${idCliente}/pedidos/`)
         .then((res) => {
           return res.json()
         }).then((res) => {

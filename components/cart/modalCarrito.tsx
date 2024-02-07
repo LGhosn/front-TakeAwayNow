@@ -41,7 +41,7 @@ export default function ModalCarrito() {
 
     console.log(requestBody)
 
-    fetch(`https://dcnt-take-away-now.onrender.com/api/pedidos/`,
+    fetch(`https://takeawaynow-dcnt.onrender.com/api/pedidos/`,
     {
       method: 'POST',
       body: JSON.stringify(requestBody),

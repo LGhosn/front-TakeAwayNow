@@ -16,7 +16,7 @@ export default function Productos() {
 
   useEffect (() => {
     if (id) {
-      fetch(`https://dcnt-take-away-now.onrender.com/api/negocios/${id}/productos`)
+      fetch(`https://takeawaynow-dcnt.onrender.com/api/negocios/${id}/productos`)
       .then((res) => {
           return res.json()
       }).then((res) => {
