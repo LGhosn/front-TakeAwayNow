@@ -22,7 +22,10 @@ export default function PedidosOverView() {
         .then((res) => {
           return res.json()
         }).then((res) => {
-          setPedidos(res)
+            setPedidos(res)
+            if (pedidos.length == 0) {
+                setLoading(false)
+            }
         })
       }
     }, [idNegocio])
@@ -34,7 +37,10 @@ export default function PedidosOverView() {
         .then((res) => {
           return res.json()
         }).then((res) => {
-          setPedidos(res)
+            setPedidos(res)
+            if (pedidos.length == 0) {
+                setLoading(false)
+            }
         })
       }
     }, [idCliente])

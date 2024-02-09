@@ -19,13 +19,16 @@ export default function Negocio() {
   const [loading, setLoading] = useState(true)
   const [negocio, setNegocio] = useState({})
 
-  useEffect(() => {
+  useEffect( () => {
     fetch(`https://takeawaynow-dcnt.onrender.com/api/negocios/${id}/productos`)
-      .then((res) => {
+        .then((res) => {
           return res.json()
-      }).then((res) => {
-        setProductos(res)
-    })
+        }).then((res) => {
+          setProductos(res)
+          if (productos.length == 0) {
+            setLoading(false)
+          }
+        })
 
     const negocioFromLocalStorage = localStorage.getItem('negocio');
     if (negocioFromLocalStorage !== null) {

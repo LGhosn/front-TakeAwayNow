@@ -18,6 +18,13 @@ const card = ({router, info} : CardProps) => (
         {info['nombre']}
       </Typography>
     )}
+    {info && info.hasOwnProperty('usuario') && (
+        <Typography sx={{ mb: 2, fontSize: 24, textAlign: 'center' }} color="text.primary" variant="h1">
+          {/* @ts-ignore */}
+          {"Bienvenido nuevamente " + info['usuario']}
+        </Typography>
+        
+    )}
     {info && info.hasOwnProperty('diaDeApertura') && (
       <Typography 
         className="cursor-pointer hover:text-blue-400" 
@@ -43,7 +50,7 @@ const card = ({router, info} : CardProps) => (
     {info && info.hasOwnProperty('puntosDeConfianza') && (
       <Typography sx={{ mb: 3, fontSize: 24, textAlign: 'center' }} color="text.primary" variant="h1">
         {/* @ts-ignore */}
-        Saldo: {info['puntosDeConfianza']}
+        Puntos de confianza: {info['puntosDeConfianza']['cantidad']}
       </Typography>
     )}
   </CardContent>

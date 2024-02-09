@@ -10,6 +10,7 @@ export default function ModalCarrito() {
   const {hasProducts, pedido, clearCart} = useContext(PedidoContext) as PedidoContextType
   const [open, setOpen] = useState(false)
   const [successfull, setSuccessful] = useState(false)
+  const [message, setMessage] = useState("")
   const router = useRouter();
   const { id, idCliente } = router.query;
 
@@ -23,7 +24,7 @@ export default function ModalCarrito() {
     setOpen(true)
   }
 
-  function comprarCarrito() {
+  async function comprarCarrito() {
     const requestBody = {
       idCliente: idCliente,
       idNegocio: id,
@@ -41,7 +42,7 @@ export default function ModalCarrito() {
 
     console.log(requestBody)
 
-    fetch(`https://takeawaynow-dcnt.onrender.com/api/pedidos/`,
+    await fetch(`https://takeawaynow-dcnt.onrender.com/api/pedidos/`,
     {
       method: 'POST',
       body: JSON.stringify(requestBody),
@@ -49,11 +50,13 @@ export default function ModalCarrito() {
         'Content-Type': 'application/json'
       }
     })
-    .then((res) => {
+    .then(async (res) => {
       if (!res.ok) {
         throw new Error('Error en la creación del recurso');
+      } else {
+        setMessage(await res.text())
       }
-    }).then(() => {
+    }).then((res) => {
       setOpen(false)
       setSuccessful(true)
     })
@@ -75,7 +78,7 @@ export default function ModalCarrito() {
     </div>
 
     { successfull &&
-      <SuccessfulNotification titleAction={'guardado'} actionPage={ limpiarCarrito}/>
+      <SuccessfulNotification message={message} actionPage={ limpiarCarrito}/>
     }
     </>
   )

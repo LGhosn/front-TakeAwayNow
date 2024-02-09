@@ -21,6 +21,9 @@ export default function Productos() {
           return res.json()
       }).then((res) => {
         setProductos(res)
+        if (productos.length == 0) {
+          setLoading(false)
+        }
       })
     }
   }, [id])

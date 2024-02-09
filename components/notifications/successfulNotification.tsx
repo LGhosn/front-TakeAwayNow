@@ -1,9 +1,9 @@
 type Props = {
-  titleAction: string;
+  message: string;
   actionPage: () => void;
 };
 
-export default function SuccessfulNotification( { titleAction, actionPage }: Props) {
+export default function SuccessfulNotification( { message, actionPage }: Props) {
   return (
     <div className="relative z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true">
     <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
@@ -17,8 +17,8 @@ export default function SuccessfulNotification( { titleAction, actionPage }: Pro
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
           </svg>
           <div className="ml-3">
-            <div className="text-xl font-bold text-left text-black dark:text-gray-50 mt-5">Éxito</div>
-            <div className="text-lg w-full text-gray-900 dark:text-gray-300 mt-1"> ¡Todo listo! Los datos se han {titleAction} correctamente. </div>
+            <div className="text-xl font-bold text-left text-black dark:text-gray-50 mt-5">¡Todo listo!</div>
+            <div className="text-lg w-full text-gray-900 dark:text-gray-300 mt-1"> {message} </div>
         </div>
     </div>
           <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">

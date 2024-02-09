@@ -114,8 +114,15 @@ export const pedidoAplicarEstimulo = async (pedidoId: number, estimulo: string) 
             'Content-Type': 'application/json'
         }
     })
-    console.log(response);
+
+    const responseBody = await response.text();
+    alert(responseBody);
+
   } catch (error) {
     console.log(error);
   }
 }
+
+export const formatearMinutos = (num: number) => {
+  return num < 10 ? `0${num}` : `${num}`;
+};

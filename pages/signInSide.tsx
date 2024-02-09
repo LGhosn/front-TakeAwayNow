@@ -3,9 +3,6 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
@@ -13,22 +10,14 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useState } from 'react';
-import SuccessfulNotification from '@/components/notifications/successfulNotification';
+import SuccessfulNotification from '@/components/notifications/successfulNotification'
 import ErrorModal from '@/components/notifications/errorMessageModal';
 import router from 'next/router';
-
-function Copyright(props: any) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
+import Select from "@mui/material/Select";
+import MenuItem from '@mui/material/MenuItem';
+import {formatearMinutos} from "@/utils/utils";
+import { Divider } from '@mui/material';
+import {borderTop} from "@mui/system";
 
 // TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
@@ -39,8 +28,10 @@ export default function SignInSide() {
   const [clientes, setClientes] = useState([]);
   const [negocios, setNegocios] = useState([]);
   const [errorMessage, setErrorMessage] = useState('');
+  const [successMessage, setSuccessMessage] = useState("");
 
   function closeErrorMessage() { setErrorMessage('') }
+  function closeSuccessMessage() { setSuccessMessage('') }
 
   React.useEffect(() => {
     fetch("https://takeawaynow-dcnt.onrender.com/api/negocios/")
@@ -67,8 +58,13 @@ export default function SignInSide() {
       setErrorMessage('Seleccione si es cliente o negocio')
       return
     }
+
+    if (!nombre) {
+      setErrorMessage('El campo del nombre se encuentra incompleto.')
+      return
+    }
     
-    var path
+    let path
     if (isNegocioPressed) {
       path = '/negocios/'
           //@ts-ignore
@@ -79,7 +75,7 @@ export default function SignInSide() {
         //@ts-ignore
         router.push(`${path}${negocio.id}`)
       } else {
-        setErrorMessage('Verifique que el nombre esté bien escrito')
+        setErrorMessage('Verifique que el nombre del negocio esté bien escrito.')
       }
     } else {
       path = '/clientes/'
@@ -90,10 +86,70 @@ export default function SignInSide() {
         //@ts-ignore
         router.push(`${path}${cliente.id}`)
       } else {
-        setErrorMessage('Verifique que el nombre esté bien escrito')
+        setErrorMessage('Verifique que el nombre del cliente esté bien escrito.')
       }
     }
 
+  };
+
+  const handleClienteSignUp = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    const NombreDelCliente = formData.get('NombreNuevoCliente');
+
+    if (!NombreDelCliente) {
+      setErrorMessage('Ingrese su nombre de cliente para registrarse.')
+      return
+    }
+
+    await fetch(`https://takeawaynow-dcnt.onrender.com/api/clientes/`,
+        {
+          method: 'POST',
+          body: JSON.stringify(NombreDelCliente),
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        })
+        .then(async (res) => {
+          if (!res.ok) {
+            setErrorMessage(await res.text())
+          } else {
+            setSuccessMessage(await res.text())
+          }
+        })
+  };
+
+  const handleNegocioSignUp = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    const NombreDelNegocio = formData.get('NombreNuevoNegocio');
+    const DiaDeApertura = formData.get('DiaDeApertura');
+    const DiaDeCierre = formData.get('DiaDeCierre');
+    const HoraDeApertura = formData.get('HoraDeApertura');
+    const HoraDeCierre = formData.get('HoraDeCierre');
+    const MinutoDeApertura = formData.get('MinutoDeApertura');
+    const MinutoDeCierre = formData.get('MinutoDeCierre');
+
+    // Verificamos si algún campo requerido está vacío
+    if (!NombreDelNegocio || !DiaDeApertura ) {
+      setErrorMessage("Por favor, completa todos los campos.");
+      return;
+    }
+
+    await fetch(`https://takeawaynow-dcnt.onrender.com/api/negocios/?nombre=${NombreDelNegocio}&diaDeApertura=${DiaDeApertura}&diaDeCierre=${DiaDeCierre}&horaApertura=${HoraDeApertura}&minutoApertura=${MinutoDeApertura}&horaCierre=${HoraDeCierre}&minutoCierre=${MinutoDeCierre}`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        })
+        .then(async (res) => {
+          if (!res.ok) {
+            setErrorMessage(await res.text())
+          } else {
+            setSuccessMessage(await res.text())
+          }
+        })
   };
 
   return (
@@ -168,27 +224,143 @@ export default function SignInSide() {
                 type="submit"
                 fullWidth
                 variant="contained"
-                sx={{ mt: 3, mb: 2 }}
+                sx={{ mt: 1, mb: 1 }}
               >
                 Iniciar Sesión
               </Button>
-              <Grid container>
-                <Grid item>
-                  <Link href="#" variant="body2">
-                    {"Don't have an account? Sign Up"}
-                  </Link>
-                </Grid>
-              </Grid>
-              <Copyright sx={{ mt: 5 }} />
+            </Box>
+            <Box component="form" noValidate onSubmit={handleClienteSignUp} sx={{ mt: 3, borderTop: '1px solid black', width: '100%' }} >
+              <Typography textAlign={"center"} component="h2" variant="h5" sx={{ mt: 1}}>
+                Aún no estás registrad@ ?
+              </Typography>
+              <TextField
+                  margin="normal"
+                  required
+                  fullWidth
+                  id="NombreNuevoCliente"
+                  label="Ingrese su nombre de cliente"
+                  name="NombreNuevoCliente"
+                  autoFocus
+              />
+              <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  sx={{ mt: 3, mb: 2 }}
+              >
+                Registrar cliente
+              </Button>
+            </Box>
+            <Box component="form" noValidate onSubmit={handleNegocioSignUp} sx={{ mt: 1, borderTop: '1px solid black', width: '100%' }}>
+              <Typography textAlign={"center"} component="h2" variant="h5" sx={{ mt: 1}}>
+                Aún no registraste tu negocio ?
+              </Typography>
+              <TextField
+                  margin="normal"
+                  required
+                  fullWidth
+                  id="NombreNuevoNegocio"
+                  label="Ingrese el nombre de su negocio"
+                  name="NombreNuevoNegocio"
+                  autoFocus
+              />
+              Abierto de
+              <Select
+                  id="DiaDeApertura"
+                  name="DiaDeApertura"
+                  label="Dia de apertura"
+                  sx={{ ml: 1, mr: 1 }}
+              >
+                <MenuItem value={"MONDAY"}>Lunes</MenuItem>
+                <MenuItem value={"TUESDAY"}>Martes</MenuItem>
+                <MenuItem value={"WEDNESDAY"}>Miércoles</MenuItem>
+                <MenuItem value={"THURSDAY"}>Jueves</MenuItem>
+                <MenuItem value={"FRIDAY"}>Viernes</MenuItem>
+                <MenuItem value={"SATURDAY"}>Sabado</MenuItem>
+                <MenuItem value={"SUNDAY"}>Domingo</MenuItem>
+              </Select>
+              a
+              <Select
+                  id="DiaDeCierre"
+                  name="DiaDeCierre"
+                  label="Dia de cierre"
+                  sx={{ ml: 1, mr: 1 }}
+              >
+                <MenuItem value={"MONDAY"}>Lunes</MenuItem>
+                <MenuItem value={"TUESDAY"}>Martes</MenuItem>
+                <MenuItem value={"WEDNESDAY"}>Miércoles</MenuItem>
+                <MenuItem value={"THURSDAY"}>Jueves</MenuItem>
+                <MenuItem value={"FRIDAY"}>Viernes</MenuItem>
+                <MenuItem value={"SATURDAY"}>Sabado</MenuItem>
+                <MenuItem value={"SUNDAY"}>Domingo</MenuItem>
+              </Select>
+              de
+              <Select
+                  id="HoraDeApertura"
+                  name="HoraDeApertura"
+                  label="Hora de apertura"
+                  sx={{ ml: 1, mr: 1 }}
+                  onChange={ () => {} }
+              >
+                {
+                  Array.from({ length: 24 }, (_, i) => (
+                      <MenuItem key={i} value={i}>{formatearMinutos(i)}</MenuItem>
+                  ))
+                }
+              </Select>
+              :
+              <Select
+                  id="MinutoDeApertura"
+                  name="MinutoDeApertura"
+                  label="Minuto de apertura"
+                  sx={{ ml: 1, mr: 1 }}
+              >
+                {
+                  Array.from({ length: 12 }, (_, i) => (
+                      <MenuItem key={i * 5} value={i * 5}> {formatearMinutos(i*5)}</MenuItem>
+                  ))
+                }
+              </Select>hs a
+              <Select
+                  id="HoraDeCierre"
+                  name="HoraDeCierre"
+                  label="Hora de cierre"
+                  sx={{ ml: 1, mr: 1 }}
+              >
+                {
+                  Array.from({ length: 24 }, (_, i) => (
+                      <MenuItem key={i} value={i}>{formatearMinutos(i)}</MenuItem>
+                  ))
+                }
+              </Select>
+              :
+              <Select
+                  id="MinutoDeCierre"
+                  name="MinutoDeCierre"
+                  label="Minuto de cierre"
+                  sx={{ ml: 1, mr: 1 }}
+              >
+                {
+                  Array.from({ length: 12 }, (_, i) => (
+                      <MenuItem key={i * 5} value={i * 5}> {formatearMinutos(i*5)}</MenuItem>
+                  ))
+                }
+              </Select>
+              <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  sx={{ mt: 3, mb: 2 }}
+              >
+                Registrar negocio
+              </Button>
             </Box>
           </Box>
         </Grid>
       </Grid>
     </ThemeProvider>
-
-    {errorMessage &&
-          <ErrorModal action= {closeErrorMessage} value={errorMessage}/>
-    }
+    { errorMessage && <ErrorModal action= {closeErrorMessage} value={errorMessage}/> }
+    { successMessage && <SuccessfulNotification message={successMessage} actionPage={closeSuccessMessage}/> }
     </>
   );
 }
