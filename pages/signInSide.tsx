@@ -102,7 +102,7 @@ export default function SignInSide() {
       return
     }
 
-    await fetch(`https://takeawaynow-dcnt.onrender.com/api/clientes/`,
+    await fetch(`https://takeawaynow-dcnt.onrender.com/api/clientes/?nombreUsuario=${NombreDelCliente}`,
         {
           method: 'POST',
           body: JSON.stringify(NombreDelCliente),

@@ -23,7 +23,7 @@ const card = ({router, info} : CardProps) => (
           {/* @ts-ignore */}
           {"Bienvenido nuevamente " + info['usuario']}
         </Typography>
-        
+
     )}
     {info && info.hasOwnProperty('diaDeApertura') && (
       <Typography 
