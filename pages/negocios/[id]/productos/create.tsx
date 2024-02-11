@@ -20,7 +20,31 @@ export default function CrearProducto() {
     let precio = document.getElementById("precio")
     let stock = document.getElementById("stock")
     let recompensaPuntosDeConfianza = document.getElementById("puntosDeConfianza")
-    
+
+    // @ts-ignore
+    if (name.value.length == 0) {
+      alert("El nombre del producto no puede estar vacío.")
+      return
+    }
+
+    // @ts-ignore
+    if (stock.value < 0) {
+      alert("El stock del producto no puede ser negativo.")
+      return
+    }
+
+    // @ts-ignore
+    if (precio.value <= 0) {
+      alert("El precio del producto no puede ser negativo o cero.")
+      return
+    }
+
+    // @ts-ignore
+    if (recompensaPuntosDeConfianza.value <= 0) {
+      alert("La recompensa de puntos de confianza del producto no puede ser negativa o cero.")
+      return
+    }
+
     // @ts-ignore
     let params = `?nombreDelProducto=${name.value}&stock=${stock.value}&precio=${precio.value}&recompensaPuntosDeConfianza=${recompensaPuntosDeConfianza.value}`
     return params
@@ -56,7 +80,7 @@ export default function CrearProducto() {
     <>
     {
       modalSuccessful ? (
-      <SuccessfulNotification actionPage={() => router.back()} titleAction="guardado" /> )
+      <SuccessfulNotification actionPage={() => router.back()} message="El producto ha sido creado correctamente." /> )
       :
       <ModalForm 
       handleSave={() => handleGuardar()} 

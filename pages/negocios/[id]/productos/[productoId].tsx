@@ -3,6 +3,8 @@ import Loading from "@/components/loading";
 import { useRouter } from "next/router";
 import ModalForm from "@/components/modalForm";
 import SuccessfulNotification from "@/components/notifications/successfulNotification";
+import ErrorModal from "@/components/notifications/errorMessageModal";
+import * as React from "react";
 
 export default function Producto() {
   const [producto, setProducto] = useState({});
@@ -10,13 +12,32 @@ export default function Producto() {
   const router = useRouter();
   const { id, productoId } = router.query;
   const [productForm, setProductForm] = useState([])
-  const [modalSuccessful, setModalSuccessful] = useState(false)
+  const [errorMessage, setErrorMessage] = useState('');
+  const [successMessage, setSuccessMessage] = useState("");
 
   function getParams() {
     let name = document.getElementById("nombre")
     let precio = document.getElementById("precio")
     let stock = document.getElementById("stock")
     let recompensaPuntosDeConfianza = document.getElementById("puntosDeConfianza")
+
+    // @ts-ignore
+    if (stock.value < 0) {
+      alert("El stock del producto no puede ser negativo.")
+      return
+    }
+
+    // @ts-ignore
+    if (precio.value <= 0) {
+      alert("El precio del producto no puede ser negativo o cero.")
+      return
+    }
+
+    // @ts-ignore
+    if (recompensaPuntosDeConfianza.value <= 0) {
+      alert("La recompensa de puntos de confianza del producto no puede ser negativa o cero.")
+      return
+    }
     
     // @ts-ignore
     let params = `?nombreDelProducto=${name.value}&stock=${stock.value}&precio=${precio.value}&recompensaPuntosDeConfianza=${recompensaPuntosDeConfianza.value}`
@@ -31,13 +52,13 @@ export default function Producto() {
         'Content-Type': 'application/json',
       },
     })
-    .then((res) => {
+    .then(async (res) => {
       if (!res.ok) {
-        throw new Error('Error en la creación del recurso');
+        setErrorMessage(await res.text())
+        return;
+      } else {
+        setSuccessMessage(await res.text())
       }
-    })
-    .then(() => {
-      setModalSuccessful(true);
     })
     // @ts-ignore
     .catch((error) => {
@@ -59,13 +80,13 @@ export default function Producto() {
         'Content-Type': 'application/json',
       },
     })
-    .then((res) => {
+    .then(async (res) => {
       if (!res.ok) {
-        throw new Error('Error en la creación del recurso');
+        setErrorMessage(await res.text())
+        return;
+      } else {
+        setSuccessMessage(await res.text())
       }
-    })
-    .then(() => {
-      setModalSuccessful(true);
     })
     // @ts-ignore
     .catch((error) => {
@@ -108,11 +129,10 @@ export default function Producto() {
 
   return (
     <>
-    { loading ? <Loading />
-      : modalSuccessful ? (
-        <SuccessfulNotification titleAction="guardado" actionPage={() => router.push(`/negocios/${id}`)}/>
-      ) 
-      : <ModalForm handleSave={handleGuardar} handleClose={() => router.back()} fields={productForm} title="Productos"/>
+    { loading ? <Loading /> :
+        errorMessage ? <ErrorModal action= { () => setErrorMessage("")} value={errorMessage}/> :
+            successMessage ? <SuccessfulNotification message={successMessage} actionPage={ () => { setSuccessMessage(""); router.push(`/negocios/${id}`) }}/> :
+                              <ModalForm handleSave={handleGuardar} handleClose={() => router.back()} fields={productForm} title="Productos"/>
     }
     </>
   )

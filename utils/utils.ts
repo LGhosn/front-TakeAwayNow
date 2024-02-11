@@ -1,4 +1,4 @@
-import {DiaDeLaSemana, IPedidoGroupedButton} from "@/components/types";
+import {IPedidoGroupedButton} from "@/components/types";
 
 export const setElementInnerHtml = (elementId: string, innerHtml: string) => {
   const element = document.getElementById(elementId)
@@ -107,17 +107,13 @@ export const obtenerBotonesDisponiblesParaElCliente = (estadoActual: string): IP
 
 export const pedidoAplicarEstimulo = async (pedidoId: number, estimulo: string) => {
   try {
-    const response = await fetch(`https://takeawaynow-dcnt.onrender.com/api/pedidos/${pedidoId}/${estimulo}`, {
-        method: 'PATCH',
-        headers: {
-            'Accept': '*/*',
-            'Content-Type': 'application/json'
-        }
+    return await fetch(`https://takeawaynow-dcnt.onrender.com/api/pedidos/${pedidoId}/${estimulo}`, {
+      method: 'PATCH',
+      headers: {
+        'Accept': '*/*',
+        'Content-Type': 'application/json'
+      }
     })
-
-    const responseBody = await response.text();
-    alert(responseBody);
-
   } catch (error) {
     console.log(error);
   }

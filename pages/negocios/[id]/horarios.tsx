@@ -1,13 +1,12 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
-import { Grid, TextField } from '@mui/material';
 import ModalForm from '@/components/modalForm';
 import { useRouter } from 'next/router';
 import Loading from '@/components/loading';
 import SuccessfulNotification from '@/components/notifications/successfulNotification';
+import {useState} from "react";
+import ErrorModal from "@/components/notifications/errorMessageModal";
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -29,6 +28,8 @@ export default function Horarios() {
   const [open, setOpen] = React.useState(true);
   const [fields, setFields] = React.useState([])
   const [modalSuccessful, setModalSuccessful] = React.useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+  const [successMessage, setSuccessMessage] = useState("");
   
   React.useEffect(() => {
     const negocioFromLocalStorage = localStorage.getItem('negocio')
@@ -79,14 +80,16 @@ export default function Horarios() {
         'Content-Type': 'application/json',
       },
     })
-    .then((res) => {
+    .then(async (res) => {
       if (!res.ok) {
-        throw new Error('Error en la creación del recurso');
+        setErrorMessage(await res.text())
+        return;
+      } else {
+        setSuccessMessage(await res.text())
       }
     })
     .catch((error) => {
       console.error('Error:', error);
-      // setErrorMessage('No se pudo crear la tarea. Ingreso de valor inválido');
      })
 
     const paramsDias = getParamsDias();
@@ -96,9 +99,12 @@ export default function Horarios() {
         'Content-Type': 'application/json',
       },
     })
-    .then((res) => {
+    .then(async (res) => {
       if (!res.ok) {
-        throw new Error('Error en la creación del recurso');
+        setErrorMessage(await res.text())
+        return;
+      } else {
+        setSuccessMessage(await res.text())
       }
     })
     .then(() => {
@@ -111,31 +117,29 @@ export default function Horarios() {
       //@ts-ignore
       negocio['diaDeCierre'] = (document.getElementById('diaDeCierre') as HTMLInputElement)?.value
       localStorage.setItem('negocio', JSON.stringify(negocio))
-      setModalSuccessful(true);
+      //setModalSuccessful(true);
     })
     .catch((error) => {
       console.error('Error:', error);
-      // setErrorMessage('No se pudo crear la tarea. Ingreso de valor inválido');
      })
   }
 
   return (
     <>
     { loading ? <Loading /> :
-      modalSuccessful ? (
-        <SuccessfulNotification actionPage={() => router.push(`/negocios/${id}`)} titleAction="guardado" /> )
-        :
-      <Modal
-      open={open}
-      onClose={handleClose}
-      aria-labelledby="modal-modal-title"
-      aria-describedby="modal-modal-description"
-      >
-        <Box sx={style}>
-          <ModalForm handleSave={handleSave} handleClose={handleClose} fields={fields} title="Horarios"/>
-        </Box>
-      </Modal>
-      }
-    </>
+        errorMessage ? <ErrorModal action= { () => setErrorMessage("")} value={errorMessage}/> :
+            successMessage ? <SuccessfulNotification message={successMessage} actionPage={ () => { setSuccessMessage(""); router.push(`/negocios/${id}`) }}/> :
+                              <Modal
+                              open={open}
+                              onClose={handleClose}
+                              aria-labelledby="modal-modal-title"
+                              aria-describedby="modal-modal-description"
+                              >
+                                <Box sx={style}>
+                                  <ModalForm handleSave={handleSave} handleClose={handleClose} fields={fields} title="Horarios"/>
+                                </Box>
+                              </Modal>
+                              }
+                            </>
   );
 }

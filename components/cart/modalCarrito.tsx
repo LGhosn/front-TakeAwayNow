@@ -25,6 +25,10 @@ export default function ModalCarrito() {
   }
 
   async function comprarCarrito() {
+    if (!hasProducts()) {
+      alert("Agrege al menos un producto a su pedido para poder confirmarlo.")
+      return
+    }
     const requestBody = {
       idCliente: idCliente,
       idNegocio: id,
