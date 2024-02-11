@@ -108,7 +108,7 @@ export default function ProductoGridRow({cliente, producto, negocioId }: Product
         />
       }
       {modalSuccessful &&
-        <SuccessfulNotification titleAction='Producto borrado' actionPage={() => {setModalSuccessful(false); router.reload()}} />
+        <SuccessfulNotification message='Producto borrado' actionPage={() => {setModalSuccessful(false); router.reload()}} />
       }
     </>
   )
