@@ -75,7 +75,10 @@ export default function ResumenCarrito({ pedido, handleClose, handlePurchase, on
         <Card>{card(pedido, removeItem, onlyView)}</Card>
         <div className="absolute bottom-6 left-6 right-6 flex justify-between">
           <Button variant="contained" onClick={handleClose}>Volver</Button>
-          <Button variant="contained" onClick={handlePurchase}>Comprar</Button>
+          {
+            !onlyView &&
+            <Button variant="contained" onClick={handlePurchase}>Comprar</Button>
+          }
         </div>
       </Box>
     </Modal>
