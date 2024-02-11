@@ -9,10 +9,12 @@ import {Button, ButtonGroup } from '@mui/material';
 import {useState} from "react";
 import SuccessfulNotification from '@/components/notifications/successfulNotification'
 import ErrorModal from '@/components/notifications/errorMessageModal';
+import ResumenCarrito from '../cart/resumenCarrito';
+import { CartProvider } from '@/context/context';
 
-const card = (idPedido: number, negocio: string, monto: number, estado: string, fechaYHoraDeEntrega: string, codigoDeRetiro: string, fnMostrarResultadoEstimulo: Function) => (
+const card = (idPedido: number, negocio: string, monto: number, estado: string, fechaYHoraDeEntrega: string, codigoDeRetiro: string, fnMostrarResultadoEstimulo: Function, verPedido: any) => (
     <div className="flex flex-row justify-between">
-        <CardContent>
+        <CardContent className="cursor-pointer hover:bg-gray-300" onClick={verPedido}>
             <Typography variant="body2">
                 {obtenerNombreEstadoDelPedido(estado)} - {fechaYHoraDeEntrega == null ? "Sin horario de retiro establecido" : setFormatDateTime(fechaYHoraDeEntrega)}
             </Typography>
@@ -47,6 +49,8 @@ export const PedidoOverViewItem = ({idPedido, negocio, precioTotal, estado, fech
     const [errorMessage, setErrorMessage] = useState("");
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const [successMessage, setSuccessMessage] = useState("");
+    const [openResumenPedido, setOpenResumenPedido] = useState(false);
+    const [resumePedido, setResumePedido] = useState([]);
     async function mostrarResultadoEstimulo(res: Response) {
         if (!res.ok) {
             setErrorMessage(await res.text())
@@ -54,10 +58,38 @@ export const PedidoOverViewItem = ({idPedido, negocio, precioTotal, estado, fech
             setSuccessMessage(await res.text())
         }
     }
+    
+    function verPedido() {
+        fetch(`https://takeawaynow-dcnt.onrender.com/api/pedidos/${idPedido}`)
+            .then((res) => {
+                return res.json()
+            }).then((res) => {
+                let auxResumen = res.map((item: any) => ({
+                    nombre: item['producto']['nombre'],
+                    cantidad: item.cantidad,
+                    precio: item['producto']['precio']
+                }));
+                
+            setResumePedido(auxResumen);
+        })
+    }
+
+    React.useEffect(() => {
+        if (Object.keys(resumePedido).length > 0) {
+            console.log(resumePedido)
+            setOpenResumenPedido(true)
+        }
+    } , [resumePedido])
+
     return (
         <>
-            <Box sx={{ minWidth: 275 }}>
-                <Card variant="outlined">{card(idPedido, negocio, monto, estado, fechaYHoraDeEntrega, codigoDeRetiro, mostrarResultadoEstimulo)}</Card>
+            { openResumenPedido && 
+            <CartProvider>
+            <ResumenCarrito pedido={resumePedido} handleClose={() => setOpenResumenPedido(false)} handlePurchase={() => console.log('hola')} onlyView/>
+            </CartProvider>
+            }
+            <Box sx={{ minWidth: 275 }} className="p-2">
+                <Card variant="outlined">{card(idPedido, negocio, monto, estado, fechaYHoraDeEntrega, codigoDeRetiro, mostrarResultadoEstimulo, verPedido)}</Card>
             </Box>
             { errorMessage && <ErrorModal action= { () => {setErrorMessage("")} } value={errorMessage}/> }
             { successMessage && <SuccessfulNotification actionPage={ ()=> { setSuccessMessage("") }} message={successMessage} /> }

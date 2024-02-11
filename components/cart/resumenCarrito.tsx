@@ -10,6 +10,7 @@ interface ResumenCarritoProps {
   pedido: {};
   handleClose: () => void;
   handlePurchase: () => void;
+  onlyView?: boolean;
 }
 
 const style = {
@@ -25,7 +26,7 @@ const style = {
   p: 4,
 };
 
-const card = (pedido: Record<string, any>, removeItem: (key:string) => void) => (
+const card = (pedido: Record<string, any>, removeItem: (key:string) => void, onlyView?:boolean) => (
   <>
   { Object.keys(pedido).length === 0 ?
   <h1>No hay productos en el carrito</h1>
@@ -46,9 +47,12 @@ const card = (pedido: Record<string, any>, removeItem: (key:string) => void) => 
               ~Precio: ${item['precio']}
             </Typography>
           </CardContent>
+          {
+            !onlyView &&
           <ButtonGroup variant="contained" aria-label="outlined primary button group" className=''>
             <Button onClick={ () => {removeItem(key)} }>Eliminar</Button>
           </ButtonGroup>
+          }
         </div>
       );
     })}
@@ -57,7 +61,7 @@ const card = (pedido: Record<string, any>, removeItem: (key:string) => void) => 
   </>
 );
 
-export default function ResumenCarrito({ pedido, handleClose, handlePurchase }: ResumenCarritoProps) {
+export default function ResumenCarrito({ pedido, handleClose, handlePurchase, onlyView}: ResumenCarritoProps) {
   const {removeItem} = useContext(PedidoContext) as PedidoContextType
 
   return (
@@ -68,7 +72,7 @@ export default function ResumenCarrito({ pedido, handleClose, handlePurchase }: 
     aria-describedby="modal-modal-description"
     >
       <Box sx={style}>
-        <Card>{card(pedido, removeItem)}</Card>
+        <Card>{card(pedido, removeItem, onlyView)}</Card>
         <div className="absolute bottom-6 left-6 right-6 flex justify-between">
           <Button variant="contained" onClick={handleClose}>Volver</Button>
           <Button variant="contained" onClick={handlePurchase}>Comprar</Button>

@@ -23,9 +23,6 @@ export default function PedidosOverView() {
           return res.json()
         }).then((res) => {
             setPedidos(res)
-            if (pedidos.length == 0) {
-                setLoading(false)
-            }
         })
       }
     }, [idNegocio])
@@ -38,9 +35,6 @@ export default function PedidosOverView() {
           return res.json()
         }).then((res) => {
             setPedidos(res)
-            if (pedidos.length == 0) {
-                setLoading(false)
-            }
         })
       }
     }, [idCliente])
