@@ -5,6 +5,7 @@ import { IPedidoOverViewItem } from "@/components/types";
 import Loading from "@/components/loading";
 import { SideBar } from "@/components/sideBar";
 import { clientesSideBarItems,negociosSideBarItems } from "@/utils/routes";
+import { Card, CardContent, Typography } from "@mui/material";
 
 
 export default function PedidosOverView() {
@@ -35,6 +36,9 @@ export default function PedidosOverView() {
           return res.json()
         }).then((res) => {
             setPedidos(res)
+            if (res.length == 0) {
+              setLoading(false)
+            }
         })
       }
     }, [idCliente])
@@ -44,6 +48,10 @@ export default function PedidosOverView() {
         setLoading(false)
       }
     }, [pedidos])
+
+    function handleClick() {
+      router.back()
+    }
 
   return (
     <>
@@ -68,7 +76,15 @@ export default function PedidosOverView() {
                       </ul>
                   </React.Fragment>
                   :
-                  <h1>Usted aún no ha realizado pedidos, ¿Qué está esperando?</h1>
+                  <div className="flex justify-center w-max">
+                  <Card className="cursor-pointer hover:bg-gray-300 w-max" onClick={handleClick}>
+                    <CardContent>
+                      <Typography variant="h5" component="h2">
+                        Todavía no hay pedidos. ¿Qué esperas para hacer uno?
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </div>
                 }
       </div>
     </div>

@@ -16,7 +16,7 @@ const card = (idPedido: number, negocio: string, monto: number, estado: string, 
     <div className="flex flex-row justify-between">
         <CardContent className="cursor-pointer hover:bg-gray-300" onClick={verPedido}>
             <Typography variant="body2">
-                {obtenerNombreEstadoDelPedido(estado)} - {fechaYHoraDeEntrega == null ? "Sin horario de retiro establecido" : setFormatDateTime(fechaYHoraDeEntrega)}
+                {estado} - {fechaYHoraDeEntrega == null ? "Sin horario de retiro establecido" : setFormatDateTime(fechaYHoraDeEntrega)}
             </Typography>
             <Typography variant="h4">
                 {negocio}
@@ -29,16 +29,31 @@ const card = (idPedido: number, negocio: string, monto: number, estado: string, 
             </Typography>
         </CardContent>
         <ButtonGroup variant="contained" aria-label="outlined primary button group">
+            {estado == "Aguardando preparación" &&
             <Button onClick={ () => { // @ts-ignore
-                pedidoAplicarEstimulo(idPedido, 'marcarComienzoDePreparacion').then(r => fnMostrarResultadoEstimulo(r));} } >En Preparación</Button>
+                pedidoAplicarEstimulo(idPedido, 'marcarComienzoDePreparacion').then(r => fnMostrarResultadoEstimulo(r));} } >En Preparación
+            </Button>
+            }
+            {estado == "En preparación" &&
             <Button onClick={ () => { // @ts-ignore
-                pedidoAplicarEstimulo(idPedido, 'marcarPedidoListoParaRetirar').then(r => fnMostrarResultadoEstimulo(r));} } >Listo para retirar</Button>
+                pedidoAplicarEstimulo(idPedido, 'marcarPedidoListoParaRetirar').then(r => fnMostrarResultadoEstimulo(r));} } >Listo para retirar
+            </Button>
+            }
+            {estado == "Listo para retirar" &&
             <Button onClick={ () => { // @ts-ignore
-                pedidoAplicarEstimulo(idPedido, 'confirmarRetiroDelPedido').then(r => fnMostrarResultadoEstimulo(r));} } >Retirado</Button>
+                pedidoAplicarEstimulo(idPedido, 'confirmarRetiroDelPedido').then(r => fnMostrarResultadoEstimulo(r));} } >Retirado
+            </Button>
+            }
+            {estado == "Retirado" &&
             <Button onClick={ () => { // @ts-ignore
-                pedidoAplicarEstimulo(idPedido, 'devolverPedido').then(r => fnMostrarResultadoEstimulo(r));} } >Devolver</Button>
+                pedidoAplicarEstimulo(idPedido, 'devolverPedido').then(r => fnMostrarResultadoEstimulo(r));} } >Devolver
+            </Button>
+            }
+            {estado != "Retirado" && estado != "Devuelto" &&
             <Button onClick={ () => { // @ts-ignore
-                pedidoAplicarEstimulo(idPedido, 'cancelarPedido').then(r => fnMostrarResultadoEstimulo(r));} } >Cancelar</Button>
+                pedidoAplicarEstimulo(idPedido, 'cancelarPedido').then(r => fnMostrarResultadoEstimulo(r));} } >Cancelar
+            </Button>
+            }
         </ButtonGroup>
     </div>
 );
@@ -89,7 +104,7 @@ export const PedidoOverViewItem = ({idPedido, negocio, precioTotal, estado, fech
             </CartProvider>
             }
             <Box sx={{ minWidth: 275 }} className="p-2">
-                <Card variant="outlined">{card(idPedido, negocio, monto, estado, fechaYHoraDeEntrega, codigoDeRetiro, mostrarResultadoEstimulo, verPedido)}</Card>
+                <Card variant="outlined">{card(idPedido, negocio, monto, obtenerNombreEstadoDelPedido(estado), fechaYHoraDeEntrega, codigoDeRetiro, mostrarResultadoEstimulo, verPedido)}</Card>
             </Box>
             { errorMessage && <ErrorModal action= { () => {setErrorMessage("")} } value={errorMessage}/> }
             { successMessage && <SuccessfulNotification actionPage={ ()=> { setSuccessMessage("") }} message={successMessage} /> }
