@@ -31,27 +31,27 @@ const card = (idPedido: number, negocio: string, monto: number, estado: string, 
         </CardContent>
         <ButtonGroup variant="contained" aria-label="outlined primary button group">
             {estado == "Aguardando preparación" &&
-            <Button onClick={ () => { // @ts-ignore
+            <Button onClick={ () => {
                 pedidoAplicarEstimulo(idPedido, 'marcarComienzoDePreparacion').then(r => fnMostrarResultadoEstimulo(r));} } >En Preparación
             </Button>
             }
             {estado == "En preparación" &&
-            <Button onClick={ () => { // @ts-ignore
+            <Button onClick={ () => {
                 pedidoAplicarEstimulo(idPedido, 'marcarPedidoListoParaRetirar').then(r => fnMostrarResultadoEstimulo(r));} } >Listo para retirar
             </Button>
             }
             {estado == "Listo para retirar" &&
-            <Button onClick={ () => { // @ts-ignore
+            <Button onClick={ () => {
                 pedidoAplicarEstimulo(idPedido, 'confirmarRetiroDelPedido').then(r => fnMostrarResultadoEstimulo(r));} } >Retirado
             </Button>
             }
             {estado == "Retirado" &&
-            <Button onClick={ () => { // @ts-ignore
+            <Button onClick={ () => {
                 pedidoAplicarEstimulo(idPedido, 'devolverPedido').then(r => fnMostrarResultadoEstimulo(r));} } >Devolver
             </Button>
             }
             {estado != "Retirado" && estado != "Devuelto" && estado != "Cancelado" &&
-            <Button onClick={ () => { // @ts-ignore
+            <Button onClick={ () => {
                 pedidoAplicarEstimulo(idPedido, 'cancelarPedido').then(r => fnMostrarResultadoEstimulo(r));} } >Cancelar
             </Button>
             }
