@@ -84,7 +84,7 @@ export const PedidoOverViewItem = ({idPedido, negocio, precioTotal, estado, fech
                 let auxResumen = res.map((item: any) => ({
                     nombre: item['producto']['nombre'],
                     cantidad: item.cantidad,
-                    precio: item['producto']['precio']
+                    precio: item['precio']['monto']
                 }));
                 
             setResumePedido(auxResumen);
