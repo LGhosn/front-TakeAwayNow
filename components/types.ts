@@ -30,6 +30,7 @@ export interface INegocioOverViewItem {
   diaDeCierre: DiaDeLaSemana
   horarioDeApertura: string
   horarioDeCierre: string
+  cerrado: boolean
 }
 
 export interface IPedidoGroupedButton {

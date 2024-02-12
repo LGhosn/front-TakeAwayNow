@@ -26,14 +26,14 @@ export default function Productos() {
         }
       })
     }
-  }, [id])
+  }, [id, productos])
 
   useEffect(() => {
     if (productos.length > 0) {
       setLoading(false)
     }
   }, [productos])
-  
+
   return (
     <>
     {loading ? <Loading/>: 

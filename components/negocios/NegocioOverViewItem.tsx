@@ -7,10 +7,11 @@ import { INegocioOverViewItem, DiaDeLaSemana } from "../types";
 import {obtenerNombreDia, setFormatTime} from "../../utils/utils";
 import { CardActionArea, Skeleton } from '@mui/material';
 import { useRouter } from 'next/router';
+import ErrorModal from '../notifications/errorMessageModal';
 
-const card = (idCliente:number, router:any, id: number, nombre: string, diaDeApertura: DiaDeLaSemana, diaDeCierre: DiaDeLaSemana, horarioDeApertura: string, horarioDeCierre: string) => (
+const card = (idCliente:number, handleClick:any, id: number, nombre: string, diaDeApertura: DiaDeLaSemana, diaDeCierre: DiaDeLaSemana, horarioDeApertura: string, horarioDeCierre: string, cerrado:boolean, ) => (
     <React.Fragment>
-        <CardActionArea onClick={() => router.push(`/negocios/${id}/productos?idCliente=${idCliente}`)}>
+        <CardActionArea onClick={handleClick}>            
             <CardContent>
                 <Typography variant="h5" component="div">
                     {nombre} - Abierto de { obtenerNombreDia(diaDeApertura) } a { obtenerNombreDia(diaDeCierre) }.
@@ -23,11 +24,23 @@ const card = (idCliente:number, router:any, id: number, nombre: string, diaDeApe
     </React.Fragment>
 );
 
-export const NegocioOverViewItem = ({ id, nombre, diaDeApertura, diaDeCierre, horarioDeApertura, horarioDeCierre, idCliente }: INegocioOverViewItem & { idCliente: number }) => {
-  const router = useRouter()
-  return (
-      <Box sx={{ minWidth: 650 }}>
-        <Card variant="outlined">{card(idCliente, router, id, nombre, diaDeApertura, diaDeCierre, horarioDeApertura, horarioDeCierre)}</Card>
-      </Box>
-  );
+export const NegocioOverViewItem = ({ id, nombre, diaDeApertura, diaDeCierre, horarioDeApertura, horarioDeCierre, idCliente, cerrado }: INegocioOverViewItem & { idCliente: number }) => {
+    const router = useRouter()
+    const [errorMessage, setErrorMessage] = React.useState("");
+    const handleClick = () => {
+        if (cerrado) {
+            setErrorMessage("El negocio se encuentra cerrado.")
+            return
+        }
+        router.push(`/negocios/${id}/productos?idCliente=${idCliente}`)
+    }
+    return (
+        <>
+        { errorMessage && <ErrorModal action= { () => {setErrorMessage("");} } value={errorMessage}/> }
+
+        <Box sx={{ minWidth: 650 }}>
+        <Card variant="outlined">{card(idCliente, handleClick, id, nombre, diaDeApertura, diaDeCierre, horarioDeApertura, horarioDeCierre, cerrado)}</Card>
+        </Box>
+        </>
+    );
 }

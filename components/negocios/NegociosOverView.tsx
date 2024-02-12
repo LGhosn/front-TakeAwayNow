@@ -23,7 +23,7 @@ export const NegociosOverView = ({ negociosAbiertos, negociosCerrados, idCliente
                   negociosAbiertos.length > 0 ?
                     negociosAbiertos.map((negocio) => (
                           <Grid item key={negocio.id} xs={2} md={2} lg={2} xl={2}>
-                              <NegocioOverViewItem {...negocio} idCliente={idCliente} key={negocio.id}/>
+                              <NegocioOverViewItem {...negocio} idCliente={idCliente} key={negocio.id} cerrado={false}/>
                           </Grid>
                       ))
                       :
@@ -36,7 +36,7 @@ export const NegociosOverView = ({ negociosAbiertos, negociosCerrados, idCliente
                   negociosCerrados.length > 0 ?
                   negociosCerrados.map((negocio) => (
                           <Grid item key={negocio.id} xs={2} md={2} lg={2} xl={2}>
-                              <NegocioOverViewItem {...negocio} idCliente={idCliente} key={negocio.id}/>
+                              <NegocioOverViewItem {...negocio} idCliente={idCliente} key={negocio.id} cerrado/>
                           </Grid>
                       ))
                       :
