@@ -89,17 +89,23 @@ export default function InfoCard({info} : CardProps) {
   }
 
   function cargarSaldo() {
-    let saldoElement = document.getElementById('saldo');
-    let saldo = saldoElement ? saldoElement.innerText.split('$')[1] : null;
+    let montoElement = document.getElementById('monto');
+    let monto = montoElement instanceof HTMLInputElement ? montoElement.value : null;
     // @ts-ignore
-    fetch(`https://takeawaynow-dcnt.onrender.com/api/clientes/${info['id']}/cargarDeSaldo/${saldo}`, {
+    fetch(`https://takeawaynow-dcnt.onrender.com/api/clientes/${info['id']}/cargaDeSaldo/${monto}`,
+    {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({monto: 100})
-    }).then((res) => {
-      mostrarResultadoEstimulo(res)
+      }
+    })
+    .then(async (res) => {
+      if (!res.ok) {
+        setErrorMessage(await res.text());
+      } else {
+        setSuccessMessage(await res.text())
+      }
+      setOpenModalSaldo(false);
     })
   }
 
@@ -117,8 +123,8 @@ export default function InfoCard({info} : CardProps) {
     <OutlinedCard>
       {card({router, info, cliente, abrirModalSaldo})}
     </OutlinedCard>
-    { errorMessage && <ErrorModal action= { () => {setErrorMessage("")} } value={errorMessage}/> }
-    { successMessage && <SuccessfulNotification actionPage={ ()=> { setSuccessMessage("") }} message={successMessage} /> }
+    { errorMessage && <ErrorModal action= { () => {setErrorMessage(""); router.reload()} } value={errorMessage}/> }
+    { successMessage && <SuccessfulNotification actionPage={ ()=> { setSuccessMessage(""); router.reload() }} message={successMessage} /> }
     </>
   );
 }
