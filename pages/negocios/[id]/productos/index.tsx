@@ -40,7 +40,7 @@ export default function Productos() {
           <CartProvider>
           <div className="flex flex-row">
             {/* @ts-ignore */}
-            <SideBar items={clientesSideBarItems(id)}></SideBar>
+            <SideBar items={clientesSideBarItems(idCliente)}></SideBar>
             <div className="container mx-auto mt-8 ml-6">
               <ProductosOverView cliente={true} productos={productos} negocioId={id}></ProductosOverView>
               <ModalCarrito/>
