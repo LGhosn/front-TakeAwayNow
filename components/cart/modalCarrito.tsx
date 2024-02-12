@@ -5,12 +5,13 @@ import { useContext, useState } from 'react';
 import * as React from 'react';
 import ResumenCarrito from './resumenCarrito';
 import SuccessfulNotification from '../notifications/successfulNotification';
+import ErrorModal from "@/components/notifications/errorMessageModal";
 
 export default function ModalCarrito() {
   const {hasProducts, pedido, clearCart} = useContext(PedidoContext) as PedidoContextType
   const [open, setOpen] = useState(false)
-  const [successfull, setSuccessful] = useState(false)
-  const [message, setMessage] = useState("")
+  const [errorMessage, setErrorMessage] = useState("")
+  const [successMessage, setSuccessMessage] = useState("")
   const router = useRouter();
   const { id, idCliente } = router.query;
 
@@ -56,13 +57,12 @@ export default function ModalCarrito() {
     })
     .then(async (res) => {
       if (!res.ok) {
-        throw new Error('Error en la creación del recurso');
+        setErrorMessage(await res.text());
       } else {
-        setMessage(await res.text())
+        setSuccessMessage(await res.text())
       }
     }).then((res) => {
       setOpen(false)
-      setSuccessful(true)
     })
   }
 
@@ -80,10 +80,8 @@ export default function ModalCarrito() {
     <div className="fixed bottom-6 right-16 p-5 bg-red-100 cursor-pointer rounded-full hover:bg-blue-400" onClick={verCarrito}> 
       <ShoppingCartOutlinedIcon className={`text-5xl text-gray-400 dark:text-gray-400`}/>
     </div>
-
-    { successfull &&
-      <SuccessfulNotification message={message} actionPage={ limpiarCarrito}/>
-    }
+      { errorMessage && <ErrorModal action= {() => {setErrorMessage("")}} value={errorMessage}/> }
+      { successMessage && <SuccessfulNotification message={successMessage} actionPage={ () => {limpiarCarrito; setErrorMessage("")}}/> }
     </>
   )
 }
