@@ -10,23 +10,37 @@ function Item(props: { children: ReactNode }) {
   return null;
 }
 
-export const NegociosOverView = ({ negocios, idCliente }: { negocios: INegocioOverViewItem[], idCliente: any }) => {
+export const NegociosOverView = ({ negociosAbiertos, negociosCerrados, idCliente }: { negociosAbiertos: INegocioOverViewItem[]
+    , negociosCerrados: INegocioOverViewItem[], idCliente: any }) => {
 
   return (
       <React.Fragment>
-          <h1 className="text-3xl font-bold text-black decoration-gray-400 dark:hover:text-blue-400 cursor-pointer">
-              Negocios
+          <Grid container spacing={2} columns={1}>
+          <h1 className="text-3xl pt-9 font-bold text-black decoration-gray-400">
+              Negocios Abiertos
           </h1>
-          <Grid container spacing={2} columns={4}>
               {
-                  negocios.length > 0 ?
-                      negocios.map((negocio) => (
+                  negociosAbiertos.length > 0 ?
+                    negociosAbiertos.map((negocio) => (
                           <Grid item key={negocio.id} xs={2} md={2} lg={2} xl={2}>
                               <NegocioOverViewItem {...negocio} idCliente={idCliente} key={negocio.id}/>
                           </Grid>
                       ))
                       :
-                      <h1>Aún no hay negocios disponibles.</h1>
+                      <h1>Aún no hay negocios abiertos disponibles.</h1>
+              }
+            <h1 className="text-3xl pt-9 font-bold text-black decoration-gray-400">
+              Negocios Cerrados
+            </h1>
+              {
+                  negociosCerrados.length > 0 ?
+                  negociosCerrados.map((negocio) => (
+                          <Grid item key={negocio.id} xs={2} md={2} lg={2} xl={2}>
+                              <NegocioOverViewItem {...negocio} idCliente={idCliente} key={negocio.id}/>
+                          </Grid>
+                      ))
+                      :
+                      <h1>No hay negocios cerrados.</h1>
               }
           </Grid>
       </React.Fragment>

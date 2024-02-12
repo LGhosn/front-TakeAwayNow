@@ -11,7 +11,8 @@ export default function Cliente() {
       const router = useRouter();
       const { id } = router.query;
       const [pedidos, setPedidos] = useState([]);
-      const [negocios, setNegocios] = useState([]);
+      const [negociosAbiertos, setNegociosAbiertos] = useState([]);
+      const [negociosCerrados, setNegociosCerrados] = useState([]);
       const [infoCliente, setInfoCliente] = useState({})
 
             useEffect(() => {
@@ -23,13 +24,22 @@ export default function Cliente() {
                     setPedidos(res)
                 })
 
-                // Traemos todos los negocios
-                fetch(`https://takeawaynow-dcnt.onrender.com/api/negocios/`)
+                // Traemos todos los negocios abiertos
+                fetch(`https://takeawaynow-dcnt.onrender.com/api/negocios/negociosAbiertos`)
                     .then((res) => {
                         return res.json()
                     }).then((res) => {
-                    setNegocios(res)
+                        setNegociosAbiertos(res)
                 })
+
+                // Traemos todos los negocios cerrados
+                fetch(`https://takeawaynow-dcnt.onrender.com/api/negocios/negociosCerrados`)
+                .then((res) => {
+                    return res.json()
+                }).then((res) => {
+                    setNegociosCerrados(res)
+                })
+            
 
                 // Traemos la info del cliente.
                 fetch(`https://takeawaynow-dcnt.onrender.com/api/clientes/${id}`)
@@ -47,7 +57,7 @@ export default function Cliente() {
               <div className="flex flex-col pl-16 pt-5">
                   <InfoCard  info={infoCliente}/>
                   <PedidosOverView idCliente={id}></PedidosOverView>
-                  <NegociosOverView negocios={negocios} idCliente={id}></NegociosOverView>
+                  <NegociosOverView negociosAbiertos={negociosAbiertos} negociosCerrados={negociosCerrados} idCliente={id}></NegociosOverView>
               </div>
           </div>
       )
