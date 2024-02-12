@@ -11,6 +11,7 @@ import SuccessfulNotification from '@/components/notifications/successfulNotific
 import ErrorModal from '@/components/notifications/errorMessageModal';
 import ResumenCarrito from '../cart/resumenCarrito';
 import { CartProvider } from '@/context/context';
+import { useRouter } from 'next/router';
 
 const card = (idPedido: number, negocio: string, monto: number, estado: string, fechaYHoraDeEntrega: string, codigoDeRetiro: string, fnMostrarResultadoEstimulo: Function, verPedido: any) => (
     <div className="flex flex-row justify-between">
@@ -49,7 +50,7 @@ const card = (idPedido: number, negocio: string, monto: number, estado: string, 
                 pedidoAplicarEstimulo(idPedido, 'devolverPedido').then(r => fnMostrarResultadoEstimulo(r));} } >Devolver
             </Button>
             }
-            {estado != "Retirado" && estado != "Devuelto" &&
+            {estado != "Retirado" && estado != "Devuelto" && estado != "Cancelado" &&
             <Button onClick={ () => { // @ts-ignore
                 pedidoAplicarEstimulo(idPedido, 'cancelarPedido').then(r => fnMostrarResultadoEstimulo(r));} } >Cancelar
             </Button>
@@ -66,6 +67,7 @@ export const PedidoOverViewItem = ({idPedido, negocio, precioTotal, estado, fech
     const [successMessage, setSuccessMessage] = useState("");
     const [openResumenPedido, setOpenResumenPedido] = useState(false);
     const [resumePedido, setResumePedido] = useState([]);
+    const router = useRouter()
     async function mostrarResultadoEstimulo(res: Response) {
         if (!res.ok) {
             setErrorMessage(await res.text())
@@ -106,8 +108,8 @@ export const PedidoOverViewItem = ({idPedido, negocio, precioTotal, estado, fech
             <Box sx={{ minWidth: 275 }} className="p-2">
                 <Card variant="outlined">{card(idPedido, negocio, monto, obtenerNombreEstadoDelPedido(estado), fechaYHoraDeEntrega, codigoDeRetiro, mostrarResultadoEstimulo, verPedido)}</Card>
             </Box>
-            { errorMessage && <ErrorModal action= { () => {setErrorMessage("")} } value={errorMessage}/> }
-            { successMessage && <SuccessfulNotification actionPage={ ()=> { setSuccessMessage("") }} message={successMessage} /> }
+            { errorMessage && <ErrorModal action= { () => {setErrorMessage(""); router.reload()} } value={errorMessage}/> }
+            { successMessage && <SuccessfulNotification actionPage={ ()=> { setSuccessMessage(""); router.reload() }} message={successMessage} /> }
         </>
     );
 }
