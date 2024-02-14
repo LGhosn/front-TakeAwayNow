@@ -4,10 +4,9 @@ import { useRouter } from 'next/router';
 import { useContext, useState } from 'react';
 import * as React from 'react';
 import CardContent from '@mui/material/CardContent';
-import { Box, Button, Grid, Modal, TextField, Typography, Card, ButtonGroup } from "@mui/material";
+import { Box, Button, Grid, Modal, FormGroup, FormControlLabel,Checkbox, Typography, Card, ButtonGroup } from "@mui/material";
 
 interface ResumenCarritoProps {
-  pedido: {};
   handleClose: () => void;
   handlePurchase: () => void;
   onlyView?: boolean;
@@ -44,14 +43,19 @@ const card = (pedido: Record<string, any>, removeItem: (key:string) => void, onl
               ~Cantidad: {item['cantidad']}
             </Typography>
             <Typography >
-              ~Precio: ${item['precio']}
+              ~Precio: ${item['precio']} (Puntos de Confianza: {item['pdc']})
             </Typography>
           </CardContent>
           {
             !onlyView &&
-          <ButtonGroup variant="contained" aria-label="outlined primary button group" className=''>
-            <Button onClick={ () => {removeItem(key)} }>Eliminar</Button>
-          </ButtonGroup>
+            <div className='flex flex-row items-center justify-center'>
+            <FormGroup>
+              <FormControlLabel control={<Checkbox id="check-pdc"/>} label="Usar Puntos de Confianza"/>
+            </FormGroup>
+            <ButtonGroup variant="contained" aria-label="outlined primary button group" className=''>
+              <Button onClick={ () => {removeItem(key)} }>Eliminar</Button>
+            </ButtonGroup>
+            </div>
           }
         </div>
       );
@@ -61,8 +65,8 @@ const card = (pedido: Record<string, any>, removeItem: (key:string) => void, onl
   </>
 );
 
-export default function ResumenCarrito({ pedido, handleClose, handlePurchase, onlyView}: ResumenCarritoProps) {
-  const {removeItem} = useContext(PedidoContext) as PedidoContextType
+export default function ResumenCarrito({ handleClose, handlePurchase, onlyView}: ResumenCarritoProps) {
+  const {removeItem, pedido, hasProducts, totalPrice} = useContext(PedidoContext) as PedidoContextType
 
   return (
     <Modal
@@ -76,9 +80,12 @@ export default function ResumenCarrito({ pedido, handleClose, handlePurchase, on
         <div className="absolute bottom-6 left-6 right-6 flex justify-between">
           <Button variant="contained" onClick={handleClose}>Volver</Button>
           {
-            !onlyView &&
+            !onlyView && hasProducts() &&
             <Button variant="contained" onClick={handlePurchase}>Comprar</Button>
           }
+        </div>
+        <div className="absolute bottom-20 right-20">
+          <h1>Total: ${totalPrice}</h1>
         </div>
       </Box>
     </Modal>

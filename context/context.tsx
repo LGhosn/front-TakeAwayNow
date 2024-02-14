@@ -6,6 +6,7 @@ export interface CartItem {
   cantidad: number;
   nombre: string;
   precio: number;
+  pdc: number;
 }
 
 // Definición del tipo para el contexto
@@ -16,6 +17,7 @@ export interface PedidoContextType {
   addNewItem: (newItem: CartItem) => void;
   removeItem: (id: string) => void;
   clearCart: () => void;
+  totalPrice: number;
 }
 
 // Creación del contexto
@@ -25,9 +27,9 @@ const PedidoContext = createContext<PedidoContextType | null>(null);
 const CartProvider = ({ children }: { children: ReactNode }) => {
   const [pedido, setPedido] = useState({});
 
-  // const itemsTotal = useMemo(() => {
-  //   return pedido.reduce((acc, item) => acc + item.cantidad, 0);
-  // }, [pedido]);
+  const totalPrice = useMemo(() => {
+    return Object.keys(pedido).reduce((prev, item) => prev + (pedido[item].cantidad * pedido[item].precio), 0);
+  }, [pedido]);
 
 
   const hasProducts = () => {
@@ -37,7 +39,7 @@ const CartProvider = ({ children }: { children: ReactNode }) => {
   const addNewItem = (newItem: CartItem) => {
     isAlreadyInCart(newItem) ? updateCantidad(newItem) : setPedido(prevState => ({
       ...prevState,
-      [newItem.id]: { cantidad: newItem.cantidad, nombre: newItem.nombre, precio: newItem.precio} 
+      [newItem.id]: { cantidad: newItem.cantidad, nombre: newItem.nombre, precio: newItem.precio, pdc: newItem.pdc} 
     }));
   };
   
@@ -71,7 +73,7 @@ const CartProvider = ({ children }: { children: ReactNode }) => {
 
   return (
     <PedidoContext.Provider
-      value={{ pedido, setPedido, hasProducts, addNewItem, clearCart, removeItem }}
+      value={{ pedido, setPedido, hasProducts, addNewItem, clearCart, removeItem, totalPrice }}
     >
       {children}
     </PedidoContext.Provider>

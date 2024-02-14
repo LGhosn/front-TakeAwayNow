@@ -26,10 +26,8 @@ export default function ModalCarrito() {
   }
 
   async function comprarCarrito() {
-    if (!hasProducts()) {
-      alert("Agrege al menos un producto a su pedido para poder confirmarlo.")
-      return
-    }
+    let usaPdc = (document.getElementById("check-pdc") as HTMLInputElement).checked;
+
     const requestBody = {
       idCliente: idCliente,
       idNegocio: id,
@@ -39,14 +37,12 @@ export default function ModalCarrito() {
         const cantidad = pedido[key].cantidad;
         return {
           ...acc,
-          [productId]: cantidad
+          [productId]: cantidad,
+          "usaPdc": usaPdc ? 1 : 0
         };
       }, {})
     };
     
-
-    console.log(requestBody)
-
     await fetch(`https://takeawaynow-dcnt.onrender.com/api/pedidos/`,
     {
       method: 'POST',
@@ -74,7 +70,7 @@ export default function ModalCarrito() {
   return (
     <>
     { open && 
-    <ResumenCarrito pedido={pedido} handleClose={() => setOpen(false)} handlePurchase={comprarCarrito}/>
+    <ResumenCarrito handleClose={() => setOpen(false)} handlePurchase={comprarCarrito}/>
     }
     
     <div className="fixed bottom-6 right-16 p-5 bg-red-100 cursor-pointer rounded-full hover:bg-blue-400" onClick={verCarrito}> 

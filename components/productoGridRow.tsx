@@ -4,6 +4,7 @@ import { useContext, useState } from 'react'
 import ModalForm from './modalForm'
 import { CartItem, PedidoContext, PedidoContextType } from '@/context/context'
 import SuccessfulNotification from './notifications/successfulNotification'
+import ErrorModal from './notifications/errorMessageModal'
 
 interface ProductoGridRowProps {
     producto: any
@@ -15,6 +16,7 @@ export default function ProductoGridRow({cliente, producto, negocioId }: Product
     const router = useRouter()
     const [askBorrarProducto, setAskBorrarProducto] = useState(false)
     const [modalSuccessful, setModalSuccessful] = useState(false)
+    const [errorMessage, setErrorMessage] = useState("")
     const [form, setForm] = useState(false)
     const fields = [
         {id: 'cantidad', name: 'cantidad', label: 'Cantidad', type: 'number'},
@@ -23,10 +25,17 @@ export default function ProductoGridRow({cliente, producto, negocioId }: Product
 
     function agregarProducto() {
         const cantidad = document.getElementById('cantidad') as HTMLInputElement
-        console.log(cantidad.valueAsNumber)
-        console.log(producto['id'])
-        const productoPedido : CartItem = {id: producto['id'], cantidad: cantidad.valueAsNumber, 
-                                          nombre: producto['nombre'], precio: producto['precio']['monto']}
+        if (cantidad.valueAsNumber <= 0) {
+            setForm(false)
+            setErrorMessage('La cantidad debe ser mayor a 0')
+            return
+        } else if (cantidad.valueAsNumber > producto['stock']) {
+            setForm(false)
+            setErrorMessage('La cantidad no puede ser mayor al stock')
+            return
+        }
+        const newItem = {id: producto['id'], cantidad: cantidad.valueAsNumber, nombre: producto['nombre'], precio: producto['precio']['monto'], pdc: producto['recompensaPuntosDeConfianza']['cantidad']}
+        const productoPedido : CartItem = newItem
         addNewItem(productoPedido)
         setForm(false)
     }
@@ -110,6 +119,7 @@ export default function ProductoGridRow({cliente, producto, negocioId }: Product
       {modalSuccessful &&
         <SuccessfulNotification message='Producto borrado' actionPage={() => {setModalSuccessful(false); router.reload()}} />
       }
+      { errorMessage && <ErrorModal action= {() => {setErrorMessage("")}} value={errorMessage}/> }
     </>
   )
 }
