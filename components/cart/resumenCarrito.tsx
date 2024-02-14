@@ -7,6 +7,7 @@ import CardContent from '@mui/material/CardContent';
 import { Box, Button, Grid, Modal, FormGroup, FormControlLabel,Checkbox, Typography, Card, ButtonGroup } from "@mui/material";
 
 interface ResumenCarritoProps {
+  pedido : {}
   handleClose: () => void;
   handlePurchase: () => void;
   onlyView?: boolean;
@@ -65,8 +66,8 @@ const card = (pedido: Record<string, any>, removeItem: (key:string) => void, onl
   </>
 );
 
-export default function ResumenCarrito({ handleClose, handlePurchase, onlyView}: ResumenCarritoProps) {
-  const {removeItem, pedido, hasProducts, totalPrice} = useContext(PedidoContext) as PedidoContextType
+export default function ResumenCarrito({ pedido, handleClose, handlePurchase, onlyView}: ResumenCarritoProps) {
+  const {removeItem, hasProducts, totalPrice} = useContext(PedidoContext) as PedidoContextType
 
   return (
     <Modal

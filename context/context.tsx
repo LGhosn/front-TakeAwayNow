@@ -25,16 +25,22 @@ const PedidoContext = createContext<PedidoContextType | null>(null);
 
 // Definición del proveedor del contexto
 const CartProvider = ({ children }: { children: ReactNode }) => {
-  const [pedido, setPedido] = useState({});
+    const [pedido, setPedido] = useState({});
 
   const totalPrice = useMemo(() => {
-    return Object.keys(pedido).reduce((prev, item) => prev + (pedido[item].cantidad * pedido[item].precio), 0);
+    let total = 0;
+    for (const [_, value] of Object.entries(pedido)) {
+      let cantidad = (value as CartItem) ['cantidad'];
+      let precio = (value as CartItem) ['precio'];
+      total += cantidad * precio;
+    }
+    return total;
   }, [pedido]);
 
 
-  const hasProducts = () => {
-    return Object.keys(pedido).length > 0;
-  };
+    const hasProducts = () => {
+      return Object.keys(pedido).length > 0;
+    };
 
   const addNewItem = (newItem: CartItem) => {
     isAlreadyInCart(newItem) ? updateCantidad(newItem) : setPedido(prevState => ({

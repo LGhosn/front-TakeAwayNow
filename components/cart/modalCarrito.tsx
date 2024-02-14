@@ -69,7 +69,7 @@ export default function ModalCarrito() {
   return (
     <>
     { open && 
-    <ResumenCarrito handleClose={() => setOpen(false)} handlePurchase={comprarCarrito}/>
+    <ResumenCarrito pedido={pedido} handleClose={() => setOpen(false)} handlePurchase={comprarCarrito}/>
     }
     
     <div className="fixed bottom-6 right-16 p-5 bg-red-100 cursor-pointer rounded-full hover:bg-blue-400" onClick={verCarrito}> 
