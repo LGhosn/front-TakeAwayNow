@@ -37,8 +37,7 @@ export default function ModalCarrito() {
         const cantidad = pedido[key].cantidad;
         return {
           ...acc,
-          [productId]: cantidad,
-          "usaPdc": usaPdc ? 1 : 0
+          [productId]: {cantidad: cantidad, "usaPdc": usaPdc ? 1 : 0}
         };
       }, {})
     };
