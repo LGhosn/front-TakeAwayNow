@@ -36,7 +36,7 @@ export function setFormatDate(date: string) {
 export function setFormatTime(time: string) {
   if (time) {
     const timeSplitted = time.split(":")
-    return `${timeSplitted[0]}:${timeSplitted[2]}hs`
+    return `${timeSplitted[0]}:${timeSplitted[1]}hs`
   } else {
     return "Sin horario"
   }
