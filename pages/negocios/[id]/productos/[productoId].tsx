@@ -20,6 +20,7 @@ export default function Producto() {
     let precio = document.getElementById("precio")
     let stock = document.getElementById("stock")
     let recompensaPuntosDeConfianza = document.getElementById("puntosDeConfianza")
+    let precioPuntosDeConfianza = document.getElementById("preciopuntosDeConfianza")
 
     // @ts-ignore
     if (stock.value < 0) {
@@ -38,9 +39,15 @@ export default function Producto() {
       alert("La recompensa de puntos de confianza del producto no puede ser negativa o cero.")
       return
     }
-    
+
     // @ts-ignore
-    let params = `?nombreDelProducto=${name.value}&stock=${stock.value}&precio=${precio.value}&recompensaPuntosDeConfianza=${recompensaPuntosDeConfianza.value}`
+    if (precioPuntosDeConfianza.value <= 0) {
+      alert("La recompensa de puntos de confianza del producto no puede ser negativa o cero.")
+      return
+    }
+
+    // @ts-ignore
+    let params = `?nombreDelProducto=${name.value}&stock=${stock.value}&precio=${precio.value}&recompensaPuntosDeConfianza=${recompensaPuntosDeConfianza.value}&precioPdc=${precioPuntosDeConfianza.value}`
     return params
   }
   function patchProducto () {
@@ -114,7 +121,9 @@ export default function Producto() {
         // @ts-ignore 
         {id: 'stock', name: 'stock', label: 'stock', defaultValue: producto['stock']},
         // @ts-ignore 
-        {id: 'puntosDeConfianza', name: 'puntosDeConfianza', label: 'Puntos de Confianza', defaultValue: producto['recompensaPuntosDeConfianza']['cantidad']}
+        {id: 'preciopuntosDeConfianza', name: 'preciopuntosDeConfianza', label: 'Precio Puntos de Confianza', defaultValue: producto['precioPdc']['cantidad']},
+        // @ts-ignore 
+        {id: 'puntosDeConfianza', name: 'puntosDeConfianza', label: 'Recompensa Puntos de Confianza', defaultValue: producto['recompensaPuntosDeConfianza']['cantidad']},
       ]
       // @ts-ignore
       setProductForm(fields)
@@ -131,8 +140,8 @@ export default function Producto() {
     <>
     { loading ? <Loading /> :
         errorMessage ? <ErrorModal action= { () => setErrorMessage("")} value={errorMessage}/> :
-            successMessage ? <SuccessfulNotification message={successMessage} actionPage={ () => { setSuccessMessage(""); router.push(`/negocios/${id}`) }}/> :
-                              <ModalForm handleSave={handleGuardar} handleClose={() => router.back()} fields={productForm} title="Productos"/>
+          successMessage ? <SuccessfulNotification message={successMessage} actionPage={ () => { setSuccessMessage(""); router.push(`/negocios/${id}`) }}/> :
+            <ModalForm handleSave={handleGuardar} handleClose={() => router.back()} fields={productForm} title="Productos"/>
     }
     </>
   )

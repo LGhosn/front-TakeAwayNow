@@ -37,11 +37,12 @@ export default function ModalCarrito() {
         const cantidad = pedido[key].cantidad;
         return {
           ...acc,
-          [productId]: {cantidad: cantidad, "usaPdc": usaPdc ? 1 : 0}
+          [productId]: {"cantidad": cantidad, "usaPdc": usaPdc ? 1 : 0}
         };
       }, {})
     };
     
+    console.log(requestBody)
     await fetch(`https://takeawaynow-dcnt.onrender.com/api/pedidos/`,
     {
       method: 'POST',
@@ -63,6 +64,7 @@ export default function ModalCarrito() {
 
   function limpiarCarrito() {
     clearCart()
+    setErrorMessage("")
     router.back()
   }
 
@@ -76,7 +78,7 @@ export default function ModalCarrito() {
       <ShoppingCartOutlinedIcon className={`text-5xl text-gray-400 dark:text-gray-400`}/>
     </div>
       { errorMessage && <ErrorModal action= {() => {setErrorMessage("")}} value={errorMessage}/> }
-      { successMessage && <SuccessfulNotification message={successMessage} actionPage={ () => {limpiarCarrito; setErrorMessage("")}}/> }
+      { successMessage && <SuccessfulNotification message={successMessage} actionPage={limpiarCarrito}/> }
     </>
   )
 }

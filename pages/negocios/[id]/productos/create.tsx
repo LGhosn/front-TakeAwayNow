@@ -9,7 +9,8 @@ export default function CrearProducto() {
     {id: 'nombre', name: 'nombre', label: 'Nombre'},
     {id: 'precio', name: 'precio', label: 'Precio', type: 'number'},
     {id: 'stock', name: 'stock', label: 'Stock', type: 'number'},
-    {id: 'puntosDeConfianza', name: 'puntosDeConfianza', label: 'Puntos de confianza', type: 'number'},
+    {id: 'preciopuntosDeConfianza', name: 'preciopuntosDeConfianza', label: 'Precio Puntos de confianza', type: 'number'},
+    {id: 'puntosDeConfianza', name: 'puntosDeConfianza', label: 'Recompensa Puntos de confianza', type: 'number'},
   ])
   const router = useRouter();
   const { id } = router.query;
@@ -20,6 +21,7 @@ export default function CrearProducto() {
     let precio = document.getElementById("precio")
     let stock = document.getElementById("stock")
     let recompensaPuntosDeConfianza = document.getElementById("puntosDeConfianza")
+    let precioPuntosDeConfianza = document.getElementById("preciopuntosDeConfianza")
 
     // @ts-ignore
     if (name.value.length == 0) {
@@ -46,7 +48,13 @@ export default function CrearProducto() {
     }
 
     // @ts-ignore
-    let params = `?nombreDelProducto=${name.value}&stock=${stock.value}&precio=${precio.value}&recompensaPuntosDeConfianza=${recompensaPuntosDeConfianza.value}`
+    if (precioPuntosDeConfianza.value <= 0) {
+      alert("El precio de puntos de confianza del producto no puede ser negativa o cero.")
+      return
+    }
+
+    // @ts-ignore
+    let params = `?nombreDelProducto=${name.value}&stock=${stock.value}&precio=${precio.value}&recompensaPuntosDeConfianza=${recompensaPuntosDeConfianza.value}&precioPdc=${precioPuntosDeConfianza.value}`
     return params
   }
 

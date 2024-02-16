@@ -34,7 +34,8 @@ export default function ProductosOverView({cliente, productos, negocioId} : Prod
                 <HeaderItem title="Nombre" />
                 <HeaderItem title="Precio" />
                 <HeaderItem title="Stock" />
-                <HeaderItem title="Puntos de Confianza" />
+                <HeaderItem title="Recompensa Puntos de Confianza" />
+                <HeaderItem title="Precio Puntos de Confianza" />
                 {!cliente && <HeaderItem title="Acciones" />}
               </tr>
             </thead>

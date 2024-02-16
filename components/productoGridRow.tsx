@@ -34,7 +34,7 @@ export default function ProductoGridRow({cliente, producto, negocioId }: Product
             setErrorMessage('La cantidad no puede ser mayor al stock')
             return
         }
-        const newItem = {id: producto['id'], cantidad: cantidad.valueAsNumber, nombre: producto['nombre'], precio: producto['precio']['monto'], pdc: producto['recompensaPuntosDeConfianza']['cantidad']}
+        const newItem = {id: producto['id'], cantidad: cantidad.valueAsNumber, nombre: producto['nombre'], precio: producto['precio']['monto'], pdc: producto['precioPdc']['cantidad']}
         const productoPedido : CartItem = newItem
         addNewItem(productoPedido)
         setForm(false)
@@ -83,6 +83,10 @@ export default function ProductoGridRow({cliente, producto, negocioId }: Product
 
         <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200" key={`recompensaPuntosDeConfianza${producto['id']}`}>
             <div className="flex items-center text-gray-900">{producto['recompensaPuntosDeConfianza']['cantidad']}</div>
+        </td>
+
+        <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200" key={`precioPuntosDeConfianza${producto['id']}`}>
+            <div className="flex items-center text-gray-900">{producto['precioPdc']['cantidad']}</div>
         </td>
         {!cliente &&
         //armo el boton para borrar producto

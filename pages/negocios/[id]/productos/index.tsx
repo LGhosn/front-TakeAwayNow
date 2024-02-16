@@ -26,7 +26,7 @@ export default function Productos() {
         }
       })
     }
-  }, [id, productos])
+  }, [id])
 
   useEffect(() => {
     if (productos.length > 0) {
