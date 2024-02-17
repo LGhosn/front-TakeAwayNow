@@ -10,46 +10,54 @@ import InfoCard from "@/components/infoCard";
 export default function Cliente() {
       const router = useRouter();
       const { id } = router.query;
+      const [cliente, setCliente] = useState([])
       const [pedidos, setPedidos] = useState([]);
       const [negociosAbiertos, setNegociosAbiertos] = useState([]);
       const [negociosCerrados, setNegociosCerrados] = useState([]);
       const [infoCliente, setInfoCliente] = useState({})
 
-            useEffect(() => {
-                // Traemos los pedidos del cliente
-                fetch(`https://takeawaynow-dcnt.onrender.com/api/clientes/${id}/pedidos/`)
-                    .then((res) => {
-                        return res.json()
-                    }).then((res) => {
-                    setPedidos(res)
-                })
+    useEffect(() => {
+        fetch(`https://takeawaynow-dcnt.onrender.com/api/clientes/${id}`)
+        .then((res) => {
+            return res.json()
+        }).then((res) => {
+            setCliente(res)
+        })
 
-                // Traemos todos los negocios abiertos
-                fetch(`https://takeawaynow-dcnt.onrender.com/api/negocios/negociosAbiertos`)
-                    .then((res) => {
-                        return res.json()
-                    }).then((res) => {
-                        setNegociosAbiertos(res)
-                })
+        // Traemos los pedidos del cliente
+        fetch(`https://takeawaynow-dcnt.onrender.com/api/clientes/${id}/pedidos/`)
+            .then((res) => {
+                return res.json()
+            }).then((res) => {
+            setPedidos(res)
+        })
 
-                // Traemos todos los negocios cerrados
-                fetch(`https://takeawaynow-dcnt.onrender.com/api/negocios/negociosCerrados`)
-                .then((res) => {
-                    return res.json()
-                }).then((res) => {
-                    setNegociosCerrados(res)
-                })
-            
+        // Traemos todos los negocios abiertos
+        fetch(`https://takeawaynow-dcnt.onrender.com/api/negocios/negociosAbiertos`)
+            .then((res) => {
+                return res.json()
+            }).then((res) => {
+                setNegociosAbiertos(res)
+        })
 
-                // Traemos la info del cliente.
-                fetch(`https://takeawaynow-dcnt.onrender.com/api/clientes/${id}`)
-                    .then((res) => {
-                        return res.json()
-                    }).then(async (res) => {
-                    setInfoCliente(await res)
-                })
+        // Traemos todos los negocios cerrados
+        fetch(`https://takeawaynow-dcnt.onrender.com/api/negocios/negociosCerrados`)
+        .then((res) => {
+            return res.json()
+        }).then((res) => {
+            setNegociosCerrados(res)
+        })
+    
 
-            }, [id])
+        // Traemos la info del cliente.
+        fetch(`https://takeawaynow-dcnt.onrender.com/api/clientes/${id}`)
+            .then((res) => {
+                return res.json()
+            }).then(async (res) => {
+            setInfoCliente(await res)
+        })
+
+    }, [id])
 
       return (
           <div className="flex flex-row">

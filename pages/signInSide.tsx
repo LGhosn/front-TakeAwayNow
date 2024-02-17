@@ -25,29 +25,28 @@ const defaultTheme = createTheme();
 export default function SignInSide() {
   const [isClientePressed, setClientePressed] = useState(true);
   const [isNegocioPressed, setNegocioPressed] = useState(false);
-  const [clientes, setClientes] = useState([]);
-  const [negocios, setNegocios] = useState([]);
-  const [errorMessage, setErrorMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
 
   function closeErrorMessage() { setErrorMessage('') }
   function closeSuccessMessage() { setSuccessMessage('') }
 
-  React.useEffect(() => {
-    fetch("https://takeawaynow-dcnt.onrender.com/api/negocios/")
-    .then((res) => {
-        return res.json()
-    }).then((res) => {
-      setNegocios(res)
-    })
-
-    fetch("https://takeawaynow-dcnt.onrender.com/api/clientes/")
-    .then((res) => {
-        return res.json()
-    }).then((res) => {
-      setClientes(res)
-    })
-  }, [])
+  async function comprobarNombre(nombre: string, entidad: string) {
+    try {
+      const response = await fetch(`https://takeawaynow-dcnt.onrender.com/api/${entidad}/corroborarExistencia/${nombre}`);
+      if (!response.ok) {
+        const errorMessage = (await response.text()).slice(12,-3);
+        setErrorMessage(errorMessage);
+      } else {
+        const responseData = await response.json();
+        const id = responseData.id;
+        router.push(`/${entidad}/${id}`);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  }
+  
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -64,30 +63,12 @@ export default function SignInSide() {
       return
     }
     
-    let path
     if (isNegocioPressed) {
-      path = '/negocios/'
-          //@ts-ignore
-      const negocio = negocios.find((negocio) => negocio.nombre === nombre);
-      if (negocio) {
-        localStorage.setItem('negocio', JSON.stringify(negocio))
-
-        //@ts-ignore
-        router.push(`${path}${negocio.id}`)
-      } else {
-        setErrorMessage('Verifique que el nombre del negocio esté bien escrito.')
-      }
-    } else {
-      path = '/clientes/'
+      comprobarNombre(nombre.toString(), 'negocios');
       //@ts-ignore
-      const cliente = clientes.find((cliente) => cliente.usuario === nombre);
-      if (cliente) {
-        localStorage.setItem('saldo', JSON.stringify(cliente['saldo']['monto']))
-        //@ts-ignore
-        router.push(`${path}${cliente.id}`)
-      } else {
-        setErrorMessage('Verifique que el nombre del cliente esté bien escrito.')
-      }
+
+    } else {
+      comprobarNombre(nombre.toString(), 'clientes');
     }
 
   };
