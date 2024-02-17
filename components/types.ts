@@ -21,6 +21,7 @@ export interface IPedidoOverViewItem {
   estado: string
   fechaYHoraDeEntrega:string
   codigoDeRetiro: string
+  vistaCliente: boolean
 }
 
 export interface INegocioOverViewItem {

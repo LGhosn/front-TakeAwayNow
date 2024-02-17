@@ -13,7 +13,7 @@ import ResumenCarrito from '../cart/resumenCarrito';
 import { CartProvider } from '@/context/context';
 import { useRouter } from 'next/router';
 
-const card = (idPedido: number, negocio: string, monto: number, estado: string, fechaYHoraDeEntrega: string, codigoDeRetiro: string, fnMostrarResultadoEstimulo: Function, verPedido: any) => (
+const card = (idPedido: number, negocio: string, monto: number, estado: string, fechaYHoraDeEntrega: string, codigoDeRetiro: string, fnMostrarResultadoEstimulo: Function, verPedido: any, vistaCliente: boolean) => (
     <div className="flex flex-row justify-between">
         <CardContent className="cursor-pointer hover:bg-gray-300" onClick={verPedido}>
             <Typography variant="body2">
@@ -30,36 +30,46 @@ const card = (idPedido: number, negocio: string, monto: number, estado: string, 
             </Typography>
         </CardContent>
         <ButtonGroup variant="contained" aria-label="outlined primary button group">
-            {estado == "Aguardando preparación" &&
+            {!vistaCliente && estado == "Aguardando preparación" &&
             <Button onClick={ () => {
                 pedidoAplicarEstimulo(idPedido, 'marcarComienzoDePreparacion').then(r => fnMostrarResultadoEstimulo(r));} } >En Preparación
             </Button>
             }
-            {estado == "En preparación" &&
+            {!vistaCliente && estado == "En preparación" &&
             <Button onClick={ () => {
                 pedidoAplicarEstimulo(idPedido, 'marcarPedidoListoParaRetirar').then(r => fnMostrarResultadoEstimulo(r));} } >Listo para retirar
             </Button>
             }
-            {estado == "Listo para retirar" &&
+            {vistaCliente && estado == "Listo para retirar" &&
             <Button onClick={ () => {
                 pedidoAplicarEstimulo(idPedido, 'confirmarRetiroDelPedido').then(r => fnMostrarResultadoEstimulo(r));} } >Retirado
             </Button>
             }
-            {estado == "Retirado" &&
+            {vistaCliente && estado == "Retirado" &&
             <Button onClick={ () => {
-                pedidoAplicarEstimulo(idPedido, 'devolverPedido').then(r => fnMostrarResultadoEstimulo(r));} } >Devolver
+                pedidoAplicarEstimulo(idPedido, 'devolverPedido').then(r => fnMostrarResultadoEstimulo(r));} } >Pedir Devolucion
             </Button>
             }
-            {estado != "Retirado" && estado != "Devuelto" && estado != "Cancelado" &&
+            {vistaCliente && estado != "Retirado" && estado != "Devolución solicitada" && estado != "Cancelado" &&
             <Button onClick={ () => {
                 pedidoAplicarEstimulo(idPedido, 'cancelarPedido').then(r => fnMostrarResultadoEstimulo(r));} } >Cancelar
             </Button>
+            }
+            {!vistaCliente && estado == "Devolución solicitada" &&
+            <>
+            <Button onClick={ () => {
+                pedidoAplicarEstimulo(idPedido, 'aceptarDevolucion').then(r => fnMostrarResultadoEstimulo(r));} } >Aceptar Devolucion
+            </Button>
+            <Button onClick={ () => {
+                pedidoAplicarEstimulo(idPedido, 'denegarDevolucion').then(r => fnMostrarResultadoEstimulo(r));} } >Denegar Devolucion
+            </Button>
+            </>
             }
         </ButtonGroup>
     </div>
 );
 
-export const PedidoOverViewItem = ({idPedido, negocio, precioTotal, estado, fechaYHoraDeEntrega, codigoDeRetiro}: IPedidoOverViewItem) => {
+export const PedidoOverViewItem = ({idPedido, negocio, precioTotal, estado, fechaYHoraDeEntrega, codigoDeRetiro, vistaCliente}: IPedidoOverViewItem) => {
     const { monto } = precioTotal
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const [errorMessage, setErrorMessage] = useState("");
@@ -84,7 +94,7 @@ export const PedidoOverViewItem = ({idPedido, negocio, precioTotal, estado, fech
                 let auxResumen = res.map((item: any) => ({
                     nombre: item['producto']['nombre'],
                     cantidad: item.cantidad,
-                    precio: item['precio']['monto']
+                    precio: item['precio']['monto'],
                 }));
                 
             setResumePedido(auxResumen);
@@ -106,7 +116,7 @@ export const PedidoOverViewItem = ({idPedido, negocio, precioTotal, estado, fech
             </CartProvider>
             }
             <Box sx={{ minWidth: 275 }} className="p-2">
-                <Card variant="outlined">{card(idPedido, negocio, monto, obtenerNombreEstadoDelPedido(estado), fechaYHoraDeEntrega, codigoDeRetiro, mostrarResultadoEstimulo, verPedido)}</Card>
+                <Card variant="outlined">{card(idPedido, negocio, monto, obtenerNombreEstadoDelPedido(estado), fechaYHoraDeEntrega, codigoDeRetiro, mostrarResultadoEstimulo, verPedido, vistaCliente)}</Card>
             </Box>
             { errorMessage && <ErrorModal action= { () => {setErrorMessage(""); router.reload()} } value={errorMessage}/> }
             { successMessage && <SuccessfulNotification actionPage={ ()=> { setSuccessMessage(""); router.reload() }} message={successMessage} /> }

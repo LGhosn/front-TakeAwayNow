@@ -70,7 +70,7 @@ export default function PedidosOverView() {
                       <ul>
                           {
                             pedidos.map((pedido) => (
-                              <PedidoOverViewItem {...pedido} key={pedido.idPedido}/>
+                              <PedidoOverViewItem {...pedido} key={pedido.idPedido} vistaCliente={cliente}/>
                               ))
                             }
                       </ul>

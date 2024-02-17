@@ -10,28 +10,11 @@ import InfoCard from "@/components/infoCard";
 export default function Cliente() {
       const router = useRouter();
       const { id } = router.query;
-      const [cliente, setCliente] = useState([])
-      const [pedidos, setPedidos] = useState([]);
       const [negociosAbiertos, setNegociosAbiertos] = useState([]);
       const [negociosCerrados, setNegociosCerrados] = useState([]);
       const [infoCliente, setInfoCliente] = useState({})
 
     useEffect(() => {
-        fetch(`https://takeawaynow-dcnt.onrender.com/api/clientes/${id}`)
-        .then((res) => {
-            return res.json()
-        }).then((res) => {
-            setCliente(res)
-        })
-
-        // Traemos los pedidos del cliente
-        fetch(`https://takeawaynow-dcnt.onrender.com/api/clientes/${id}/pedidos/`)
-            .then((res) => {
-                return res.json()
-            }).then((res) => {
-            setPedidos(res)
-        })
-
         // Traemos todos los negocios abiertos
         fetch(`https://takeawaynow-dcnt.onrender.com/api/negocios/negociosAbiertos`)
             .then((res) => {

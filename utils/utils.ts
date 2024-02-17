@@ -68,6 +68,7 @@ export const obtenerNombreEstadoDelPedido = (estado: string): string => {
     case "RETIRADO": return "Retirado";
     case "CANCELADO": return "Cancelado";
     case "DEVUELTO": return "Devuelto";
+    case "DEVOLUCION_SOLICITADA": return "Devolución solicitada";
     default: return ""; // Manejar cualquier otro caso si es necesario
   }
 }
