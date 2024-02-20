@@ -33,7 +33,7 @@ export default function ModalForm({handleClose, handleSave, fields, title, title
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <Typography variant="h6" gutterBottom>
+          <Typography variant="h6" gutterBottom className="text-black">
             {title}
           </Typography>
           <Grid container spacing={3}>

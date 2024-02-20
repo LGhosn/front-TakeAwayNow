@@ -4,8 +4,8 @@ import { useRouter } from "next/router";
 import { PedidosOverView } from "@/components/pedidos/PedidosOverView";
 import { NegociosOverView } from "@/components/negocios/NegociosOverView";
 import {useEffect, useState} from "react";
-import { Card, Skeleton } from "@mui/material";
 import InfoCard from "@/components/infoCard";
+import Loading from "@/components/loading";
 
 export default function Cliente() {
       const router = useRouter();
@@ -13,6 +13,7 @@ export default function Cliente() {
       const [negociosAbiertos, setNegociosAbiertos] = useState([]);
       const [negociosCerrados, setNegociosCerrados] = useState([]);
       const [infoCliente, setInfoCliente] = useState({})
+      const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         // Traemos todos los negocios abiertos
@@ -38,18 +39,25 @@ export default function Cliente() {
                 return res.json()
             }).then(async (res) => {
             setInfoCliente(await res)
+        }).then(() => {
+            setLoading(false);
         })
 
     }, [id])
 
       return (
+        <>
+        {loading ? <Loading/> :
           <div className="flex flex-row">
-              <SideBar items={clientesSideBarItems(id)}></SideBar>
+                {/* @ts-ignore */}
+              <SideBar items={clientesSideBarItems(id, infoCliente['fechaDeNacimiento'], infoCliente['idPlanPrime'])}></SideBar>
               <div className="flex flex-col pl-16 pt-5">
                   <InfoCard  info={infoCliente}/>
                   <PedidosOverView idCliente={id}></PedidosOverView>
                   <NegociosOverView negociosAbiertos={negociosAbiertos} negociosCerrados={negociosCerrados} idCliente={id}></NegociosOverView>
               </div>
           </div>
+        }
+        </>
       )
 }

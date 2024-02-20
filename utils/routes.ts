@@ -20,14 +20,18 @@ export const negociosSideBarItems = (negocioId: string | string[] | undefined) =
   }
 ];
 
-export const clientesSideBarItems = (clientId: string | string[] | undefined) => [
+export const clientesSideBarItems = (clientId: string | string[] | undefined, fechaNacimiento : any, idPlanPrime : any) => [
   {
     title: "Mi Cuenta",
     href:  `/clientes/${clientId}`,
-},
-{
-  title: "Salir",
-  href: "/",
-}
+  },
+  {
+    title: "Plan Prime",
+    href:  `/planPrime?idCliente=${clientId}&fechaNacimiento=${fechaNacimiento}&idPlanPrime=${idPlanPrime}`,
+  },
+  {
+    title: "Salir",
+    href: "/",
+  }
 ];
 
