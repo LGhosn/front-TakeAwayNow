@@ -10,8 +10,8 @@ function Item(props: { children: ReactNode }) {
   return null;
 }
 
-export const NegociosOverView = ({ negociosAbiertos, negociosCerrados, idCliente }: { negociosAbiertos: INegocioOverViewItem[]
-    , negociosCerrados: INegocioOverViewItem[], idCliente: any }) => {
+export const NegociosOverView = ({ negociosAbiertos, negociosCerrados, idCliente, clientePrime}: { negociosAbiertos: INegocioOverViewItem[]
+    , negociosCerrados: INegocioOverViewItem[], idCliente: any, clientePrime: any}) => {
 
   return (
       <React.Fragment>
@@ -23,7 +23,7 @@ export const NegociosOverView = ({ negociosAbiertos, negociosCerrados, idCliente
                   negociosAbiertos.length > 0 ?
                     negociosAbiertos.map((negocio) => (
                           <Grid item key={negocio.id} xs={2} md={2} lg={2} xl={2}>
-                              <NegocioOverViewItem {...negocio} idCliente={idCliente} key={negocio.id} cerrado={false}/>
+                              <NegocioOverViewItem {...negocio} idCliente={idCliente} key={negocio.id} cerrado={false} clientePrime={clientePrime}/>
                           </Grid>
                       ))
                       :
@@ -36,7 +36,7 @@ export const NegociosOverView = ({ negociosAbiertos, negociosCerrados, idCliente
                   negociosCerrados.length > 0 ?
                   negociosCerrados.map((negocio) => (
                           <Grid item key={negocio.id} xs={2} md={2} lg={2} xl={2}>
-                              <NegocioOverViewItem {...negocio} idCliente={idCliente} key={negocio.id} cerrado/>
+                              <NegocioOverViewItem {...negocio} idCliente={idCliente} key={negocio.id} clientePrime={clientePrime} cerrado/>
                           </Grid>
                       ))
                       :

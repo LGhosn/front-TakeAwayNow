@@ -103,7 +103,6 @@ export const PedidoOverViewItem = ({idPedido, negocio, precioTotal, estado, fech
 
     React.useEffect(() => {
         if (Object.keys(resumePedido).length > 0) {
-            console.log(resumePedido)
             setOpenResumenPedido(true)
         }
     } , [resumePedido])

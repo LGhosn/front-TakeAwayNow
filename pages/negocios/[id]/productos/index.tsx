@@ -10,9 +10,10 @@ import { CartProvider } from "@/context/context";
 
 export default function Productos() {
   const router = useRouter();
-  const { id, idCliente } = router.query;
+  const { id, idCliente, clientePrime } = router.query;
   const [productos, setProductos] = useState([]);
   const [loading, setLoading] = useState(true)
+  const [planes, setPlanes] = useState([])
 
   useEffect (() => {
     if (id) {
@@ -27,6 +28,17 @@ export default function Productos() {
       })
     }
   }, [id])
+
+  useEffect (() => {
+    if (clientePrime) {
+      fetch(`https://takeawaynow-dcnt.onrender.com/api/planes/`)
+      .then((res) => {
+          return res.json()
+      }).then((res) => {
+        setPlanes(res)
+      })
+    }
+  }, [clientePrime])
 
   useEffect(() => {
     if (productos.length > 0) {
@@ -43,7 +55,8 @@ export default function Productos() {
             <SideBar items={clientesSideBarItems(idCliente)}></SideBar>
             <div className="container mx-auto mt-8 ml-6">
               <ProductosOverView cliente={true} productos={productos} negocioId={id}></ProductosOverView>
-              <ModalCarrito/>
+              {/* @ts-ignore */}
+              <ModalCarrito porcentajeDescuento={clientePrime ? planes[0].descuento : 1}/>
             </div>
           </div>
           </CartProvider>

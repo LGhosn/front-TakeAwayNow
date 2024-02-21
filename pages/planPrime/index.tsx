@@ -30,12 +30,25 @@ const style = {
 
 const PrimeBenefitsPage = () => {
     const router = useRouter();
-    const { idCliente, fechaNacimiento, idPlanPrime} = router.query;
+    const { idCliente } = router.query;
     const [formPrime, setFormPrime] = React.useState(false);
     const [formBirthday, setFormBirthday] = React.useState(false);
     const [errorMessage, setErrorMessage] = React.useState("");
     const [successMessage, setSuccessMessage] = React.useState("");
     const [plan, setPlan] = React.useState([]);
+    const [infoCliente, setInfoCliente] = React.useState([])
+
+    useEffect(() => {
+      if (idCliente) {
+        // Traemos la info del cliente.
+        fetch(`https://takeawaynow-dcnt.onrender.com/api/clientes/${idCliente}`)
+        .then((res) => {
+            return res.json()
+        }).then(async (res) => {
+            setInfoCliente(await res)
+        })
+    }
+    },[idCliente])
 
     useEffect(() => {
         fetch(`https://takeawaynow-dcnt.onrender.com/api/planes/`, {
@@ -53,11 +66,12 @@ const PrimeBenefitsPage = () => {
     }, [])
     
     function confirmarPrime() {
-        if (fechaNacimiento === 'null') {
-            setFormBirthday(true);
-        } else {
-            setFormPrime(true);
-        }
+      // @ts-ignore
+      if (infoCliente['fechaDeNacimiento'] === null) {
+          setFormBirthday(true);
+      } else {
+          setFormPrime(true);
+      }
     }
 
     function setFechaNacimiento() {
@@ -94,6 +108,7 @@ const PrimeBenefitsPage = () => {
             if (!res.ok) {
                 setErrorMessage(await res.text());
             } else {
+                setFormBirthday(false);
                 setSuccessMessage(await res.text())
             }
         })
@@ -102,7 +117,7 @@ const PrimeBenefitsPage = () => {
   return (
     <>
     <div className="flex flex-row">
-    <SideBar items={clientesSideBarItems(idCliente, fechaNacimiento, idPlanPrime)}></SideBar>
+    <SideBar items={clientesSideBarItems(idCliente)}></SideBar>
     <Container maxWidth="lg" sx={style.root}>
       <Typography className="font-extrabold text-transparent text-6xl bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600 mb-4">
         TakeAwayNow Prime
@@ -160,7 +175,10 @@ const PrimeBenefitsPage = () => {
             </CardContent>
           </Card>
         </Grid>
-        { idPlanPrime === 'null' ? 
+        
+        {
+        //@ts-ignore 
+        infoCliente['idPlanPrime'] === null ? 
         <Grid item xs={12} sm={12} className="flex justify-center items-end">
             <Button variant="contained" color="success" className="w-full" onClick={confirmarPrime}>
             Obtener Prime
@@ -187,7 +205,7 @@ const PrimeBenefitsPage = () => {
       // @ts-ignore
       handleClose={() => setFormPrime(false)} title={`Obtener Plan ${plan[0].nombre} por $${plan[0].precio.monto}`}
       fields={[]}
-      titleAction='ObtenerPrime'
+      titleAction='Obtener Prime'
     />
     }
     { errorMessage && <ErrorModal action= {() => {setErrorMessage("")}} value={errorMessage}/> }

@@ -7,10 +7,11 @@ import CardContent from '@mui/material/CardContent';
 import { Box, Button, Grid, Modal, FormGroup, FormControlLabel,Checkbox, Typography, Card, ButtonGroup } from "@mui/material";
 
 interface ResumenCarritoProps {
-  pedido : {}
+  pedido: {};
   handleClose: () => void;
   handlePurchase: () => void;
   onlyView?: boolean;
+  porcentajeDescuento?: number;
 }
 
 const style = {
@@ -66,7 +67,7 @@ const card = (pedido: Record<string, any>, removeItem: (key:string) => void, onl
   </>
 );
 
-export default function ResumenCarrito({ pedido, handleClose, handlePurchase, onlyView}: ResumenCarritoProps) {
+export default function ResumenCarrito({ pedido, handleClose, handlePurchase, onlyView, porcentajeDescuento = 0}: ResumenCarritoProps) {
   const {removeItem, hasProducts, totalPrice} = useContext(PedidoContext) as PedidoContextType
 
   return (
@@ -86,7 +87,12 @@ export default function ResumenCarrito({ pedido, handleClose, handlePurchase, on
           }
         </div>
         <div className="absolute bottom-20 right-20">
-          <h1>Total: ${totalPrice}</h1>
+          {porcentajeDescuento > 0 && 
+          <>
+          <h1>Total: ${totalPrice *  ((100 - porcentajeDescuento) / 100)}</h1>
+          <h1>Descuento: {porcentajeDescuento}%</h1>
+          </>
+          }
         </div>
       </Box>
     </Modal>

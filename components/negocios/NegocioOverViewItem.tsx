@@ -24,7 +24,7 @@ const card = (idCliente:number, handleClick:any, id: number, nombre: string, dia
     </React.Fragment>
 );
 
-export const NegocioOverViewItem = ({ id, nombre, diaDeApertura, diaDeCierre, horarioDeApertura, horarioDeCierre, idCliente, cerrado }: INegocioOverViewItem & { idCliente: number }) => {
+export const NegocioOverViewItem = ({ id, nombre, diaDeApertura, diaDeCierre, horarioDeApertura, horarioDeCierre, idCliente, cerrado, clientePrime }: INegocioOverViewItem & { idCliente: number, clientePrime: any }) => {
     const router = useRouter()
     const [errorMessage, setErrorMessage] = React.useState("");
     const handleClick = () => {
@@ -32,7 +32,7 @@ export const NegocioOverViewItem = ({ id, nombre, diaDeApertura, diaDeCierre, ho
             setErrorMessage("El negocio se encuentra cerrado.")
             return
         }
-        router.push(`/negocios/${id}/productos?idCliente=${idCliente}`)
+        router.push(`/negocios/${id}/productos?idCliente=${idCliente}&clientePrime=${clientePrime}`)
     }
     return (
         <>
