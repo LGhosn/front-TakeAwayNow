@@ -12,7 +12,7 @@ export default function Producto() {
   const router = useRouter();
   const { id, productoId } = router.query;
   const [productForm, setProductForm] = useState([])
-  const [errorMessage, setErrorMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
 
   function getParams() {
@@ -90,16 +90,10 @@ export default function Producto() {
     .then(async (res) => {
       if (!res.ok) {
         setErrorMessage(await res.text())
-        return;
       } else {
         setSuccessMessage(await res.text())
       }
     })
-    // @ts-ignore
-    .catch((error) => {
-      console.error('Error:', error);
-      // setErrorMessage('No se pudo crear la tarea. Ingreso de valor inválido');
-     })
 
   };
 

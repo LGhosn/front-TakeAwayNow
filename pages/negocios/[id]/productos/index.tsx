@@ -56,7 +56,7 @@ export default function Productos() {
             <div className="container mx-auto mt-8 ml-6">
               <ProductosOverView cliente={true} productos={productos} negocioId={id}></ProductosOverView>
               {/* @ts-ignore */}
-              <ModalCarrito porcentajeDescuento={clientePrime ? planes[0].descuento : 1}/>
+              <ModalCarrito porcentajeDescuento={clientePrime != "null" ? planes[0].descuento : 0}/>
             </div>
           </div>
           </CartProvider>

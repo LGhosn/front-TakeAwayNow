@@ -105,12 +105,13 @@ const PrimeBenefitsPage = () => {
                 'Content-Type': 'application/json'
             }
         }).then(async (res) => {
-            if (!res.ok) {
-                setErrorMessage(await res.text());
-            } else {
-                setFormBirthday(false);
-                setSuccessMessage(await res.text())
-            }
+          setFormBirthday(false);
+          setFormPrime(false);  
+          if (!res.ok) {
+              setErrorMessage(await res.text());
+          } else {
+              setSuccessMessage(await res.text())
+          }
         })
     }
 
@@ -119,7 +120,7 @@ const PrimeBenefitsPage = () => {
     <div className="flex flex-row">
     <SideBar items={clientesSideBarItems(idCliente)}></SideBar>
     <Container maxWidth="lg" sx={style.root}>
-      <Typography className="font-extrabold text-transparent text-6xl bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600 mb-4">
+      <Typography className="font-extrabold text-transparent text-7xl bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600 mb-4">
         TakeAwayNow Prime
       </Typography>
       <Grid container spacing={3}>

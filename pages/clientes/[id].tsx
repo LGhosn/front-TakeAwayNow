@@ -73,7 +73,7 @@ export default function Cliente() {
                 setLoading(false);
             })
 
-    }, [])
+    }, [id])
 
       return (
         <>
@@ -104,7 +104,7 @@ export default function Cliente() {
         />
         }
         { errorMessage && <ErrorModal action= {() => {setErrorMessage("")}} value={errorMessage}/> }
-        { successMessage && <SuccessfulNotification message={successMessage} actionPage={() => {setSuccessMessage(""); router.reload()}}/> }
+        { successMessage && <SuccessfulNotification message={successMessage} actionPage={() => {setSuccessMessage(""); router.push(`clientes/${id}`)}}/> }
         </>
       )
 }
