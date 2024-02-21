@@ -178,7 +178,7 @@ const PrimeBenefitsPage = () => {
         
         {
         //@ts-ignore 
-        infoCliente['idPlanPrime'] === null ? 
+        infoCliente['plan'] === null ? 
         <Grid item xs={12} sm={12} className="flex justify-center items-end">
             <Button variant="contained" color="success" className="w-full" onClick={confirmarPrime}>
             Obtener Prime

@@ -93,7 +93,7 @@ export default function Cliente() {
                     }
                   <PedidosOverView idCliente={id}></PedidosOverView>
                     {/* @ts-ignore */}
-                  <NegociosOverView negociosAbiertos={negociosAbiertos} negociosCerrados={negociosCerrados} idCliente={id} clientePrime={infoCliente['idPlanPrime']}></NegociosOverView>
+                  <NegociosOverView negociosAbiertos={negociosAbiertos} negociosCerrados={negociosCerrados} idCliente={id} clientePrime={infoCliente['plan']}></NegociosOverView>
               </div>
           </div>
         }
