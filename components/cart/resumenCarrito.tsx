@@ -87,11 +87,13 @@ export default function ResumenCarrito({ pedido, handleClose, handlePurchase, on
           }
         </div>
         <div className="absolute bottom-20 right-20">
-          {porcentajeDescuento > 0 && 
+          {porcentajeDescuento > 0 ? 
           <>
           <h1>Total: ${totalPrice *  ((100 - porcentajeDescuento) / 100)}</h1>
           <h1>Descuento: {porcentajeDescuento}%</h1>
           </>
+          : 
+          <h1>Total: ${totalPrice}</h1>
           }
         </div>
       </Box>
