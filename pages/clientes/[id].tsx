@@ -47,6 +47,20 @@ export default function Cliente() {
     }
 
     useEffect(() => {
+        if (id) {
+            // Traemos la info del cliente.
+            fetch(`https://takeawaynow-dcnt.onrender.com/api/clientes/${id}`)
+            .then((res) => {
+                return res.json()
+            }).then(async (res) => {
+                setInfoCliente(await res)
+            }).then(() => {
+                setLoading(false);
+            })
+        }
+    }, [id])
+
+    useEffect(() => {
         // Traemos todos los negocios abiertos
         fetch(`https://takeawaynow-dcnt.onrender.com/api/negocios/negociosAbiertos`)
             .then((res) => {
@@ -62,18 +76,7 @@ export default function Cliente() {
         }).then((res) => {
             setNegociosCerrados(res)
         })
-    
-            // Traemos la info del cliente.
-            fetch(`https://takeawaynow-dcnt.onrender.com/api/clientes/${id}`)
-            .then((res) => {
-                return res.json()
-            }).then(async (res) => {
-                setInfoCliente(await res)
-            }).then(() => {
-                setLoading(false);
-            })
-
-    }, [id])
+    }, [])
 
       return (
         <>
@@ -104,7 +107,7 @@ export default function Cliente() {
         />
         }
         { errorMessage && <ErrorModal action= {() => {setErrorMessage("")}} value={errorMessage}/> }
-        { successMessage && <SuccessfulNotification message={successMessage} actionPage={() => {setSuccessMessage(""); router.push(`clientes/${id}`)}}/> }
+        { successMessage && <SuccessfulNotification message={successMessage} actionPage={() => {setSuccessMessage(""); router.reload()}}/> }
         </>
       )
 }

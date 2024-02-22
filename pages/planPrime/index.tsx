@@ -210,7 +210,7 @@ const PrimeBenefitsPage = () => {
     />
     }
     { errorMessage && <ErrorModal action= {() => {setErrorMessage("")}} value={errorMessage}/> }
-    { successMessage && <SuccessfulNotification message={successMessage} actionPage={() => setSuccessMessage("")}/> }
+    { successMessage && <SuccessfulNotification message={successMessage} actionPage={() => {setSuccessMessage(""); router.reload()}}/> }
     </>
   );
 };

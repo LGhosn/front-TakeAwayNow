@@ -124,7 +124,8 @@ export default function InfoCard({info} : CardProps) {
       {card({router, info, cliente, abrirModalSaldo})}
     </OutlinedCard>
     { errorMessage && <ErrorModal action= { () => {setErrorMessage(""); router.reload()} } value={errorMessage}/> }
-    { successMessage && <SuccessfulNotification actionPage={ ()=> { setSuccessMessage(""); router.reload() }} message={successMessage} /> }
+    {/* @ts-ignore */}
+    { successMessage && <SuccessfulNotification actionPage={ ()=> { setSuccessMessage(""); router.reload()}} message={successMessage} /> }
     </>
   );
 }
