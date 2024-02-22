@@ -20,8 +20,6 @@ export default function ModalCarrito( { porcentajeDescuento } : { porcentajeDesc
   }
 
   async function comprarCarrito() {
-    let usaPdc = (document.getElementById("check-pdc") as HTMLInputElement).checked;
-
     const requestBody = {
       idCliente: idCliente,
       idNegocio: id,
@@ -31,7 +29,7 @@ export default function ModalCarrito( { porcentajeDescuento } : { porcentajeDesc
         const cantidad = pedido[key].cantidad;
         return {
           ...acc,
-          [productId]: {"cantidad": cantidad, "usaPdc": usaPdc ? 1 : 0}
+          [productId]: {"cantidad": cantidad, "usaPdc": (document.getElementById(`check-pdc-${key}`) as HTMLInputElement).checked ? 1 : 0}
         };
       }, {})
     };

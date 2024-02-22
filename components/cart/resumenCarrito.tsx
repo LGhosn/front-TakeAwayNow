@@ -52,7 +52,7 @@ const card = (pedido: Record<string, any>, removeItem: (key:string) => void, onl
             !onlyView &&
             <div className='flex flex-row items-center justify-center'>
             <FormGroup>
-              <FormControlLabel control={<Checkbox id="check-pdc"/>} label="Usar Puntos de Confianza"/>
+              <FormControlLabel control={<Checkbox id={`check-pdc-${key}`}/>} label="Usar Puntos de Confianza"/>
             </FormGroup>
             <ButtonGroup variant="contained" aria-label="outlined primary button group" className=''>
               <Button onClick={ () => {removeItem(key)} }>Eliminar</Button>
@@ -92,7 +92,7 @@ export default function ResumenCarrito({ pedido, handleClose, handlePurchase, on
           <h1>Total: ${totalPrice *  ((100 - porcentajeDescuento) / 100)}</h1>
           <h1>Descuento: {porcentajeDescuento}%</h1>
           </>
-          : 
+          : totalPrice > 0 &&
           <h1>Total: ${totalPrice}</h1>
           }
         </div>

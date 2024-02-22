@@ -95,6 +95,7 @@ export const PedidoOverViewItem = ({idPedido, negocio, precioTotal, estado, fech
                     nombre: item['producto']['nombre'],
                     cantidad: item.cantidad,
                     precio: item['precio']['monto'],
+                    pdc: item['precioPDC']['cantidad']
                 }));
                 
             setResumePedido(auxResumen);
