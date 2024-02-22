@@ -1,10 +1,12 @@
 import ModalForm from "@/components/modalForm"
+import ErrorModal from "@/components/notifications/errorMessageModal";
 import SuccessfulNotification from "@/components/notifications/successfulNotification"
 import { useRouter } from "next/router";
 import { useState } from "react"
 
-export default function CrearProducto() {
+export default function CrearProducto( {handleClose} : any) {
   const [modalSuccessful, setModalSuccessful] = useState(false)
+  const [errorMessage, setErrorMessage] = useState("")
   const [fields, setFields] = useState([
     {id: 'nombre', name: 'nombre', label: 'Nombre'},
     {id: 'precio', name: 'precio', label: 'Precio', type: 'number'},
@@ -22,35 +24,37 @@ export default function CrearProducto() {
     let stock = document.getElementById("stock")
     let recompensaPuntosDeConfianza = document.getElementById("puntosDeConfianza")
     let precioPuntosDeConfianza = document.getElementById("preciopuntosDeConfianza")
-
+    
     // @ts-ignore
-    if (name.value.length == 0) {
-      alert("El nombre del producto no puede estar vacío.")
-      return
+    if (stock.value < 0) {
+      setErrorMessage("El stock del producto no puede ser negativo.")
+      return false;
     }
 
     // @ts-ignore
-    if (stock.value < 0) {
-      alert("El stock del producto no puede ser negativo.")
-      return
+    if (stock.value.includes(".") || stock.value.includes(",")) {
+      setErrorMessage("El stock del producto tiene que ser un numero entero.");
+      return false;
     }
 
     // @ts-ignore
     if (precio.value <= 0) {
-      alert("El precio del producto no puede ser negativo o cero.")
-      return
+      setErrorMessage("El precio del producto no puede ser negativo o cero.")
+      return false;
+
     }
 
     // @ts-ignore
     if (recompensaPuntosDeConfianza.value <= 0) {
-      alert("La recompensa de puntos de confianza del producto no puede ser negativa o cero.")
-      return
+      setErrorMessage("La recompensa de puntos de confianza del producto no puede ser negativa o cero.")
+      return false;
+
     }
 
     // @ts-ignore
     if (precioPuntosDeConfianza.value <= 0) {
-      alert("El precio de puntos de confianza del producto no puede ser negativa o cero.")
-      return
+      setErrorMessage("La recompensa de puntos de confianza del producto no puede ser negativa o cero.")
+      return false;
     }
 
     // @ts-ignore
@@ -60,6 +64,9 @@ export default function CrearProducto() {
 
   const handleGuardar = () => {
     let params = getParams()
+    if (!params) {
+      return
+    }
     // @ts-ignore
     fetch(`https://takeawaynow-dcnt.onrender.com/api/negocios/${id}/productos/${params}`, {
       method: 'POST',
@@ -86,13 +93,12 @@ export default function CrearProducto() {
 
   return (
     <>
-    {
-      modalSuccessful ? (
-      <SuccessfulNotification actionPage={() => router.back()} message="El producto ha sido creado correctamente." /> )
-      :
+    {modalSuccessful ? <SuccessfulNotification actionPage={() => router.reload()} message="El producto ha sido creado correctamente." /> : 
+     errorMessage ? <ErrorModal value={errorMessage} action={() => setErrorMessage("")} /> :
+
       <ModalForm 
       handleSave={() => handleGuardar()} 
-      handleClose={() => router.back()} title="Producto"
+      handleClose={handleClose} title="Producto"
       fields={fields}
       /> 
     }

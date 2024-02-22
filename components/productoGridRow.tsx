@@ -5,6 +5,7 @@ import ModalForm from './modalForm'
 import { CartItem, PedidoContext, PedidoContextType } from '@/context/context'
 import SuccessfulNotification from './notifications/successfulNotification'
 import ErrorModal from './notifications/errorMessageModal'
+import Producto from '@/pages/negocios/[id]/productos/[productoId]'
 
 interface ProductoGridRowProps {
     producto: any
@@ -18,6 +19,7 @@ export default function ProductoGridRow({cliente, producto, negocioId }: Product
     const [modalSuccessful, setModalSuccessful] = useState(false)
     const [errorMessage, setErrorMessage] = useState("")
     const [form, setForm] = useState(false)
+    const [formProducto, setFormProducto] = useState(false)
     const fields = [
         {id: 'cantidad', name: 'cantidad', label: 'Cantidad', type: 'number'},
       ]
@@ -47,7 +49,8 @@ export default function ProductoGridRow({cliente, producto, negocioId }: Product
         }
 
         localStorage.setItem('producto', JSON.stringify(producto))
-        router.push(`/negocios/${negocioId}/productos/${producto['id']}`)
+        setFormProducto(true)
+        // router.push(`/negocios/${negocioId}/productos/${producto['id']}`)
     }
 
     function borrarProducto () {
@@ -124,6 +127,9 @@ export default function ProductoGridRow({cliente, producto, negocioId }: Product
         <SuccessfulNotification message='Producto borrado' actionPage={() => {setModalSuccessful(false); router.reload()}} />
       }
       { errorMessage && <ErrorModal action= {() => {setErrorMessage("")}} value={errorMessage}/> }
+      {formProducto &&
+        <Producto productoId={producto['id']} handleClose={() => setFormProducto(false)}/>
+      }
     </>
   )
 }

@@ -3,6 +3,7 @@ import AddButton from "../addButton"
 import HeaderItem from "../headerItem"
 import ProductoGridRow from "../productoGridRow";
 import { useState } from "react";
+import CrearProducto from "@/pages/negocios/[id]/productos/create";
 
 interface ProductoGridRowProps {
   productos: Array<any>
@@ -14,14 +15,18 @@ export default function ProductosOverView({cliente, productos, negocioId} : Prod
   const router = useRouter();
   const { id } = router.query;
   const [modalSuccessful, setModalSuccessful] = useState(false)
+  const [crearProducto, setCrearProducto] = useState(false)
 
   return (
     <>
+    {crearProducto &&
+    <CrearProducto handleClose={() => setCrearProducto(false)} />
+    }
     <div className="mb-4 flex justify-between items-center">
       <h1 className="text-3xl font-bold text-black decoration-gray-400">Productos</h1>
       {cliente ? <></>
         : 
-        <AddButton className="" onClick={() => router.push(`/negocios/${id}/productos/create`)} />
+        <AddButton className="" onClick={() => setCrearProducto(true)} />
       }
     </div>
     <div className="flex flex-col">

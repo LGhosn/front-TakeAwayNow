@@ -6,11 +6,11 @@ import SuccessfulNotification from "@/components/notifications/successfulNotific
 import ErrorModal from "@/components/notifications/errorMessageModal";
 import * as React from "react";
 
-export default function Producto() {
+export default function Producto( {handleClose, productoId} : any) {
   const [producto, setProducto] = useState({});
   const [loading, setLoading] = useState(true)
   const router = useRouter();
-  const { id, productoId } = router.query;
+  const { id, } = router.query;
   const [productForm, setProductForm] = useState([])
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
@@ -24,26 +24,34 @@ export default function Producto() {
 
     // @ts-ignore
     if (stock.value < 0) {
-      alert("El stock del producto no puede ser negativo.")
-      return
+      setErrorMessage("El stock del producto no puede ser negativo.")
+      return false;
+    }
+
+    // @ts-ignore
+    if (stock.value.includes(".") || stock.value.includes(",")) {
+      setErrorMessage("El stock del producto tiene que ser un numero entero.");
+      return false;
     }
 
     // @ts-ignore
     if (precio.value <= 0) {
-      alert("El precio del producto no puede ser negativo o cero.")
-      return
+      setErrorMessage("El precio del producto no puede ser negativo o cero.")
+      return false;
+
     }
 
     // @ts-ignore
     if (recompensaPuntosDeConfianza.value <= 0) {
-      alert("La recompensa de puntos de confianza del producto no puede ser negativa o cero.")
-      return
+      setErrorMessage("La recompensa de puntos de confianza del producto no puede ser negativa o cero.")
+      return false;
+
     }
 
     // @ts-ignore
     if (precioPuntosDeConfianza.value <= 0) {
-      alert("La recompensa de puntos de confianza del producto no puede ser negativa o cero.")
-      return
+      setErrorMessage("La recompensa de puntos de confianza del producto no puede ser negativa o cero.")
+      return false;
     }
 
     // @ts-ignore
@@ -52,6 +60,9 @@ export default function Producto() {
   }
   function patchProducto () {
     let params = getParams()
+    if (!params) {
+      return
+    }
     // @ts-ignore
     fetch(`https://takeawaynow-dcnt.onrender.com/api/negocios/${id}/productos/${productoId}${params}`, {
       method: 'PATCH',
@@ -67,11 +78,6 @@ export default function Producto() {
         setSuccessMessage(await res.text())
       }
     })
-    // @ts-ignore
-    .catch((error) => {
-      console.error('Error:', error);
-      // setErrorMessage('No se pudo crear la tarea. Ingreso de valor inválido');
-     })
   }
 
   const handleGuardar = () => {
@@ -134,8 +140,8 @@ export default function Producto() {
     <>
     { loading ? <Loading /> :
         errorMessage ? <ErrorModal action= { () => setErrorMessage("")} value={errorMessage}/> :
-          successMessage ? <SuccessfulNotification message={successMessage} actionPage={ () => { setSuccessMessage(""); router.push(`/negocios/${id}`) }}/> :
-            <ModalForm handleSave={handleGuardar} handleClose={() => router.back()} fields={productForm} title="Productos"/>
+          successMessage ? <SuccessfulNotification message={successMessage} actionPage={ () => { setSuccessMessage(""); router.reload() }}/> :
+            <ModalForm handleSave={handleGuardar} handleClose={handleClose} fields={productForm} title="Productos"/>
     }
     </>
   )
