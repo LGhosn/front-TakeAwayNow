@@ -13,7 +13,7 @@ import ResumenCarrito from '../cart/resumenCarrito';
 import { CartProvider } from '@/context/context';
 import { useRouter } from 'next/router';
 
-const card = (idPedido: number, negocio: string, monto: number, estado: string, fechaYHoraDeEntrega: string, codigoDeRetiro: string, fnMostrarResultadoEstimulo: Function, verPedido: any, vistaCliente: boolean) => (
+const card = (idPedido: number, negocio: string, monto: number, estado: string, fechaYHoraDeEntrega: string, codigoDeRetiro: string, fnMostrarResultadoEstimulo: Function, verPedido: any, vistaCliente: boolean, usuarioCliente: string) => (
     <div className="flex flex-row justify-between">
         <CardContent className="cursor-pointer hover:bg-gray-300" onClick={verPedido}>
             <Typography variant="body2">
@@ -28,6 +28,11 @@ const card = (idPedido: number, negocio: string, monto: number, estado: string, 
             <Typography variant="h6">
                 Precio: ${monto}
             </Typography>
+            {
+                !vistaCliente && <Typography variant="h6">
+                    Cliente: {usuarioCliente}
+                </Typography>
+            }
         </CardContent>
         <ButtonGroup variant="contained" aria-label="outlined primary button group">
             {!vistaCliente && estado == "Aguardando preparación" &&
@@ -69,7 +74,7 @@ const card = (idPedido: number, negocio: string, monto: number, estado: string, 
     </div>
 );
 
-export const PedidoOverViewItem = ({idPedido, negocio, precioTotal, estado, fechaYHoraDeEntrega, codigoDeRetiro, vistaCliente}: IPedidoOverViewItem) => {
+export const PedidoOverViewItem = ({idPedido, negocio, precioTotal, estado, fechaYHoraDeEntrega, codigoDeRetiro, vistaCliente, usuarioCliente}: IPedidoOverViewItem) => {
     const { monto } = precioTotal
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const [errorMessage, setErrorMessage] = useState("");
@@ -116,7 +121,7 @@ export const PedidoOverViewItem = ({idPedido, negocio, precioTotal, estado, fech
             </CartProvider>
             }
             <Box sx={{ minWidth: 275 }} className="p-2">
-                <Card variant="outlined">{card(idPedido, negocio, monto, obtenerNombreEstadoDelPedido(estado), fechaYHoraDeEntrega, codigoDeRetiro, mostrarResultadoEstimulo, verPedido, vistaCliente)}</Card>
+                <Card variant="outlined">{card(idPedido, negocio, monto, obtenerNombreEstadoDelPedido(estado), fechaYHoraDeEntrega, codigoDeRetiro, mostrarResultadoEstimulo, verPedido, vistaCliente, usuarioCliente)}</Card>
             </Box>
             { errorMessage && <ErrorModal action= { () => {setErrorMessage(""); router.reload()} } value={errorMessage}/> }
             { successMessage && <SuccessfulNotification actionPage={ ()=> { setSuccessMessage(""); router.reload() }} message={successMessage} /> }
